@@ -71,6 +71,7 @@
     <Compile Include="Client.cs">
       <DependentUpon>BankLoansModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EdmOperations.cs" />
     <Compile Include="LoanAgreement.cs">
       <DependentUpon>BankLoansModel.tt</DependentUpon>
     </Compile>
