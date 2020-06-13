@@ -4,14 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="RGR_BankLoansModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RGR_BankLoansModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bank_Offers">
           <Key>
-            <PropertyRef Name="PK_BankOffersId" />
+            <PropertyRef Name="FK_OfferId" />
+            <PropertyRef Name="FK_Bank_RegNumber" />
           </Key>
-          <Property Name="PK_BankOffersId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FK_OfferId" Type="int" />
-          <Property Name="FK_Bank_RegNumber" Type="int" />
+          <Property Name="FK_OfferId" Type="int" Nullable="false" />
+          <Property Name="FK_Bank_RegNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Banks">
           <Key>
@@ -63,8 +63,8 @@
           <Property Name="MinSeniority" Type="int" />
           <Property Name="MinAge" Type="int" />
         </EntityType>
-        <Association Name="FK__Bank_Offe__FK_Ba__60A75C0F">
-          <End Role="Banks" Type="Self.Banks" Multiplicity="0..1">
+        <Association Name="FK__Bank_Offe__FK_Ba__6383C8BA">
+          <End Role="Banks" Type="Self.Banks" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="Bank_Offers" Type="Self.Bank_Offers" Multiplicity="*" />
@@ -77,8 +77,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Bank_Offe__FK_Of__5FB337D6">
-          <End Role="Offers" Type="Self.Offers" Multiplicity="0..1">
+        <Association Name="FK__Bank_Offe__FK_Of__6477ECF3">
+          <End Role="Offers" Type="Self.Offers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="Bank_Offers" Type="Self.Bank_Offers" Multiplicity="*" />
@@ -121,11 +121,11 @@
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoanAgreements" EntityType="Self.LoanAgreements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Offers" EntityType="Self.Offers" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Bank_Offe__FK_Ba__60A75C0F" Association="Self.FK__Bank_Offe__FK_Ba__60A75C0F">
+          <AssociationSet Name="FK__Bank_Offe__FK_Ba__6383C8BA" Association="Self.FK__Bank_Offe__FK_Ba__6383C8BA">
             <End Role="Banks" EntitySet="Banks" />
             <End Role="Bank_Offers" EntitySet="Bank_Offers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Bank_Offe__FK_Of__5FB337D6" Association="Self.FK__Bank_Offe__FK_Of__5FB337D6">
+          <AssociationSet Name="FK__Bank_Offe__FK_Of__6477ECF3" Association="Self.FK__Bank_Offe__FK_Of__6477ECF3">
             <End Role="Offers" EntitySet="Offers" />
             <End Role="Bank_Offers" EntitySet="Bank_Offers" />
           </AssociationSet>
@@ -138,8 +138,7 @@
             <End Role="LoanAgreements" EntitySet="LoanAgreements" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RGR_BankLoansModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -152,7 +151,7 @@
           <Property Name="OGRN" Type="String" MaxLength="13" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="License" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="LoanAgreements" Relationship="Self.FK__LoanAgree__FK_Ba__4E88ABD4" FromRole="Banks" ToRole="LoanAgreements" />
-          <NavigationProperty Name="Offers" Relationship="RGR_BankLoansModel.BankOffer" FromRole="Bank" ToRole="Offer" />
+          <NavigationProperty Name="Offers" Relationship="RGR_BankLoansModel.Bank_Offers" FromRole="Bank" ToRole="Offer" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -197,7 +196,7 @@
           <Property Name="ActiveLoansNumber" Type="Int32" />
           <Property Name="MinSeniority" Type="Int32" />
           <Property Name="MinAge" Type="Int32" />
-          <NavigationProperty Name="Banks" Relationship="RGR_BankLoansModel.BankOffer" FromRole="Offer" ToRole="Bank" />
+          <NavigationProperty Name="Banks" Relationship="RGR_BankLoansModel.Bank_Offers" FromRole="Offer" ToRole="Bank" />
         </EntityType>
         <Association Name="FK__LoanAgree__FK_Ba__4E88ABD4">
           <End Role="Banks" Type="Self.Bank" Multiplicity="0..1" />
@@ -236,12 +235,12 @@
             <End Role="Clients" EntitySet="Clients" />
             <End Role="LoanAgreements" EntitySet="LoanAgreements" />
           </AssociationSet>
-          <AssociationSet Name="BankOffer" Association="RGR_BankLoansModel.BankOffer">
+          <AssociationSet Name="Bank_Offers" Association="RGR_BankLoansModel.Bank_Offers">
             <End Role="Bank" EntitySet="Banks" />
             <End Role="Offer" EntitySet="Offers" />
           </AssociationSet>
         </EntityContainer>
-        <Association Name="BankOffer">
+        <Association Name="Bank_Offers">
           <End Type="RGR_BankLoansModel.Bank" Role="Bank" Multiplicity="*" />
           <End Type="RGR_BankLoansModel.Offer" Role="Offer" Multiplicity="*" />
         </Association>
@@ -305,6 +304,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="Bank_Offers" TypeName="RGR_BankLoansModel.Bank_Offers" StoreEntitySet="Bank_Offers">
+            <EndProperty Name="Offer">
+              <ScalarProperty Name="PK_OfferId" ColumnName="FK_OfferId" />
+            </EndProperty>
+            <EndProperty Name="Bank">
+              <ScalarProperty Name="PK_RegNumber" ColumnName="FK_Bank_RegNumber" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

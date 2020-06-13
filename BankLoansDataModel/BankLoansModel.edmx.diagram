@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="RGR_BankLoansModel.Offer" Width="1.5" PointX="2.375" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="RGR_BankLoansModel.FK__LoanAgree__FK_Ba__4E88ABD4" ManuallyRouted="false" />
         <AssociationConnector Association="RGR_BankLoansModel.FK__LoanAgree__FK_Cl__4F7CD00D" ManuallyRouted="false" />
-        <AssociationConnector Association="RGR_BankLoansModel.BankOffer" />
+        <AssociationConnector Association="RGR_BankLoansModel.Bank_Offers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

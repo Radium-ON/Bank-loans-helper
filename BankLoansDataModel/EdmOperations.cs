@@ -10,7 +10,7 @@ namespace BankLoansDataModel
     {
         public static async Task InsertNewOfferBankAsync(Offer offer, Bank bank)
         {
-            using (var context = new RGR_BankLoansEntities())
+            using (var context = new BankLoansEntities())
             {
                 //add instances to context
                 context.Banks.Add(bank);
@@ -26,7 +26,7 @@ namespace BankLoansDataModel
 
         public static async Task InsertExistingOfferBankAsync(int offerId, int bankId)
         {
-            using (var context = new RGR_BankLoansEntities())
+            using (var context = new BankLoansEntities())
             {
 
                 var offer = new Offer { PK_OfferId = offerId };
@@ -43,26 +43,34 @@ namespace BankLoansDataModel
             }
         }
 
-        public static List<object> GetOffersByBankId(int bankId)
+        public static List<BankOffers> GetOffersByBankId(int bankId)
         {
-            using (var context = new RGR_BankLoansEntities())
+            using (var context = new BankLoansEntities())
             {
                 var result = (
-                    // instance from context
+                    // состояние из контекста
                     from a in context.Banks
-                        // instance from navigation property
+                        // состояние из свойства навигации
                     from b in a.Offers
-                        //join to bring useful data
+                        //подключаем полезные данные таблицы
                     join c in context.Offers on b.PK_OfferId equals c.PK_OfferId
                     where a.PK_RegNumber == bankId
-                    select new
+                    select new BankOffers
                     {
                         ID = c.PK_OfferId,
-                        Name = c.Interest
+                        BankName = a.Name,
+                        InterestRate = c.Interest
                     }).ToList();
 
-                return new List<object> {result};
+                return result;
             }
+        }
+
+        public class BankOffers
+        {
+            public int ID { get; internal set; }
+            public string BankName { get; internal set; }
+            public float InterestRate { get; internal set; }
         }
     }
 }

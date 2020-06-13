@@ -10,14 +10,14 @@
 namespace BankLoansDataModel
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Offer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Offer()
         {
-            this.Banks = new HashSet<Bank>();
+            this.Banks = new ObservableCollection<Bank>();
         }
     
         public int PK_OfferId { get; set; }
@@ -30,6 +30,6 @@ namespace BankLoansDataModel
         public Nullable<int> MinAge { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bank> Banks { get; set; }
+        public virtual ObservableCollection<Bank> Banks { get; set; }
     }
 }

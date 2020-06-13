@@ -13,10 +13,10 @@ namespace BankLoansDataModel
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class RGR_BankLoansEntities : DbContext
+    public partial class BankLoansEntities : DbContext
     {
-        public RGR_BankLoansEntities()
-            : base("name=RGR_BankLoansEntities")
+        public BankLoansEntities()
+            : base("name=BankLoansEntities")
         {
         }
     

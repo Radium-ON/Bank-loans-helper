@@ -10,14 +10,14 @@
 namespace BankLoansDataModel
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Client
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Client()
         {
-            this.LoanAgreements = new HashSet<LoanAgreement>();
+            this.LoanAgreements = new ObservableCollection<LoanAgreement>();
         }
     
         public int PK_ClientId { get; set; }
@@ -30,6 +30,6 @@ namespace BankLoansDataModel
         public decimal Salary { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LoanAgreement> LoanAgreements { get; set; }
+        public virtual ObservableCollection<LoanAgreement> LoanAgreements { get; set; }
     }
 }
