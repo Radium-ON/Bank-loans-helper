@@ -94,6 +94,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Controls\ModernUserControl.cs" />
+    <Compile Include="ViewModels\AllClientsViewModel.cs" />
+    <Compile Include="ViewModels\ModernViewModelBase.cs" />
     <Compile Include="Views\AllClientsView.xaml.cs">
       <DependentUpon>AllClientsView.xaml</DependentUpon>
     </Compile>
@@ -150,7 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
