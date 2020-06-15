@@ -25,7 +25,7 @@ namespace LoanCalculations.ViewModels
         /// </summary>
         private void VisibilityChanged()
         {
-            Debug.WriteLine("AllClientsViewModel - VisibilityChanged");
+            Debug.WriteLine("ClientViewModel - VisibilityChanged");
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace LoanCalculations.ViewModels
         /// </summary>
         private void LoadData()
         {
-            Debug.WriteLine("AllClientsViewModel - LoadData");
+            Debug.WriteLine("ClientViewModel - LoadData");
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace LoanCalculations.ViewModels
         private void NavigatedFrom()
         {
             // called when we navigated to another view
-            Debug.WriteLine("AllClientsViewModel - NavigatedFrom");
+            Debug.WriteLine("ClientViewModel - NavigatedFrom");
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace LoanCalculations.ViewModels
         private void NavigatedTo()
         {
             // called when we navigate to the view related with this view model.
-            Debug.WriteLine("AllClientsViewModel - NavigatedTo");
+            Debug.WriteLine("ClientViewModel - NavigatedTo");
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace LoanCalculations.ViewModels
         /// </summary>
         private void FragmentNavigation()
         {
-            Debug.WriteLine("AllClientsViewModel - FragmentNavigation");
+            Debug.WriteLine("ClientViewModel - FragmentNavigation");
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace LoanCalculations.ViewModels
         private void NavigatingFrom()
         {
             // Called when we will navigate to new view
-            Debug.WriteLine("AllClientsViewModel - NavigatingFrom");
+            Debug.WriteLine("ClientViewModel - NavigatingFrom");
         }
     }
 }
