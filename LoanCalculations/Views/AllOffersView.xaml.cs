@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,18 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using FirstFloor.ModernUI.Windows.Controls;
 
 namespace LoanCalculations.Views
 {
-
     /// <summary>
-    /// Interaction logic for TaskOnePage.xaml
+    /// Interaction logic for AllOffersView.xaml
     /// </summary>
-    public partial class TaskOnePage : UserControl
+    public partial class AllOffersView : UserControl
     {
-
-        public TaskOnePage()
+        public AllOffersView()
         {
             InitializeComponent();
         }
