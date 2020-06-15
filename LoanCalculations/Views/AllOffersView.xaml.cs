@@ -12,13 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LoanCalculations.Controls;
 
 namespace LoanCalculations.Views
 {
     /// <summary>
     /// Interaction logic for AllOffersView.xaml
     /// </summary>
-    public partial class AllOffersView : UserControl
+    public partial class AllOffersView : ModernUserControl
     {
         public AllOffersView()
         {

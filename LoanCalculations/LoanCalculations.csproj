@@ -93,6 +93,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Controls\ModernUserControl.cs" />
     <Compile Include="Views\AllClientsView.xaml.cs">
       <DependentUpon>AllClientsView.xaml</DependentUpon>
     </Compile>

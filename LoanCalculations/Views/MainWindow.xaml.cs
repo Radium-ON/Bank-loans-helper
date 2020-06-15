@@ -1,4 +1,5 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
+﻿using System.Linq;
+using FirstFloor.ModernUI.Windows.Controls;
 
 namespace LoanCalculations.Views
 {
@@ -10,6 +11,7 @@ namespace LoanCalculations.Views
         public MainWindow()
         {
             InitializeComponent();
+            ContentSource = MenuLinkGroups.First().Links.First().Source;
         }
     }
 }
