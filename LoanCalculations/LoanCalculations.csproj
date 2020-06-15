@@ -98,6 +98,7 @@
     <Compile Include="ViewModels\AllOffersViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\ModernViewModelBase.cs" />
+    <Compile Include="ViewModels\OffersFilterViewModel.cs" />
     <Compile Include="Views\AllClientsView.xaml.cs">
       <DependentUpon>AllClientsView.xaml</DependentUpon>
     </Compile>
