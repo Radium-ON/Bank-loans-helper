@@ -17,11 +17,11 @@ using LoanCalculations.Controls;
 namespace LoanCalculations.Views
 {
     /// <summary>
-    /// Interaction logic for CustomerView.xaml
+    /// Interaction logic for ClientView.xaml
     /// </summary>
-    public partial class CustomerView : ModernUserControl
+    public partial class ClientView : ModernUserControl
     {
-        public CustomerView()
+        public ClientView()
         {
             InitializeComponent();
         }

@@ -1,4 +1,4 @@
-﻿<controls:ModernUserControl x:Class="LoanCalculations.Views.CustomerView"
+﻿<controls:ModernUserControl x:Class="LoanCalculations.Views.ClientView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
