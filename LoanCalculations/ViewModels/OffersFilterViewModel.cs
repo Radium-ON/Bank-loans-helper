@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Prism.Commands;
 
-namespace LoanCalculations.ViewModels
+namespace LoanHepler.ViewModels
 {
     public class OffersFilterViewModel : ModernViewModelBase
     {

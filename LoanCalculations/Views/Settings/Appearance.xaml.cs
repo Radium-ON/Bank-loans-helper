@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using LoanCalculations.Pages.Settings;
+using LoanHepler.Pages.Settings;
 
-namespace LoanCalculations.Views.Settings
+namespace LoanHepler.Views.Settings
 {
     /// <summary>
     /// Interaction logic for Appearance.xaml

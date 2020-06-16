@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LoanCalculations.ViewModels
+namespace LoanHepler.ViewModels
 {
     public abstract class ModernViewModelBase : BindableBase
     {

@@ -1,4 +1,4 @@
-﻿<mui:ModernWindow x:Class="LoanCalculations.Views.MainWindow"
+﻿<mui:ModernWindow x:Class="LoanHepler.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
@@ -9,7 +9,7 @@
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="Подбор кредита">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="выберите преложение" Source="/Views/OffersFilterView.xaml" />
+                <mui:Link DisplayName="выберите предложение" Source="/Views/OffersFilterView.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="Данные">

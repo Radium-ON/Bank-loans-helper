@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace LoanCalculations.Views.Settings
+namespace LoanHepler.Views.Settings
 {
     /// <summary>
     /// Interaction logic for About.xaml

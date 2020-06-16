@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FirstFloor.ModernUI.Windows.Controls;
 
-namespace LoanCalculations.Views
+namespace LoanHepler.Views
 {
 
     /// <summary>
