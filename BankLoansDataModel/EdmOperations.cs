@@ -43,7 +43,7 @@ namespace BankLoansDataModel
             }
         }
 
-        public static List<BankOffers> GetOffersByBankId(int bankId)
+        public static List<BankOffersViewModel> GetOffersByBankId(int bankId)
         {
             using (var context = new BankLoansEntities())
             {
@@ -55,7 +55,7 @@ namespace BankLoansDataModel
                         //подключаем полезные данные таблицы
                     join c in context.Offers on b.PK_OfferId equals c.PK_OfferId
                     where a.PK_RegNumber == bankId
-                    select new BankOffers
+                    select new BankOffersViewModel
                     {
                         ID = c.PK_OfferId,
                         BankName = a.Name,
@@ -66,7 +66,7 @@ namespace BankLoansDataModel
             }
         }
 
-        public class BankOffers
+        public class BankOffersViewModel
         {
             public int ID { get; internal set; }
             public string BankName { get; internal set; }

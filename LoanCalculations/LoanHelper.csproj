@@ -158,6 +158,12 @@
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoanHelper.Core\LoanHelper.Core.csproj">
+      <Project>{fe4369f7-41e9-48c7-9875-f6a105ac95a5}</Project>
+      <Name>LoanHelper.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
