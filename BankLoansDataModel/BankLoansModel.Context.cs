@@ -7,13 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using BankLoansDataModel.Services;
+
 namespace BankLoansDataModel
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BankLoansEntities : DbContext
+    public partial class BankLoansEntities : DbContext, IBankEntitiesContext
     {
         public BankLoansEntities()
             : base("name=BankLoansEntities")
