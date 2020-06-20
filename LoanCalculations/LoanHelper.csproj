@@ -9,8 +9,8 @@
     <ProjectGuid>{5E4B903C-EBE4-4E4D-81BD-021F38E83F89}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LoanCalculations</RootNamespace>
-    <AssemblyName>LoanCalculations</AssemblyName>
+    <RootNamespace>LoanHelper</RootNamespace>
+    <AssemblyName>LoanHelper</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
