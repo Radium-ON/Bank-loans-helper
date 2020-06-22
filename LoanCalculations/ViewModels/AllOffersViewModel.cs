@@ -4,14 +4,19 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BankLoansDataModel.Services;
 using Prism.Commands;
 
 namespace LoanHepler.ViewModels
 {
     public class AllOffersViewModel : ModernViewModelBase
     {
-        public AllOffersViewModel()
+        private readonly IBankEntitiesContext _bankEntities;
+
+        public AllOffersViewModel(IBankEntitiesContext bankEntities)
         {
+            _bankEntities = bankEntities;
+
             NavigatingFromCommand = new DelegateCommand(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);

@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using BankLoansDataModel;
+using BankLoansDataModel.Services;
 using CommonServiceLocator;
 using LoanHepler.Views;
 using Prism.Ioc;
@@ -21,7 +23,7 @@ namespace LoanHepler
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+            containerRegistry.Register(typeof(IBankEntitiesContext), typeof(BankLoansEntities));
         }
 
         protected override Window CreateShell()

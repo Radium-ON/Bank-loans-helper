@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using BankLoansDataModel.Services;
 using LoanHepler.ViewModels;
 using Prism.Commands;
 
@@ -6,8 +7,12 @@ namespace LoanHelper.ViewModels
 {
     public class AllClientsViewModel : ModernViewModelBase
     {
-        public AllClientsViewModel()
+        private readonly IBankEntitiesContext _bankEntities;
+
+        public AllClientsViewModel(IBankEntitiesContext bankEntities)
         {
+            _bankEntities = bankEntities;
+
             NavigatingFromCommand = new DelegateCommand(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
@@ -30,6 +35,7 @@ namespace LoanHelper.ViewModels
         private void LoadData()
         {
             Debug.WriteLine("AllClientsViewModel - LoadData");
+            var kek = _bankEntities;
         }
 
         /// <summary>
