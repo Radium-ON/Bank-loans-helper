@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using FirstFloor.ModernUI.Windows.Controls;
 
-namespace LoanHepler.Views
+namespace LoanHelper.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

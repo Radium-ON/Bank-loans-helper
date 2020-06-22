@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using CommonServiceLocator;
-using LoanHepler.Views;
+using LoanHelper.Views;
 using Prism.Ioc;
-using Prism.Unity;
 
-namespace LoanHepler
+namespace LoanHelper
 {
     /// <summary>
     /// Interaction logic for App.xaml

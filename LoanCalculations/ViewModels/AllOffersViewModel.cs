@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using BankLoansDataModel.Services;
 using Prism.Commands;
 
-namespace LoanHepler.ViewModels
+namespace LoanHelper.ViewModels
 {
     public class AllOffersViewModel : ModernViewModelBase
     {

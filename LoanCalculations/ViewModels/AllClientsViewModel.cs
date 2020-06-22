@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using BankLoansDataModel.Services;
-using LoanHepler.ViewModels;
 using Prism.Commands;
 
 namespace LoanHelper.ViewModels
@@ -35,7 +34,6 @@ namespace LoanHelper.ViewModels
         private void LoadData()
         {
             Debug.WriteLine("AllClientsViewModel - LoadData");
-            var kek = _bankEntities;
         }
 
         /// <summary>
