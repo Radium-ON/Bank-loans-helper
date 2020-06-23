@@ -1,7 +1,23 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:LoanHepler">
+                    xmlns:mui="http://firstfloorsoftware.com/ModernUI">
     <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
+
+    <DataTemplate x:Key="loan_agreements_datagrid_rowdetailstemplate">
+        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False"
+                  ItemsSource="{Binding ElementName=data_grid_clients, Path=SelectedItem.LoanAgreements}" CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <mui:DataGridTextColumn Header="Номер договора"  Binding="{Binding AgreementNumber}"/>
+                <mui:DataGridTextColumn Header="Банк" Binding="{Binding Bank.Name}" />
+                <mui:DataGridTextColumn Header="Ставка %" Binding="{Binding Interest}"/>
+                <mui:DataGridTextColumn Header="Сумма" Binding="{Binding LoanAmount}"/>
+                <mui:DataGridTextColumn Header="Срок в месяцах" Binding="{Binding Months}"/>
+                <mui:DataGridTextColumn Header="Размер платежа" Binding="{Binding Payment}"/>
+                <mui:DataGridTextColumn Header="Дата заключения" Binding="{Binding ContractDate}"/>
+                <mui:DataGridCheckBoxColumn Header="Погашен" Binding="{Binding IsRepaid}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DataTemplate>
 </ResourceDictionary>

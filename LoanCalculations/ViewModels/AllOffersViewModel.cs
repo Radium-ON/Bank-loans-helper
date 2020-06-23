@@ -36,6 +36,7 @@ namespace LoanHelper.ViewModels
             get => _offers;
             set => SetProperty(ref _offers, value);
         }
+
         /// <summary>
         /// Вызывается после события IsVisibleChanged связанного view.
         /// </summary>

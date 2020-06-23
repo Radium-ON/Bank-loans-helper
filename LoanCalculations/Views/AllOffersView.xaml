@@ -35,7 +35,7 @@
         <ScrollViewer>
             <StackPanel MinWidth="200">
                 <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}" />
-                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" MaxHeight="200" ItemsSource="{Binding Offers}" RowDetailsVisibilityMode="VisibleWhenSelected">
+                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" MaxHeight="200" ItemsSource="{Binding Offers}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Interest}" Header="Ставка %" Width="SizeToHeader"/>
                         <DataGridTextColumn Binding="{Binding MinLoanAmount}" Header="Мин. сумма кредита" Width="SizeToHeader"/>
