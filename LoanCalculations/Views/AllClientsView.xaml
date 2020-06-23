@@ -32,23 +32,25 @@
     </i:Interaction.Triggers>
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
-                <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" SelectionMode="Single" RowDetailsVisibilityMode="VisibleWhenSelected"
+            <WrapPanel MinWidth="200">
+                <StackPanel Name="stack_all_clients">
+                    <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
+                    <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" MaxWidth="300"
+                          SelectionMode="Single" RowDetailsVisibilityMode="VisibleWhenSelected"
                           ItemsSource="{Binding Clients}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">
-                    <DataGrid.Columns>
-                        <mui:DataGridTextColumn Header="Имя"  Binding="{Binding Name}"/>
-                        <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" />
-                        <mui:DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
-                        <mui:DataGridTextColumn Header="ИНН" Binding="{Binding TIN}"/>
-                        <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age}"/>
-                        <mui:DataGridTextColumn Header="Стаж" Binding="{Binding Seniority}"/>
-                        <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
-                    </DataGrid.Columns>
-                    
-                </DataGrid>
-            </StackPanel>
+                        <DataGrid.Columns>
+                            <mui:DataGridTextColumn Header="Имя"  Binding="{Binding Name}"/>
+                            <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" />
+                            <mui:DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
+                            <mui:DataGridTextColumn Header="ИНН" Binding="{Binding TIN}"/>
+                            <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age}"/>
+                            <mui:DataGridTextColumn Header="Стаж" Binding="{Binding Seniority}"/>
+                            <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </WrapPanel>
         </ScrollViewer>
     </Grid>
 </controls:ModernUserControl>
