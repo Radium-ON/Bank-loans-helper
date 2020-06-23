@@ -34,7 +34,17 @@
         <ScrollViewer>
             <StackPanel MinWidth="200">
                 <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
-                <TextBlock Text="Content goes here" />
+                <DataGrid ItemsSource="{Binding Clients}" AutoGenerateColumns="False" >
+                    <DataGrid.Columns>
+                        <mui:DataGridTextColumn Header="Имя"  Binding="{Binding Name}"/>
+                        <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" />
+                        <mui:DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
+                        <mui:DataGridTextColumn Header="ИНН" Binding="{Binding TIN}"/>
+                        <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age}"/>
+                        <mui:DataGridTextColumn Header="Стаж" Binding="{Binding Seniority}"/>
+                        <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </ScrollViewer>
     </Grid>
