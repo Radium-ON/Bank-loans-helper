@@ -111,10 +111,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ClientView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -130,9 +126,6 @@
     </Compile>
     <Compile Include="Views\AllOffersView.xaml.cs">
       <DependentUpon>AllOffersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ClientView.xaml.cs">
-      <DependentUpon>ClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -191,6 +184,10 @@
     <ProjectReference Include="..\BankLoansDataModel\BankLoansDataModel.csproj">
       <Project>{836ba870-e560-4ec7-81c2-6c7c4a465eb7}</Project>
       <Name>BankLoansDataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClientInfo\ClientInfo.csproj">
+      <Project>{c9c6132f-59c3-4c90-be5a-1bf0cc017b69}</Project>
+      <Name>ClientInfo</Name>
     </ProjectReference>
     <ProjectReference Include="..\LoanHelper.Core\LoanHelper.Core.csproj">
       <Project>{fe4369f7-41e9-48c7-9875-f6a105ac95a5}</Project>

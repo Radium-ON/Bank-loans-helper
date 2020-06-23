@@ -1,11 +1,11 @@
-﻿using LoanHelper.Controls;
+﻿using System.Windows.Controls;
 
-namespace LoanHelper.Views
+namespace ClientInfo.Views
 {
     /// <summary>
     /// Interaction logic for ClientView.xaml
     /// </summary>
-    public partial class ClientView : ModernUserControl
+    public partial class ClientView : UserControl
     {
         public ClientView()
         {

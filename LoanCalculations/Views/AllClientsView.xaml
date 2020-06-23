@@ -33,9 +33,18 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <WrapPanel MinWidth="200">
-                <StackPanel Name="stack_all_clients">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="НОВЫЙ КЛИЕНТ" Style="{StaticResource Heading2}" Margin="0,0,0,20"/>
+                    <ContentControl Grid.Row="1" prism:RegionManager.RegionName="NewClientEditingForm"/>
+                </Grid>
+
+                <StackPanel Name="stack_all_clients" Margin="30,0,0,0">
                     <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
-                    <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" MaxWidth="300"
+                    <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="700"
                           SelectionMode="Single" RowDetailsVisibilityMode="VisibleWhenSelected"
                           ItemsSource="{Binding Clients}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">

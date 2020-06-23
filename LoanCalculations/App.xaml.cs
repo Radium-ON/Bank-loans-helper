@@ -4,6 +4,7 @@ using BankLoansDataModel.Services;
 using CommonServiceLocator;
 using LoanHelper.Views;
 using Prism.Ioc;
+using Prism.Modularity;
 
 namespace LoanHelper
 {
@@ -22,6 +23,11 @@ namespace LoanHelper
         protected override Window CreateShell()
         {
             return ServiceLocator.Current.GetInstance<MainWindow>();
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<ClientInfo.ClientInfoModule>();
         }
 
         #endregion
