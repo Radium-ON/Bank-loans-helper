@@ -16,7 +16,7 @@ namespace LoanHelper.ViewModels
         }
 
         /// <summary>
-        /// Visibilities the changed.
+        /// Вызывается после события IsVisibleChanged связанного view.
         /// </summary>
         private void VisibilityChanged()
         {
@@ -24,7 +24,7 @@ namespace LoanHelper.ViewModels
         }
 
         /// <summary>
-        /// Loads the data.
+        /// Вызывается после события Loaded связанного view.
         /// </summary>
         private void LoadData()
         {
@@ -32,25 +32,23 @@ namespace LoanHelper.ViewModels
         }
 
         /// <summary>
-        /// Navigateds from.
+        /// Вызывается после перехода к другому view.
         /// </summary>
         private void NavigatedFrom()
         {
-            // called when we navigated to another view
             Debug.WriteLine("OffersFilterViewModel - NavigatedFrom");
         }
 
         /// <summary>
-        /// Navigateds to.
+        /// Вызывается, когда переходим к представлению, связанному с этой viewmodel.
         /// </summary>
         private void NavigatedTo()
         {
-            // called when we navigate to the view related with this view model.
             Debug.WriteLine("OffersFilterViewModel - NavigatedTo");
         }
 
         /// <summary>
-        /// Fragments the navigation.
+        /// Навигация фрагментов.
         /// </summary>
         private void FragmentNavigation()
         {
@@ -58,11 +56,10 @@ namespace LoanHelper.ViewModels
         }
 
         /// <summary>
-        /// Navigatings from.
+        /// Вызывается, когда переходим на новое view.
         /// </summary>
         private void NavigatingFrom()
         {
-            // Called when we will navigate to new view
             Debug.WriteLine("OffersFilterViewModel - NavigatingFrom");
         }
     }
