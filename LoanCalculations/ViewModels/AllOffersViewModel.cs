@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Data.Entity;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using Prism.Commands;
 
@@ -16,10 +20,22 @@ namespace LoanHelper.ViewModels
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(LoadData);
+            LoadedCommand = new DelegateCommand(async () => await LoadData());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
 
+        #region Backing Fields
+        private ObservableCollection<Offer> _offers;
+
+
+
+        #endregion
+
+        public ObservableCollection<Offer> Offers
+        {
+            get => _offers;
+            set => SetProperty(ref _offers, value);
+        }
         /// <summary>
         /// Вызывается после события IsVisibleChanged связанного view.
         /// </summary>
@@ -31,10 +47,14 @@ namespace LoanHelper.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private void LoadData()
+        private async Task LoadData()
         {
+            await _bankEntities.Offers.LoadAsync();
+            Offers = _bankEntities.Offers.Local;
             Debug.WriteLine("AllOffersViewModel - LoadData");
         }
+
+
 
         /// <summary>
         /// Вызывается после перехода к другому view.

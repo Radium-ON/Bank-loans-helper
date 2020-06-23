@@ -179,6 +179,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\BankLoansDataModel.Bank.datasource" />
+    <None Include="Properties\DataSources\BankLoansDataModel.Client.datasource" />
+    <None Include="Properties\DataSources\BankLoansDataModel.LoanAgreement.datasource" />
+    <None Include="Properties\DataSources\BankLoansDataModel.Offer.datasource" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
