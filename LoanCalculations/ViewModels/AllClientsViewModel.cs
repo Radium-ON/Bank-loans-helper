@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
+using LoanHelper.Core;
 using Prism.Commands;
 
 namespace LoanHelper.ViewModels
@@ -15,6 +16,8 @@ namespace LoanHelper.ViewModels
         public AllClientsViewModel(IBankEntitiesContext bankEntities)
         {
             _bankEntities = bankEntities;
+
+            Clients = new AsyncObservableCollection<Client>();
 
             NavigatingFromCommand = new DelegateCommand(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);

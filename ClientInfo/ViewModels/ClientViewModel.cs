@@ -65,7 +65,11 @@ namespace ClientInfo.ViewModels
             {
                 _bankEntities.Clients.Add(newclient);
                 var count = await _bankEntities.SaveChangesAsync(CancellationToken.None);
-                MessageBox.Show("Добавление клиента",$"Добавлено {count} записей.");
+                MessageBox.Show($"Добавлено {count} записей.","Добавление клиента");
+            }
+            else
+            {
+                MessageBox.Show($"Клиент с паспортом {newclient.Passport} уже существует.","Добавление клиента");
             }
         }
 
