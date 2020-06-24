@@ -3,10 +3,15 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using BankLoansDataModel;
+using BankLoansDataModel.Services;
 using ClientInfo.Properties;
 using Prism.Events;
 
@@ -16,6 +21,7 @@ namespace ClientInfo.ViewModels
     {
         #region Backing Fields
         private readonly IEventAggregator _eventAggregator;
+        private readonly IBankEntitiesContext _bankEntities;
 
         private string _firstName;
         private string _lastName;
@@ -28,11 +34,13 @@ namespace ClientInfo.ViewModels
         private bool _isValid;
         #endregion
 
-        public ClientViewModel(IEventAggregator eventAggregator)
+        public ClientViewModel(IEventAggregator eventAggregator, IBankEntitiesContext bankEntities)
         {
             _eventAggregator = eventAggregator;
+            _bankEntities = bankEntities;
 
-            AddClientCommand = new DelegateCommand(AddClient, CanAddClient).ObservesProperty(() => IsValid);
+            AddClientCommand = new DelegateCommand(async () => await AddClient(), CanAddClient)
+                .ObservesProperty(() => IsValid);
         }
 
         private bool CanAddClient()
@@ -40,9 +48,25 @@ namespace ClientInfo.ViewModels
             return IsValid;
         }
 
-        private void AddClient()
+        private async Task AddClient()
         {
-            FirstName = "d";
+            var newclient = new Client
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Passport = Passport,
+                TIN = TIN,
+                Age = Age,
+                Seniority = Seniority,
+                Salary = Salary
+            };
+            var clientExist = await _bankEntities.Clients.AnyAsync(c => c.Passport == newclient.Passport);
+            if (!clientExist)
+            {
+                _bankEntities.Clients.Add(newclient);
+                var count = await _bankEntities.SaveChangesAsync(CancellationToken.None);
+                MessageBox.Show("Добавление клиента",$"Добавлено {count} записей.");
+            }
         }
 
         #region Bindable Properties
