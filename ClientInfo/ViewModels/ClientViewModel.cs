@@ -27,11 +27,12 @@ namespace ClientInfo.ViewModels
 
         private bool _isValid;
         #endregion
+
         public ClientViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
 
-            AddClientCommand = new DelegateCommand(AddClient,CanAddClient).ObservesProperty(() => IsValid);
+            AddClientCommand = new DelegateCommand(AddClient, CanAddClient).ObservesProperty(() => IsValid);
         }
 
         private bool CanAddClient()
@@ -44,7 +45,7 @@ namespace ClientInfo.ViewModels
             FirstName = "d";
         }
 
-        #region Bindable Props
+        #region Bindable Properties
 
         public string FirstName
         {
@@ -52,7 +53,6 @@ namespace ClientInfo.ViewModels
             set
             {
                 SetProperty(ref _firstName, value, () => RaisePropertyChanged(nameof(IsValid)));
-                ;
             }
         }
         public string LastName
@@ -61,7 +61,6 @@ namespace ClientInfo.ViewModels
             set
             {
                 SetProperty(ref _lastName, value, () => RaisePropertyChanged(nameof(IsValid)));
-                ;
             }
         }
         public string Passport
@@ -70,7 +69,6 @@ namespace ClientInfo.ViewModels
             set
             {
                 SetProperty(ref _passport, value, () => RaisePropertyChanged(nameof(IsValid)));
-                ;
             }
         }
         public string TIN
@@ -79,7 +77,6 @@ namespace ClientInfo.ViewModels
             set
             {
                 SetProperty(ref _tin, value, () => RaisePropertyChanged(nameof(IsValid)));
-                ;
             }
         }
         public int Age
@@ -88,7 +85,6 @@ namespace ClientInfo.ViewModels
             set
             {
                 SetProperty(ref _age, value, () => RaisePropertyChanged(nameof(IsValid)));
-                ;
             }
         }
         public int Seniority
@@ -97,7 +93,6 @@ namespace ClientInfo.ViewModels
             set
             {
                 SetProperty(ref _seniority, value, () => RaisePropertyChanged(nameof(IsValid)));
-                ;
             }
         }
         public decimal Salary
@@ -106,7 +101,6 @@ namespace ClientInfo.ViewModels
             set
             {
                 SetProperty(ref _salary, value, () => RaisePropertyChanged(nameof(IsValid)));
-                ;
             }
         }
         #endregion
@@ -121,7 +115,7 @@ namespace ClientInfo.ViewModels
 
         public string this[string columnName] => GetValidationError(columnName);
 
-        public string Error { get => null; }
+        public string Error => null;
 
         #endregion
 
@@ -200,7 +194,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateSeniority()
         {
-            if (Seniority > 100)
+            if (Seniority < 0 || Seniority > 100)
             {
                 return Resources.client_error_missing_seniority;
             }
@@ -209,7 +203,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateAge()
         {
-            if (Age == 0)
+            if (Age <= 0)
             {
                 return Resources.client_error_missing_age;
             }
@@ -218,7 +212,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateTin()
         {
-            if (IsStringMissing(TIN))
+            if (IsStringMissing(TIN) || !IsStringAllDigits(TIN) || TIN.Length != 12)
             {
                 return Resources.client_error_missing_tin;
             }
@@ -227,7 +221,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidatePassport()
         {
-            if (IsStringMissing(Passport))
+            if (IsStringMissing(Passport) || !IsStringAllDigits(Passport) || Passport.Length != 10)
             {
                 return Resources.client_error_missing_passport;
             }
@@ -236,7 +230,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateFirstName()
         {
-            if (IsStringMissing(FirstName))
+            if (IsStringMissing(FirstName) || !IsStringAllLetters(FirstName))
             {
                 return Resources.client_error_missing_first_name;
             }
@@ -246,7 +240,7 @@ namespace ClientInfo.ViewModels
         private string ValidateLastName()
         {
 
-            if (IsStringMissing(LastName))
+            if (IsStringMissing(LastName) || !IsStringAllLetters(LastName))
                 return Resources.client_error_missing_lastname;
 
             return null;
@@ -257,6 +251,16 @@ namespace ClientInfo.ViewModels
             return
                 string.IsNullOrEmpty(value) ||
                 value.Trim() == string.Empty;
+        }
+
+        private static bool IsStringAllDigits(string value)
+        {
+            return value.All(char.IsDigit);
+        }
+
+        private static bool IsStringAllLetters(string value)
+        {
+            return value.All(char.IsLetter);
         }
         #endregion
     }
