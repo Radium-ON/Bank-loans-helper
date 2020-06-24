@@ -44,7 +44,7 @@
 
                 <StackPanel Name="stack_all_clients" Margin="30,0,0,0">
                     <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
-                    <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="700"
+                    <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="1100"
                           SelectionMode="Single" RowDetailsVisibilityMode="VisibleWhenSelected"
                           ItemsSource="{Binding Clients}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">

@@ -14,6 +14,16 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
         </Style>
+
+        <DataTemplate DataType="{x:Type ValidationError}">
+            <TextBlock 
+                    FontStyle="Italic"
+                    Foreground="Red"
+                    HorizontalAlignment="Right"
+                    Margin="0,1"
+                    Text="{Binding Path=ErrorContent}" 
+                />
+        </DataTemplate>
     </UserControl.Resources>
     <Grid MinWidth="200">
         <Grid.ColumnDefinitions>
@@ -30,18 +40,87 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Text="Имя" />
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="input_name" Grid.Row="0" VerticalAlignment="Top"
+                Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_name, Path=(Validation.Errors).CurrentItem}"/>
+        </Grid>
+
         <TextBlock Text="Фамилия" Grid.Row="1" Grid.Column="0"/>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="input_surname" VerticalAlignment="Top"
+                Text="{Binding Surname, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_surname, Path=(Validation.Errors).CurrentItem}"/>
+        </Grid>
+
         <TextBlock Text="Паспорт" Grid.Row="2" Grid.Column="0"/>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="input_passport" VerticalAlignment="Top"
+                Text="{Binding Passport, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_passport, Path=(Validation.Errors).CurrentItem}"/>
+        </Grid>
+
         <TextBlock Text="ИНН" Grid.Row="3" Grid.Column="0"/>
+        <Grid Grid.Column="1" Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="input_tin" VerticalAlignment="Top"
+                Text="{Binding TIN, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Margin="0,0,0,-0.001"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_tin, Path=(Validation.Errors).CurrentItem}"/>
+        </Grid>
+
         <TextBlock Text="Возраст" Grid.Row="4" Grid.Column="0"/>
+        <Grid Grid.Column="1" Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="input_age" VerticalAlignment="Top"
+                Text="{Binding Age, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_age, Path=(Validation.Errors).CurrentItem}"/>
+        </Grid>
+
         <TextBlock Text="Труд. стаж" Grid.Row="5" Grid.Column="0"/>
+        <Grid Grid.Column="1" Grid.Row="5">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="input_seniority" VerticalAlignment="Top"
+                Text="{Binding Seniority, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_seniority, Path=(Validation.Errors).CurrentItem}"/>
+        </Grid>
+
         <TextBlock Text="Зарплата" Grid.Row="6" Grid.Column="0"/>
-        <TextBox x:Name="input_name" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="input_surname" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="input_passport" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="input_tin" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="input_age" Grid.Row="4" Grid.Column="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="input_seniority" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="input_salary" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top"/>
+        <Grid Grid.Column="1" Grid.Row="6">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="input_salary" VerticalAlignment="Top"
+                Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_salary, Path=(Validation.Errors).CurrentItem}"/>
+        </Grid>
     </Grid>
 </UserControl>
