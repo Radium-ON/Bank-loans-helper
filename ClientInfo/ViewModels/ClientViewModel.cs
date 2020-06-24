@@ -8,12 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClientInfo.Properties;
+using Prism.Events;
 
 namespace ClientInfo.ViewModels
 {
     public class ClientViewModel : BindableBase, IDataErrorInfo
     {
         #region Backing Fields
+        private readonly IEventAggregator _eventAggregator;
+
         private string _firstName;
         private string _lastName;
         private string _passport;
@@ -22,9 +25,23 @@ namespace ClientInfo.ViewModels
         private int _seniority;
         private decimal _salary;
 
+        private bool _isValid;
         #endregion
-        public ClientViewModel()
+        public ClientViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+
+            AddClientCommand = new DelegateCommand(AddClient,CanAddClient).ObservesProperty(() => IsValid);
+        }
+
+        private bool CanAddClient()
+        {
+            return IsValid;
+        }
+
+        private void AddClient()
+        {
+            FirstName = "d";
         }
 
         #region Bindable Props
@@ -32,38 +49,72 @@ namespace ClientInfo.ViewModels
         public string FirstName
         {
             get => _firstName;
-            set => SetProperty(ref _firstName, value);
+            set
+            {
+                SetProperty(ref _firstName, value, () => RaisePropertyChanged(nameof(IsValid)));
+                ;
+            }
         }
         public string LastName
         {
             get => _lastName;
-            set => SetProperty(ref _lastName, value);
+            set
+            {
+                SetProperty(ref _lastName, value, () => RaisePropertyChanged(nameof(IsValid)));
+                ;
+            }
         }
         public string Passport
         {
             get { return _passport; }
-            set { SetProperty(ref _passport, value); }
+            set
+            {
+                SetProperty(ref _passport, value, () => RaisePropertyChanged(nameof(IsValid)));
+                ;
+            }
         }
         public string TIN
         {
             get { return _tin; }
-            set { SetProperty(ref _tin, value); }
+            set
+            {
+                SetProperty(ref _tin, value, () => RaisePropertyChanged(nameof(IsValid)));
+                ;
+            }
         }
         public int Age
         {
             get { return _age; }
-            set { SetProperty(ref _age, value); }
+            set
+            {
+                SetProperty(ref _age, value, () => RaisePropertyChanged(nameof(IsValid)));
+                ;
+            }
         }
         public int Seniority
         {
             get { return _seniority; }
-            set { SetProperty(ref _seniority, value); }
+            set
+            {
+                SetProperty(ref _seniority, value, () => RaisePropertyChanged(nameof(IsValid)));
+                ;
+            }
         }
         public decimal Salary
         {
             get { return _salary; }
-            set { SetProperty(ref _salary, value); }
+            set
+            {
+                SetProperty(ref _salary, value, () => RaisePropertyChanged(nameof(IsValid)));
+                ;
+            }
         }
+        #endregion
+
+        #region DelegateCommands
+
+        public DelegateCommand AddClientCommand { get; private set; }
+
         #endregion
 
         #region Implementation of IDataErrorInfo
@@ -80,15 +131,11 @@ namespace ClientInfo.ViewModels
         {
             get
             {
-                foreach (string property in _validatedProperties)
-                    if (GetValidationError(property) != null)
-                        return false;
-
-                return true;
+                return _validatedProperties.All(property => GetValidationError(property) == null);
             }
         }
 
-        static readonly string[] _validatedProperties =
+        private static readonly string[] _validatedProperties =
         {
             "FirstName",
             "LastName",
@@ -101,7 +148,7 @@ namespace ClientInfo.ViewModels
 
 
 
-        string GetValidationError(string propertyName)
+        private string GetValidationError(string propertyName)
         {
             if (Array.IndexOf(_validatedProperties, propertyName) < 0)
                 return null;
@@ -144,7 +191,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateSalary()
         {
-            if (Salary<=0)
+            if (Salary <= 0)
             {
                 return Resources.client_error_missing_salary;
             }
@@ -153,7 +200,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateSeniority()
         {
-            if (Seniority>100)
+            if (Seniority > 100)
             {
                 return Resources.client_error_missing_seniority;
             }
@@ -162,7 +209,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateAge()
         {
-            if (Age==0)
+            if (Age == 0)
             {
                 return Resources.client_error_missing_age;
             }

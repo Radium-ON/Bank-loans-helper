@@ -38,6 +38,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Имя" />
         <Grid Grid.Row="0" Grid.Column="1">
@@ -46,7 +47,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox x:Name="input_name" Grid.Row="0" VerticalAlignment="Top"
-                Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}"/>
             <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_name, Path=(Validation.Errors).CurrentItem}"/>
         </Grid>
@@ -58,7 +59,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox x:Name="input_lastname" VerticalAlignment="Top"
-                Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}"/>
             <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_lastname, Path=(Validation.Errors).CurrentItem}"/>
         </Grid>
@@ -70,7 +71,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox x:Name="input_passport" VerticalAlignment="Top"
-                Text="{Binding Passport, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Passport, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}"/>
             <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_passport, Path=(Validation.Errors).CurrentItem}"/>
         </Grid>
@@ -82,7 +83,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox x:Name="input_tin" VerticalAlignment="Top"
-                Text="{Binding TIN, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding TIN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Margin="0,0,0,-0.001"/>
             <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_tin, Path=(Validation.Errors).CurrentItem}"/>
         </Grid>
@@ -94,7 +95,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox x:Name="input_age" VerticalAlignment="Top"
-                Text="{Binding Age, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Age, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}"/>
             <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_age, Path=(Validation.Errors).CurrentItem}"/>
         </Grid>
@@ -106,7 +107,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox x:Name="input_seniority" VerticalAlignment="Top"
-                Text="{Binding Seniority, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Seniority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}"/>
             <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_seniority, Path=(Validation.Errors).CurrentItem}"/>
         </Grid>
@@ -118,9 +119,11 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox x:Name="input_salary" VerticalAlignment="Top"
-                Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}"/>
             <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_salary, Path=(Validation.Errors).CurrentItem}"/>
         </Grid>
+        <Button Grid.Column="1" Grid.Row="7" Content="Добавить клиента" HorizontalAlignment="Right"
+                Command="{Binding AddClientCommand}" IsEnabled="{Binding IsValid}"/>
     </Grid>
 </UserControl>
