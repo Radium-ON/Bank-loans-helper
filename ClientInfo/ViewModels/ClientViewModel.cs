@@ -15,7 +15,7 @@ namespace ClientInfo.ViewModels
     {
         #region Backing Fields
         private string _firstName;
-        private string _surName;
+        private string _lastName;
         private string _passport;
         private string _tin;
         private int _age;
@@ -34,10 +34,10 @@ namespace ClientInfo.ViewModels
             get => _firstName;
             set => SetProperty(ref _firstName, value);
         }
-        public string Surname
+        public string LastName
         {
-            get => _surName;
-            set => SetProperty(ref _surName, value);
+            get => _lastName;
+            set => SetProperty(ref _lastName, value);
         }
         public string Passport
         {
@@ -114,8 +114,8 @@ namespace ClientInfo.ViewModels
                     error = ValidateFirstName();
                     break;
 
-                case "Surname":
-                    error = ValidateSurName();
+                case "LastName":
+                    error = ValidateLastName();
                     break;
 
                 case "Passport":
@@ -196,11 +196,11 @@ namespace ClientInfo.ViewModels
             return null;
         }
 
-        private string ValidateSurName()
+        private string ValidateLastName()
         {
 
-            if (IsStringMissing(Surname))
-                return Resources.client_error_missing_surname;
+            if (IsStringMissing(LastName))
+                return Resources.client_error_missing_lastname;
 
             return null;
         }

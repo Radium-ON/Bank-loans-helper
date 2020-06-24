@@ -57,10 +57,10 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBox x:Name="input_surname" VerticalAlignment="Top"
-                Text="{Binding Surname, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            <TextBox x:Name="input_lastname" VerticalAlignment="Top"
+                Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}"/>
-            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_surname, Path=(Validation.Errors).CurrentItem}"/>
+            <ContentPresenter Grid.Row="1" Content="{Binding ElementName=input_lastname, Path=(Validation.Errors).CurrentItem}"/>
         </Grid>
 
         <TextBlock Text="Паспорт" Grid.Row="2" Grid.Column="0"/>

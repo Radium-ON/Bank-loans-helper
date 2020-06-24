@@ -132,7 +132,7 @@
   <data name="client_error_missing_seniority" xml:space="preserve">
     <value>Не вписан трудовой стаж!</value>
   </data>
-  <data name="client_error_missing_surname" xml:space="preserve">
+  <data name="client_error_missing_lastname" xml:space="preserve">
     <value>Не заполнена фамилия клиента!</value>
   </data>
   <data name="client_error_missing_tin" xml:space="preserve">

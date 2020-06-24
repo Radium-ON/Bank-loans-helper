@@ -160,8 +160,8 @@
           <Property Name="PK_ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Passport" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="TIN" Type="String" MaxLength="12" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Age" Type="Int32" Nullable="false" />
           <Property Name="Seniority" Type="Int32" Nullable="false" />
           <Property Name="Salary" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
@@ -266,8 +266,8 @@
                 <ScalarProperty Name="PK_ClientId" ColumnName="PK_ClientId" />
                 <ScalarProperty Name="Passport" ColumnName="Passport" />
                 <ScalarProperty Name="TIN" ColumnName="TIN" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="FirstName" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="Surname" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
                 <ScalarProperty Name="Seniority" ColumnName="Seniority" />
                 <ScalarProperty Name="Salary" ColumnName="Salary" />

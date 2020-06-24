@@ -79,6 +79,15 @@ namespace ClientInfo.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не заполнена фамилия клиента!.
+        /// </summary>
+        internal static string client_error_missing_lastname {
+            get {
+                return ResourceManager.GetString("client_error_missing_lastname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нет паспортных данных!.
         /// </summary>
         internal static string client_error_missing_passport {
@@ -102,15 +111,6 @@ namespace ClientInfo.Properties {
         internal static string client_error_missing_seniority {
             get {
                 return ResourceManager.GetString("client_error_missing_seniority", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не заполнена фамилия клиента!.
-        /// </summary>
-        internal static string client_error_missing_surname {
-            get {
-                return ResourceManager.GetString("client_error_missing_surname", resourceCulture);
             }
         }
         

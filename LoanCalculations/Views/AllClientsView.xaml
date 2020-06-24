@@ -49,8 +49,8 @@
                           ItemsSource="{Binding Clients}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">
                         <DataGrid.Columns>
-                            <mui:DataGridTextColumn Header="Имя"  Binding="{Binding Name}"/>
-                            <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" />
+                            <mui:DataGridTextColumn Header="Имя"  Binding="{Binding FirstName}"/>
+                            <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
                             <mui:DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
                             <mui:DataGridTextColumn Header="ИНН" Binding="{Binding TIN}"/>
                             <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age}"/>
