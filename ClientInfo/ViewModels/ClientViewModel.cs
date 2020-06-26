@@ -15,6 +15,7 @@ using BankLoansDataModel.Services;
 using ClientInfo.Properties;
 using ClientInfo.ViewModels;
 using ClientInfo.Views;
+using LoanHelper.Core.Events;
 using Prism.Events;
 using Prism.Services.Dialogs;
 
@@ -69,7 +70,9 @@ namespace ClientInfo.ViewModels
             {
                 _bankEntities.Clients.Add(newclient);
                 var count = await _bankEntities.SaveChangesAsync(CancellationToken.None);
+                _eventAggregator.GetEvent<ClientAddedEvent>().Publish();
                 ShowClientAddingNotification("Добавление клиента", $"Добавлено {count} записей.");
+
             }
             else
             {
