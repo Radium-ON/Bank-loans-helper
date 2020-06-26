@@ -1,21 +1,31 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using LoanHelper.Core;
+using LoanHelper.Core.Events;
 using Prism.Commands;
+using Prism.Events;
 
 namespace LoanHelper.ViewModels
 {
     public class AllClientsViewModel : ModernViewModelBase
     {
         private readonly IBankEntitiesContext _bankEntities;
+        private readonly IEventAggregator _eventAggregator;
 
-        public AllClientsViewModel(IBankEntitiesContext bankEntities)
+        public AllClientsViewModel(IBankEntitiesContext bankEntities, IEventAggregator eventAggregator)
         {
             _bankEntities = bankEntities;
+            _eventAggregator = eventAggregator;
+
+            _eventAggregator.GetEvent<ClientAddedEvent>().Subscribe(OnClientAdded);
 
             Clients = new AsyncObservableCollection<Client>();
 
@@ -23,9 +33,16 @@ namespace LoanHelper.ViewModels
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(async () => await LoadData());
+            LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
+
+        private void OnClientAdded()
+        {
+            _bankEntities.Clients.Load();
+        }
+
+
 
         #region Backing Fields
         private ObservableCollection<Client> _clients;
@@ -51,11 +68,11 @@ namespace LoanHelper.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private async Task LoadData()
+        private async Task LoadDataAsync()
         {
             await _bankEntities.Clients.LoadAsync();
             Clients = _bankEntities.Clients.Local;
-            Debug.WriteLine("AllClientsViewModel - LoadData");
+            Debug.WriteLine("AllClientsViewModel - LoadDataAsync");
         }
 
         /// <summary>

@@ -17,6 +17,7 @@ using ClientInfo.ViewModels;
 using ClientInfo.Views;
 using LoanHelper.Core.Events;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Services.Dialogs;
 
 namespace ClientInfo.ViewModels
@@ -55,6 +56,8 @@ namespace ClientInfo.ViewModels
 
         private async Task AddClient()
         {
+
+            await _bankEntities.Clients.LoadAsync();
             var newclient = new Client
             {
                 FirstName = FirstName,

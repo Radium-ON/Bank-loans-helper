@@ -44,6 +44,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Unity.Abstractions">
+      <HintPath>..\packages\Unity.Abstractions.5.11.6\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -99,6 +102,9 @@
       <Version>7.2.0.1422</Version>
     </PackageReference>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
+    <PackageReference Include="Unity.Abstractions">
+      <Version>5.11.6</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ClientInfoDialog.xaml">
