@@ -235,7 +235,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateSeniority()
         {
-            if (Seniority < 0 || Seniority > 100)
+            if (Seniority < 0 || Seniority > 100 || Seniority >= Age)
             {
                 return Resources.client_error_missing_seniority;
             }
@@ -244,7 +244,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateAge()
         {
-            if (Age <= 0)
+            if (Age <= 0 || Age <= Seniority)
             {
                 return Resources.client_error_missing_age;
             }
@@ -253,7 +253,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidateTin()
         {
-            if (IsStringMissing(TIN) || !IsStringAllDigits(TIN) || TIN.Length != 12)
+            if (IsStringMissing(TIN) || !IsStringAllDigits(TIN) || TIN.Length != 12 || TIN.StartsWith("0"))
             {
                 return Resources.client_error_missing_tin;
             }
@@ -262,7 +262,7 @@ namespace ClientInfo.ViewModels
 
         private string ValidatePassport()
         {
-            if (IsStringMissing(Passport) || !IsStringAllDigits(Passport) || Passport.Length != 10)
+            if (IsStringMissing(Passport) || !IsStringAllDigits(Passport) || Passport.Length != 10 || Passport.StartsWith("0"))
             {
                 return Resources.client_error_missing_passport;
             }
