@@ -1,4 +1,5 @@
-﻿using ClientInfo.Views;
+﻿using ClientInfo.ViewModels;
+using ClientInfo.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -15,6 +16,7 @@ namespace ClientInfo
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterDialog<ClientInfoDialog,ClientInfoDialogViewModel>("NotificationDialogWithOK");
             
         }
     }

@@ -13,7 +13,10 @@ using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using ClientInfo.Properties;
+using ClientInfo.ViewModels;
+using ClientInfo.Views;
 using Prism.Events;
+using Prism.Services.Dialogs;
 
 namespace ClientInfo.ViewModels
 {
@@ -22,6 +25,7 @@ namespace ClientInfo.ViewModels
         #region Backing Fields
         private readonly IEventAggregator _eventAggregator;
         private readonly IBankEntitiesContext _bankEntities;
+        private readonly IDialogService _dialogService;
 
         private string _firstName;
         private string _lastName;
@@ -31,13 +35,13 @@ namespace ClientInfo.ViewModels
         private int _seniority;
         private decimal _salary;
 
-        private bool _isValid;
         #endregion
 
-        public ClientViewModel(IEventAggregator eventAggregator, IBankEntitiesContext bankEntities)
+        public ClientViewModel(IEventAggregator eventAggregator, IBankEntitiesContext bankEntities, IDialogService dialogService)
         {
             _eventAggregator = eventAggregator;
             _bankEntities = bankEntities;
+            _dialogService = dialogService;
 
             AddClientCommand = new DelegateCommand(async () => await AddClient(), CanAddClient)
                 .ObservesProperty(() => IsValid);
@@ -65,12 +69,21 @@ namespace ClientInfo.ViewModels
             {
                 _bankEntities.Clients.Add(newclient);
                 var count = await _bankEntities.SaveChangesAsync(CancellationToken.None);
-                MessageBox.Show($"Добавлено {count} записей.","Добавление клиента");
+                ShowClientAddingNotification("Добавление клиента", $"Добавлено {count} записей.");
             }
             else
             {
-                MessageBox.Show($"Клиент с паспортом {newclient.Passport} уже существует.","Добавление клиента");
+                ShowClientAddingNotification("Клиент не добавлен", $"Клиент с паспортом {newclient.Passport} уже существует.");
             }
+        }
+
+        private void ShowClientAddingNotification(string title, string message)
+        {
+            _dialogService.ShowDialog("NotificationDialogWithOK", new DialogParameters
+            {
+                { "Message", $"{message}" },
+                { "Title", $"{title}"}
+            }, r => { });
         }
 
         #region Bindable Properties

@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="ClientInfo.Views.ClientInfoDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterOwner" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="SizeToContent" Value="WidthAndHeight"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+    <Grid x:Name="layout_root" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding Message}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" TextWrapping="Wrap" MinWidth="200" MinHeight="100" FontSize="16" />
+        <Button Command="{Binding CloseDialogCommand}" CommandParameter="true" Content="OK" Width="75" Height="25" HorizontalAlignment="Right" Margin="0,10,0,0" Grid.Row="1" IsDefault="True" />
+    </Grid>
+</UserControl>

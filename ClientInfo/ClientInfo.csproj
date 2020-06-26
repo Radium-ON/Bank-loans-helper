@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Prism">
-      <HintPath>..\packages\Prism.Core.7.2.0.1422\lib\net45\Prism.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -66,7 +63,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\ClientInfoDialogViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
+    <Compile Include="Views\ClientInfoDialog.xaml.cs">
+      <DependentUpon>ClientInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ClientView.xaml.cs">
       <DependentUpon>ClientView.xaml</DependentUpon>
     </Compile>
@@ -96,6 +97,10 @@
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ClientInfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ClientView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
