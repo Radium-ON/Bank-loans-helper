@@ -1,13 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:mui="http://firstfloorsoftware.com/ModernUI">
+                    xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                    xmlns:qc="http://QuickConverter.CodePlex.com/">
     <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 
     <DataTemplate x:Key="loan_agreements_datagrid_rowdetailstemplate">
         <DataGrid AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False"
-                  ItemsSource="{Binding ElementName=data_grid_clients, Path=SelectedItem.LoanAgreements}" CanUserSortColumns="False">
+                  ItemsSource="{Binding ElementName=data_grid_clients, Path=SelectedItem.LoanAgreements}" CanUserSortColumns="False"
+                  Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding ElementName=data_grid_clients, Path=SelectedItem.LoanAgreements}}">
             <DataGrid.Columns>
                 <mui:DataGridTextColumn Header="Номер договора"  Binding="{Binding AgreementNumber}"/>
                 <mui:DataGridTextColumn Header="Банк" Binding="{Binding Bank.Name}" />

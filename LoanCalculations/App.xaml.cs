@@ -1,10 +1,13 @@
 ﻿using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
+using ClientInfo;
 using CommonServiceLocator;
+using LoanHelper.Core;
 using LoanHelper.Views;
 using Prism.Ioc;
 using Prism.Modularity;
+using QuickConverter;
 
 namespace LoanHelper
 {
@@ -13,6 +16,12 @@ namespace LoanHelper
     /// </summary>
     public partial class App
     {
+        public App()
+        {
+            //Инициализация QuickConverter
+            EquationTokenizer.AddNamespace(typeof(object));
+            EquationTokenizer.AddNamespace(typeof(Visibility));
+        }
         #region Overrides of PrismApplicationBase
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -27,8 +36,8 @@ namespace LoanHelper
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<ClientInfo.ClientInfoModule>();
-            moduleCatalog.AddModule<Core.CoreModule>();
+            moduleCatalog.AddModule<ClientInfoModule>();
+            moduleCatalog.AddModule<CoreModule>();
         }
 
         #endregion

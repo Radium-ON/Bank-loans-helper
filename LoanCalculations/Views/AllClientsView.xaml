@@ -9,7 +9,7 @@
              xmlns:controls="clr-namespace:LoanHelper.Controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="304.018" d:DesignWidth="652.232">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="NavigatedTo">
             <i:InvokeCommandAction Command="{Binding NavigatedToCommand}" />
