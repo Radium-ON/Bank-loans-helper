@@ -28,6 +28,7 @@ namespace LoanHelper
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ClientInfo.ClientInfoModule>();
+            moduleCatalog.AddModule<Core.CoreModule>();
         }
 
         #endregion
