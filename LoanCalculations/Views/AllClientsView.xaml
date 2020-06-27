@@ -48,12 +48,18 @@
                           SelectionMode="Single" SelectionUnit="FullRow"
                           ItemsSource="{Binding Clients}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">
+
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Изменить" Icon="{DynamicResource edit_icon_path}"/>
-                                <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"/>
+                                <MenuItem Header="Изменить" Icon="{DynamicResource edit_icon_path}"
+                                          Command="{Binding UpdateClientCommand}"
+                                          CommandParameter="{Binding ElementName=data_grid_clients, Path=SelectedItem}"/>
+                                <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
+                                          Command="{Binding DeleteClientCommand}"
+                                          CommandParameter="{Binding ElementName=data_grid_clients, Path=SelectedItem}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
+
                         <DataGrid.Columns>
                             <mui:DataGridTextColumn Header="Имя"  Binding="{Binding FirstName}"/>
                             <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
