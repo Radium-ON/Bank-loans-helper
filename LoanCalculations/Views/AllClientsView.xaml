@@ -53,10 +53,10 @@
                             <ContextMenu>
                                 <MenuItem Header="Изменить" Icon="{DynamicResource edit_icon_path}"
                                           Command="{Binding UpdateClientCommand}"
-                                          CommandParameter="{Binding ElementName=data_grid_clients, Path=SelectedItem}"/>
+                                          CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"/>
                                 <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
                                           Command="{Binding DeleteClientCommand}"
-                                          CommandParameter="{Binding ElementName=data_grid_clients, Path=SelectedItem}"/>
+                                          CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
 

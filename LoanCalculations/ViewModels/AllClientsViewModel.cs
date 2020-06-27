@@ -29,12 +29,28 @@ namespace LoanHelper.ViewModels
 
             Clients = new AsyncObservableCollection<Client>();
 
+            UpdateClientCommand = new DelegateCommand<Client>(UpdateSelectedClient);
+            DeleteClientCommand = new DelegateCommand<Client>(async client => await DeleteSelectedClient(client));
+
             NavigatingFromCommand = new DelegateCommand(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
             LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
+        }
+
+        private async Task DeleteSelectedClient(Client client)
+        {
+            if (client != null)
+            {
+                _bankEntities.Clients.Remove(client);
+                await _bankEntities.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+
+        private void UpdateSelectedClient(Client client)
+        {
         }
 
         private void OnClientAdded()
@@ -64,6 +80,13 @@ namespace LoanHelper.ViewModels
         {
             Debug.WriteLine("AllClientsViewModel - VisibilityChanged");
         }
+
+        #region Delegate Commands
+
+        public DelegateCommand<Client> UpdateClientCommand { get; private set; }
+        public DelegateCommand<Client> DeleteClientCommand { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Вызывается после события Loaded связанного view.
