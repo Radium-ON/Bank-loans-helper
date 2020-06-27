@@ -8,10 +8,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
+using FirstFloor.ModernUI.Windows.Controls;
 using LoanHelper.Core;
 using LoanHelper.Core.Events;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Services.Dialogs;
 
 namespace LoanHelper.ViewModels
 {
@@ -19,11 +21,13 @@ namespace LoanHelper.ViewModels
     {
         private readonly IBankEntitiesContext _bankEntities;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IDialogService _dialogService;
 
-        public AllClientsViewModel(IBankEntitiesContext bankEntities, IEventAggregator eventAggregator)
+        public AllClientsViewModel(IBankEntitiesContext bankEntities, IEventAggregator eventAggregator, IDialogService dialogService)
         {
             _bankEntities = bankEntities;
             _eventAggregator = eventAggregator;
+            _dialogService = dialogService;
 
             _eventAggregator.GetEvent<ClientAddedEvent>().Subscribe(OnClientAdded);
 
@@ -51,6 +55,8 @@ namespace LoanHelper.ViewModels
 
         private void UpdateSelectedClient(Client client)
         {
+            
+            
         }
 
         private void OnClientAdded()
@@ -127,6 +133,15 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void NavigatingFrom()
         {
+            var hasChanges = (_bankEntities as DbContext)?.ChangeTracker.HasChanges();
+            
+            _dialogService.ShowDialog("NotificationDialogWithOK", new DialogParameters
+                {
+                    { "Message", $"cerf" },
+                    { "Title", $"Modern"}
+                }, r =>
+                { });
+
             Debug.WriteLine("AllClientsViewModel - NavigatingFrom");
         }
     }

@@ -44,7 +44,7 @@
 
                 <StackPanel Name="stack_all_clients" Margin="30,0,0,0">
                     <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
-                    <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="1100" MaxHeight="380"
+                    <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" CanUserAddRows="False" MaxWidth="1100" MaxHeight="380"
                           SelectionMode="Single" SelectionUnit="FullRow"
                           ItemsSource="{Binding Clients}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">
@@ -53,10 +53,10 @@
                             <ContextMenu>
                                 <MenuItem Header="Изменить" Icon="{DynamicResource edit_icon_path}"
                                           Command="{Binding UpdateClientCommand}"
-                                          CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"/>
+                                          CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
                                 <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
                                           Command="{Binding DeleteClientCommand}"
-                                          CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"/>
+                                          CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
 

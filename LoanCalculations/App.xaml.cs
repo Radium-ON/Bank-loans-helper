@@ -5,6 +5,7 @@ using ClientInfo;
 using CommonServiceLocator;
 using LoanHelper.Core;
 using LoanHelper.Views;
+using LoanHelper.Views.Dialogs;
 using Prism.Ioc;
 using Prism.Modularity;
 using QuickConverter;
@@ -27,6 +28,7 @@ namespace LoanHelper
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register(typeof(IBankEntitiesContext), typeof(BankLoansEntities));
+            containerRegistry.RegisterDialogWindow<PrismModernDialog>();
         }
 
         protected override Window CreateShell()
