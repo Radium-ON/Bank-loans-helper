@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using BankLoansDataModel;
+using BankLoansDataModel.Extensions;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Controls;
 using FirstFloor.ModernUI.Windows.Navigation;
@@ -84,7 +85,7 @@ namespace LoanHelper.ViewModels
         {
             var updatedClients = GetModifiedClientsAsEnumerable(objectContext);
 
-            var notUniqueClients = await updatedClients.AsQueryable()
+            var notUniqueClients = await updatedClients.AsAsyncQueryable()
                 .Where(c => _bankEntities.Clients.Any(b => b.Passport == c.Passport || b.TIN == c.TIN)).ToListAsync();
             return notUniqueClients;
         }
@@ -92,7 +93,7 @@ namespace LoanHelper.ViewModels
         private static IQueryable<Client> GetModifiedClientsAsEnumerable(ObjectContext objectContext)
         {
             var updatedObjects =
-                from entry in objectContext.ObjectStateManager.GetObjectStateEntries(EntityState.Modified).AsQueryable()
+                from entry in objectContext.ObjectStateManager.GetObjectStateEntries(EntityState.Modified).AsAsyncQueryable()
                 where entry.EntityKey != null
                 select entry.Entity as Client;
             return updatedObjects;
