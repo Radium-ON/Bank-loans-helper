@@ -78,7 +78,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsyncObservableCollection.cs" />
+    <Compile Include="Extensions\AsyncObservableCollection.cs" />
     <Compile Include="CoreModule.cs" />
     <Compile Include="Events\ClientAddedEvent.cs" />
     <Compile Include="ViewModels\OkDialogViewModel.cs" />

@@ -12,6 +12,7 @@ using FirstFloor.ModernUI.Windows.Controls;
 using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core;
 using LoanHelper.Core.Events;
+using LoanHelper.Core.Extensions;
 using LoanHelper.Core.Views;
 using Prism.Commands;
 using Prism.Events;
