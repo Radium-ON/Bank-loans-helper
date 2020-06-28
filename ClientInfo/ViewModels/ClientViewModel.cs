@@ -70,7 +70,7 @@ namespace ClientInfo.ViewModels
                 Seniority = Seniority,
                 Salary = Salary
             };
-            var clientExist = await _bankEntities.Clients.AnyAsync(c => c.Passport == newclient.Passport);
+            var clientExist = await _bankEntities.Clients.AnyAsync(c => c.Passport == newclient.Passport || c.TIN == newclient.TIN);
             if (!clientExist)
             {
                 _bankEntities.Clients.Add(newclient);
@@ -81,7 +81,7 @@ namespace ClientInfo.ViewModels
             }
             else
             {
-                ShowClientAddingNotification("Клиент не добавлен", $"Клиент с паспортом {newclient.Passport} уже существует.");
+                ShowClientAddingNotification("Клиент не добавлен", $"Клиент с паспортом {newclient.Passport} и ИНН {newclient.TIN} уже существует.");
             }
         }
 

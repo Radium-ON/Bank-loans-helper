@@ -76,6 +76,10 @@
     <Compile Include="Client.cs">
       <DependentUpon>BankLoansModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\AsyncQueryableExtensions.cs" />
+    <Compile Include="Extensions\DbAsyncEnumerable.cs" />
+    <Compile Include="Extensions\DbAsyncEnumerator.cs" />
+    <Compile Include="Extensions\DbAsyncQueryProvider.cs" />
     <Compile Include="Services\EdmOperations.cs" />
     <Compile Include="LoanAgreement.cs">
       <DependentUpon>BankLoansModel.tt</DependentUpon>

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
@@ -23,9 +24,15 @@ namespace LoanHelper.ViewModels
 {
     public class AllClientsViewModel : ModernViewModelBase
     {
+        #region Backing Fields
+        private ObservableCollection<Client> _clients;
+
+
+
         private readonly IBankEntitiesContext _bankEntities;
         private readonly IEventAggregator _eventAggregator;
         private readonly IDialogService _dialogService;
+        #endregion
 
         public AllClientsViewModel(IBankEntitiesContext bankEntities, IEventAggregator eventAggregator, IDialogService dialogService)
         {
@@ -68,20 +75,41 @@ namespace LoanHelper.ViewModels
             _bankEntities.Clients.Load();
         }
 
+        /// <summary>
+        /// Возвращает список обновленных клиентов <see cref="Client"/>, чей <see cref="Client.Passport"/> или <see cref="Client.TIN"/> совпадает с базой; асинхронный.
+        /// </summary>
+        /// <param name="objectContext">Контекст объектов базы данных.</param>
+        /// <returns>Список неуникальных клиентов.</returns>
+        private async Task<List<Client>> GetNotUniqueClientsAsync(ObjectContext objectContext)
+        {
+            var updatedClients = GetModifiedClientsAsEnumerable(objectContext);
+
+            var notUniqueClients = await updatedClients.AsQueryable()
+                .Where(c => _bankEntities.Clients.Any(b => b.Passport == c.Passport || b.TIN == c.TIN)).ToListAsync();
+            return notUniqueClients;
+        }
+
+        private static IQueryable<Client> GetModifiedClientsAsEnumerable(ObjectContext objectContext)
+        {
+            var updatedObjects =
+                from entry in objectContext.ObjectStateManager.GetObjectStateEntries(EntityState.Modified).AsQueryable()
+                where entry.EntityKey != null
+                select entry.Entity as Client;
+            return updatedObjects;
+        }
 
 
-        #region Backing Fields
-        private ObservableCollection<Client> _clients;
-
-
-
-        #endregion
+        #region Properties
 
         public ObservableCollection<Client> Clients
         {
             get => _clients;
             set => SetProperty(ref _clients, value);
         }
+
+        public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
+
+        #endregion
 
         /// <summary>
         /// Вызывается после события IsVisibleChanged связанного view.
@@ -142,13 +170,28 @@ namespace LoanHelper.ViewModels
             if (hasChanges == true)
             {
                 _dialogService.ShowOkCancelDialog(
-                    Application.Current.FindResource("clients_edited_dialog_title") as string, 
+                    Application.Current.FindResource("clients_edited_dialog_title") as string,
                     Application.Current.FindResource("clients_edited_dialog_message") as string,
-                    r =>
+                    async r =>
                               {
                                   if (r.Result == ButtonResult.Cancel)
                                   {
                                       e.Cancel = true;
+                                  }
+                                  else
+                                  {
+                                      var badClients = await GetNotUniqueClientsAsync(CurrentObjectContext);
+                                      if (badClients.Count == 0)
+                                      {
+                                          await _bankEntities.SaveChangesAsync(CancellationToken.None);
+                                      }
+                                      else
+                                      {
+                                          _dialogService.ShowOkDialog(
+                                              "Неуникальные данные",
+                                              $"Клиенты с данными паспорта{badClients.Select(b => b.Passport + ", ")} и ИНН{badClients.Select(b => b.TIN + ", ")} уже существуют.",
+                                              n => { });
+                                      }
                                   }
                               });
             }
