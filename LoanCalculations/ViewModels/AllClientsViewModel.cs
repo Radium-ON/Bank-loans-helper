@@ -12,6 +12,7 @@ using FirstFloor.ModernUI.Windows.Controls;
 using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core;
 using LoanHelper.Core.Events;
+using LoanHelper.Core.Views;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Services.Dialogs;
@@ -138,9 +139,9 @@ namespace LoanHelper.ViewModels
 
             if (hasChanges == true)
             {
-                _dialogService.ShowDialog("OkCancelDialog", new DialogParameters
+                _dialogService.ShowDialog(nameof(OkCancelDialog), new DialogParameters
                 {
-                    { "Message", "Есть несохранённые изменения. Готовы продолжить?" },
+                    { "Message", "Все внесённые изменения будут сохранены.\nГотовы продолжить?" },
                     { "Title", "Остановитесь"}
                 }, r =>
                 {

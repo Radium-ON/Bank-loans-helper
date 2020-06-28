@@ -17,7 +17,6 @@ namespace ClientInfo
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterDialog<ClientInfoDialog,ClientInfoDialogViewModel>("NotificationDialogWithOK");
             
         }
     }

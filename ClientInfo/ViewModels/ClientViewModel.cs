@@ -16,6 +16,7 @@ using ClientInfo.Properties;
 using ClientInfo.ViewModels;
 using ClientInfo.Views;
 using LoanHelper.Core.Events;
+using LoanHelper.Core.Views;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Services.Dialogs;
@@ -85,7 +86,7 @@ namespace ClientInfo.ViewModels
 
         private void ShowClientAddingNotification(string title, string message)
         {
-            _dialogService.ShowDialog("NotificationDialogWithOK", new DialogParameters
+            _dialogService.ShowDialog(nameof(OkDialog), new DialogParameters
             {
                 { "Message", $"{message}" },
                 { "Title", $"{title}"}

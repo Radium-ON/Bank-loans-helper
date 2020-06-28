@@ -16,7 +16,8 @@ namespace LoanHelper.Core
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterDialog<OkCancelDialog,OkCancelDialogViewModel>("OkCancelDialog");
+            containerRegistry.RegisterDialog<OkCancelDialog,OkCancelDialogViewModel>();
+            containerRegistry.RegisterDialog<OkDialog,OkDialogViewModel>();
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
