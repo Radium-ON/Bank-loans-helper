@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Controls;
+using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core;
 using LoanHelper.Core.Events;
 using Prism.Commands;
@@ -36,7 +37,7 @@ namespace LoanHelper.ViewModels
             UpdateClientCommand = new DelegateCommand<Client>(UpdateSelectedClient);
             DeleteClientCommand = new DelegateCommand<Client>(async client => await DeleteSelectedClient(client));
 
-            NavigatingFromCommand = new DelegateCommand(NavigatingFrom);
+            NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
@@ -55,8 +56,8 @@ namespace LoanHelper.ViewModels
 
         private void UpdateSelectedClient(Client client)
         {
-            
-            
+
+
         }
 
         private void OnClientAdded()
@@ -131,17 +132,24 @@ namespace LoanHelper.ViewModels
         /// <summary>
         /// Вызывается, когда переходим на новое view.
         /// </summary>
-        private void NavigatingFrom()
+        private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
             var hasChanges = (_bankEntities as DbContext)?.ChangeTracker.HasChanges();
-            
-            _dialogService.ShowDialog("NotificationDialogWithOK", new DialogParameters
-                {
-                    { "Message", $"cerf" },
-                    { "Title", $"Modern"}
-                }, r =>
-                { });
 
+            if (hasChanges == true)
+            {
+                _dialogService.ShowDialog("OkCancelDialog", new DialogParameters
+                {
+                    { "Message", "Есть несохранённые изменения. Готовы продолжить?" },
+                    { "Title", "Остановитесь"}
+                }, r =>
+                {
+                    if (r.Result == ButtonResult.Cancel)
+                    {
+                        e.Cancel = true;
+                    }
+                });
+            }
             Debug.WriteLine("AllClientsViewModel - NavigatingFrom");
         }
     }

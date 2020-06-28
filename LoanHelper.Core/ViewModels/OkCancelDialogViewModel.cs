@@ -1,13 +1,11 @@
-﻿using Prism.Commands;
+﻿using System;
+using Prism.Commands;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Prism.Services.Dialogs;
 
-namespace ClientInfo.ViewModels
+namespace LoanHelper.Core.ViewModels
 {
-    public class ClientInfoDialogViewModel : BindableBase, IDialogAware
+    public class OkCancelDialogViewModel : BindableBase, IDialogAware
     {
         private DelegateCommand<string> _closeDialogCommand;
         public DelegateCommand<string> CloseDialogCommand =>

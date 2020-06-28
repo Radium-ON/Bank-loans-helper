@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using FirstFloor.ModernUI.Windows.Navigation;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace LoanHelper.ViewModels
@@ -9,7 +10,7 @@ namespace LoanHelper.ViewModels
         /// Gets or sets the navigating from command.
         /// </summary>
         /// <value>The navigating from command.</value>
-        public DelegateCommand NavigatingFromCommand { get; set; }
+        public DelegateCommand<NavigatingCancelEventArgs> NavigatingFromCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the navigated from command.

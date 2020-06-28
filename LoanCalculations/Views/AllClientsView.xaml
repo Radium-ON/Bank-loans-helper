@@ -12,22 +12,22 @@
              d:DesignHeight="304.018" d:DesignWidth="652.232">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="NavigatedTo">
-            <i:InvokeCommandAction Command="{Binding NavigatedToCommand}" />
+            <prism:InvokeCommandAction Command="{Binding NavigatedToCommand}"/>
         </i:EventTrigger>
         <i:EventTrigger EventName="NavigatedFrom">
-            <i:InvokeCommandAction Command="{Binding NavigatedFromCommand}" />
+            <prism:InvokeCommandAction Command="{Binding NavigatedFromCommand}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="NavigatingFrom">
-            <i:InvokeCommandAction Command="{Binding NavigatingFromCommand}" />
+            <prism:InvokeCommandAction Command="{Binding NavigatingFromCommand}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="FragmentNavigation">
-            <i:InvokeCommandAction Command="{Binding FragmentNavigationCommand}" />
+            <prism:InvokeCommandAction Command="{Binding FragmentNavigationCommand}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+            <prism:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="IsVisibleChanged">
-            <i:InvokeCommandAction Command="{Binding IsVisibleChangedCommand}" />
+            <prism:InvokeCommandAction Command="{Binding IsVisibleChangedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Style="{StaticResource ContentRoot}">

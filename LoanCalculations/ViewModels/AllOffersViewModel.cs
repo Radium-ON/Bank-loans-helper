@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
+using FirstFloor.ModernUI.Windows.Navigation;
 using Prism.Commands;
 
 namespace LoanHelper.ViewModels
@@ -16,7 +17,7 @@ namespace LoanHelper.ViewModels
         {
             _bankEntities = bankEntities;
 
-            NavigatingFromCommand = new DelegateCommand(NavigatingFrom);
+            NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
@@ -84,7 +85,8 @@ namespace LoanHelper.ViewModels
         /// <summary>
         /// Вызывается, когда переходим на новое view.
         /// </summary>
-        private void NavigatingFrom()
+        /// <param name="e">Параметры отмены навигации</param>
+        private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
             Debug.WriteLine("AllOffersViewModel - NavigatingFrom");
         }
