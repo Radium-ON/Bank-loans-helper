@@ -86,7 +86,7 @@ namespace LoanHelper.ViewModels
             var updatedClients = GetModifiedClientsAsEnumerable(objectContext);
 
             var notUniqueClients = await updatedClients.AsAsyncQueryable()
-                .Where(c => _bankEntities.Clients.Any(b => b.Passport == c.Passport || b.TIN == c.TIN)).ToListAsync();
+                .Where(c => _bankEntities.Clients.Any(b => b.PK_ClientId != c.PK_ClientId && (b.Passport == c.Passport || b.TIN == c.TIN))).ToListAsync();
             return notUniqueClients;
         }
 
@@ -166,7 +166,8 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
-            var hasChanges = (_bankEntities as DbContext)?.ChangeTracker.HasChanges();
+            var dbcontext = _bankEntities as DbContext;
+            var hasChanges = dbcontext?.ChangeTracker.HasChanges();
 
             if (hasChanges == true)
             {
@@ -182,16 +183,26 @@ namespace LoanHelper.ViewModels
                                   else
                                   {
                                       var badClients = await GetNotUniqueClientsAsync(CurrentObjectContext);
+
                                       if (badClients.Count == 0)
                                       {
                                           await _bankEntities.SaveChangesAsync(CancellationToken.None);
                                       }
                                       else
                                       {
+                                          var passports = badClients.Select(badClient => badClient.Passport).ToList();
+                                          var tins = badClients.Select(b => b.TIN).ToList();
                                           _dialogService.ShowOkDialog(
-                                              "Неуникальные данные",
-                                              $"Клиенты с данными паспорта{badClients.Select(b => b.Passport + ", ")} и ИНН{badClients.Select(b => b.TIN + ", ")} уже существуют.",
-                                              n => { });
+                                              "Нельзя перейти",
+                                              $"Клиенты с данными паспорта: {string.Join(", ", passports)} и ИНН: {string.Join(", ", tins)} уже существуют.",
+                                              async n =>
+                                              {
+                                                  e.Cancel = true;
+                                                  foreach (var badClient in badClients)
+                                                  {
+                                                      await dbcontext?.ReloadEntityAsync(badClient);
+                                                  }
+                                              });
                                       }
                                   }
                               });

@@ -80,6 +80,7 @@
     <Compile Include="Extensions\DbAsyncEnumerable.cs" />
     <Compile Include="Extensions\DbAsyncEnumerator.cs" />
     <Compile Include="Extensions\DbAsyncQueryProvider.cs" />
+    <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="Services\EdmOperations.cs" />
     <Compile Include="LoanAgreement.cs">
       <DependentUpon>BankLoansModel.tt</DependentUpon>
