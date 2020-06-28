@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
@@ -45,7 +46,6 @@ namespace LoanHelper.ViewModels
 
             Clients = new AsyncObservableCollection<Client>();
 
-            UpdateClientCommand = new DelegateCommand<Client>(UpdateSelectedClient);
             DeleteClientCommand = new DelegateCommand<Client>(async client => await DeleteSelectedClient(client));
 
             NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
@@ -55,51 +55,7 @@ namespace LoanHelper.ViewModels
             LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
-
-        private async Task DeleteSelectedClient(Client client)
-        {
-            if (client != null)
-            {
-                _bankEntities.Clients.Remove(client);
-                await _bankEntities.SaveChangesAsync(CancellationToken.None);
-            }
-        }
-
-        private void UpdateSelectedClient(Client client)
-        {
-
-
-        }
-
-        private void OnClientAdded()
-        {
-            _bankEntities.Clients.Load();
-        }
-
-        /// <summary>
-        /// Возвращает список обновленных клиентов <see cref="Client"/>, чей <see cref="Client.Passport"/> или <see cref="Client.TIN"/> совпадает с базой; асинхронный.
-        /// </summary>
-        /// <param name="objectContext">Контекст объектов базы данных.</param>
-        /// <returns>Список неуникальных клиентов.</returns>
-        private async Task<List<Client>> GetNotUniqueClientsAsync(ObjectContext objectContext)
-        {
-            var updatedClients = GetModifiedClientsAsEnumerable(objectContext);
-
-            var notUniqueClients = await updatedClients.AsAsyncQueryable()
-                .Where(c => _bankEntities.Clients.Any(b => b.PK_ClientId != c.PK_ClientId && (b.Passport == c.Passport || b.TIN == c.TIN))).ToListAsync();
-            return notUniqueClients;
-        }
-
-        private static IQueryable<Client> GetModifiedClientsAsEnumerable(ObjectContext objectContext)
-        {
-            var updatedObjects =
-                from entry in objectContext.ObjectStateManager.GetObjectStateEntries(EntityState.Modified).AsAsyncQueryable()
-                where entry.EntityKey != null
-                select entry.Entity as Client;
-            return updatedObjects;
-        }
-
-
+        
         #region Properties
 
         public ObservableCollection<Client> Clients
@@ -112,6 +68,14 @@ namespace LoanHelper.ViewModels
 
         #endregion
 
+        #region Delegate Commands
+
+        public DelegateCommand<Client> DeleteClientCommand { get; private set; }
+
+        #endregion
+
+        #region NavigationEvents Methods
+
         /// <summary>
         /// Вызывается после события IsVisibleChanged связанного view.
         /// </summary>
@@ -119,13 +83,6 @@ namespace LoanHelper.ViewModels
         {
             Debug.WriteLine("AllClientsViewModel - VisibilityChanged");
         }
-
-        #region Delegate Commands
-
-        public DelegateCommand<Client> UpdateClientCommand { get; private set; }
-        public DelegateCommand<Client> DeleteClientCommand { get; private set; }
-
-        #endregion
 
         /// <summary>
         /// Вызывается после события Loaded связанного view.
@@ -174,40 +131,98 @@ namespace LoanHelper.ViewModels
                 _dialogService.ShowOkCancelDialog(
                     Application.Current.FindResource("clients_edited_dialog_title") as string,
                     Application.Current.FindResource("clients_edited_dialog_message") as string,
-                    async r =>
-                              {
-                                  if (r.Result == ButtonResult.Cancel)
-                                  {
-                                      e.Cancel = true;
-                                  }
-                                  else
-                                  {
-                                      var badClients = await GetNotUniqueClientsAsync(CurrentObjectContext);
-
-                                      if (badClients.Count == 0)
-                                      {
-                                          await _bankEntities.SaveChangesAsync(CancellationToken.None);
-                                      }
-                                      else
-                                      {
-                                          var passports = badClients.Select(badClient => badClient.Passport).ToList();
-                                          var tins = badClients.Select(b => b.TIN).ToList();
-                                          _dialogService.ShowOkDialog(
-                                              "Нельзя перейти",
-                                              $"Клиенты с данными паспорта: {string.Join(", ", passports)} и ИНН: {string.Join(", ", tins)} уже существуют.",
-                                              async n =>
-                                              {
-                                                  e.Cancel = true;
-                                                  foreach (var badClient in badClients)
-                                                  {
-                                                      await dbcontext?.ReloadEntityAsync(badClient);
-                                                  }
-                                              });
-                                      }
-                                  }
-                              });
+                    async r => { await NavigatingWithModifiedClientsCallBack(r, e, dbcontext); });
             }
             Debug.WriteLine("AllClientsViewModel - NavigatingFrom");
+        }
+
+        #endregion
+
+        private void OnClientAdded()
+        {
+            _bankEntities.Clients.Load();
+        }
+
+        private void ShowNotificationWithClientsReloaded(List<Client> badClients, Action<IDialogResult> callBack)
+        {
+            _dialogService.ShowOkDialog(
+                    "Нельзя перейти",
+                    $"Клиенты с данными паспорта: {GetBadPassportsForMessage(badClients)} и ИНН: {GetBadTinsForMessage(badClients)} уже существуют.",
+                    callBack);
+        }
+
+        private async Task DeleteSelectedClient(Client client)
+        {
+            if (client != null)
+            {
+                _bankEntities.Clients.Remove(client);
+                await _bankEntities.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+
+        private async Task NavigatingWithModifiedClientsCallBack(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
+        {
+            if (r.Result == ButtonResult.Cancel)
+            {
+                e.Cancel = true;
+            }
+            else if (r.Result == ButtonResult.OK)
+            {
+                var badClients = await GetNotUniqueClientsAsync(CurrentObjectContext);
+                if (badClients.Count == 0)
+                {
+                    await _bankEntities.SaveChangesAsync(CancellationToken.None);
+                }
+                else
+                {
+                    e.Cancel = true;
+                    ShowNotificationWithClientsReloaded(badClients,
+                        async n => await ReloadAllBadClientsAsync(badClients, dbcontext));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Возвращает список обновленных клиентов <see cref="Client"/>, чей <see cref="Client.Passport"/> или <see cref="Client.TIN"/> совпадает с базой; асинхронный.
+        /// </summary>
+        /// <param name="objectContext">Контекст объектов базы данных.</param>
+        /// <returns>Список неуникальных клиентов.</returns>
+        private async Task<List<Client>> GetNotUniqueClientsAsync(ObjectContext objectContext)
+        {
+            var updatedClients = GetClientsByEntityState(objectContext, EntityState.Modified);
+
+            var notUniqueClients = await updatedClients.AsAsyncQueryable()
+                .Where(c => _bankEntities.Clients.Any(b => b.PK_ClientId != c.PK_ClientId && (b.Passport == c.Passport || b.TIN == c.TIN))).ToListAsync();
+            return notUniqueClients;
+        }
+
+        private static string GetBadPassportsForMessage(IEnumerable<Client> badClients)
+        {
+            var passports = badClients.Select(badClient => badClient.Passport);
+            return string.Join(", ", passports);
+        }
+
+        private static string GetBadTinsForMessage(IEnumerable<Client> badClients)
+        {
+            var tins = badClients.Select(badClient => badClient.TIN);
+            return string.Join(", ", tins);
+        }
+
+        private static IEnumerable<Client> GetClientsByEntityState(ObjectContext objectContext, EntityState state)
+        {
+            var updatedObjects =
+                from entry in objectContext.ObjectStateManager.GetObjectStateEntries(state)
+                where entry.EntityKey != null
+                select entry.Entity as Client;
+            return updatedObjects;
+        }
+
+        private static async Task ReloadAllBadClientsAsync(IEnumerable<Client> badClients, DbContext dbcontext)
+        {
+            foreach (var badClient in badClients)
+            {
+                await dbcontext.ReloadEntityAsync(badClient);
+            }
         }
     }
 }
