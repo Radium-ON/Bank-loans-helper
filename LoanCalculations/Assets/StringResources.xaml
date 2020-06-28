@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+    <sys:String x:Key="clients_edited_dialog_title">Есть изменения данных</sys:String>
+    <sys:String x:Key="clients_edited_dialog_message" >Все внесённые изменения будут сохранены.&#13;Готовы продолжить?</sys:String>
+</ResourceDictionary>

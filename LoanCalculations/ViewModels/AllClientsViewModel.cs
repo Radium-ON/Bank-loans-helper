@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Controls;
@@ -140,17 +141,16 @@ namespace LoanHelper.ViewModels
 
             if (hasChanges == true)
             {
-                _dialogService.ShowDialog(nameof(OkCancelDialog), new DialogParameters
-                {
-                    { "Message", "Все внесённые изменения будут сохранены.\nГотовы продолжить?" },
-                    { "Title", "Остановитесь"}
-                }, r =>
-                {
-                    if (r.Result == ButtonResult.Cancel)
-                    {
-                        e.Cancel = true;
-                    }
-                });
+                _dialogService.ShowOkCancelDialog(
+                    Application.Current.FindResource("clients_edited_dialog_title") as string, 
+                    Application.Current.FindResource("clients_edited_dialog_message") as string,
+                    r =>
+                              {
+                                  if (r.Result == ButtonResult.Cancel)
+                                  {
+                                      e.Cancel = true;
+                                  }
+                              });
             }
             Debug.WriteLine("AllClientsViewModel - NavigatingFrom");
         }

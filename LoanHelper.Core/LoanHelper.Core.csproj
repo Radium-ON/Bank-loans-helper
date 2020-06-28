@@ -81,6 +81,7 @@
     <Compile Include="Extensions\AsyncObservableCollection.cs" />
     <Compile Include="CoreModule.cs" />
     <Compile Include="Events\ClientAddedEvent.cs" />
+    <Compile Include="Extensions\DialogServiceExtensions.cs" />
     <Compile Include="ViewModels\OkDialogViewModel.cs" />
     <Compile Include="ViewModels\OkCancelDialogViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
