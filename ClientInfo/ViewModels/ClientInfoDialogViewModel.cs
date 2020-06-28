@@ -31,12 +31,12 @@ namespace ClientInfo.ViewModels
 
         protected virtual void CloseDialog(string parameter)
         {
-            ButtonResult result = ButtonResult.None;
-
-            if (parameter?.ToLower() == "true")
-                result = ButtonResult.OK;
-            else if (parameter?.ToLower() == "false")
-                result = ButtonResult.Cancel;
+            var result = parameter?.ToLower()switch
+            {
+                "true" => ButtonResult.OK,
+                "false" => ButtonResult.Cancel,
+                _ => ButtonResult.None
+            };
 
             RaiseRequestClose(new DialogResult(result));
         }
