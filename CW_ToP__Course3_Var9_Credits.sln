@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanHelper.Core", "LoanHelp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientInfo", "ClientInfo\ClientInfo.csproj", "{C9C6132F-59C3-4C90-BE5A-1BF0CC017B69}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{799BDEA3-3D98-4872-8D9E-BB313BE0CD55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C9C6132F-59C3-4C90-BE5A-1BF0CC017B69} = {799BDEA3-3D98-4872-8D9E-BB313BE0CD55}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAF58334-10A7-4D02-901E-8869C3B8CCE5}

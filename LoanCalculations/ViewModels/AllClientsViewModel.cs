@@ -90,8 +90,8 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void LoadData()
         {
-            _bankEntities.Clients.Load();
-            Clients = _bankEntities.Clients.Local;
+            //_bankEntities.Clients.Load();
+            //Clients = _bankEntities.Clients.Local;
             Debug.WriteLine("AllClientsViewModel - LoadData");
         }
 

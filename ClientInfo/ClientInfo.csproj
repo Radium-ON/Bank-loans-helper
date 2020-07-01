@@ -112,4 +112,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)LoanCalculations\bin\Debug\Modules\" /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
