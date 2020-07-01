@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using LoanHelper.Core.ViewModels;
 using LoanHelper.Core.Views;
 using Prism.Ioc;
 using Prism.Modularity;
+using QuickConverter;
 
 namespace LoanHelper.Core
 {
@@ -22,6 +24,9 @@ namespace LoanHelper.Core
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
+            //Инициализация QuickConverter
+            EquationTokenizer.AddNamespace(typeof(object));
+            EquationTokenizer.AddNamespace(typeof(Visibility));
         }
 
         #endregion

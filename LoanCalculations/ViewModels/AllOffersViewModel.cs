@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Navigation;
+using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 
 namespace LoanHelper.ViewModels

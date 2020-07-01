@@ -83,7 +83,6 @@ namespace LoanHelper
                     }
                 }
             }
-            //moduleCatalog.AddModule<ClientInfoModule>();
             moduleCatalog.AddModule<CoreModule>();
         }
 

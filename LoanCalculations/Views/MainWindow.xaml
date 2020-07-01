@@ -14,8 +14,6 @@
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="Данные">
             <mui:LinkGroup.Links>
-                <!--<mui:Link DisplayName="Новый клиент" Source="/Views/ClientAddingView.xaml"/>-->
-                <mui:Link DisplayName="Клиенты" Source="/Views/AllClientsView.xaml"/>
                 <mui:Link DisplayName="Предложения" Source="/Views/AllOffersView.xaml"/>
             </mui:LinkGroup.Links>
         </mui:LinkGroup>

@@ -6,7 +6,7 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:controls="clr-namespace:LoanHelper.Controls"
+             xmlns:controls="clr-namespace:LoanHelper.Core.Controls;assembly=LoanHelper.Core"
              x:Class="LoanHelper.Views.AllOffersView"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 

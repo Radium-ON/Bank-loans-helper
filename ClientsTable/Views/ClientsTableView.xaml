@@ -1,4 +1,4 @@
-﻿<controls:ModernUserControl x:Class="LoanHelper.Views.AllClientsView"
+﻿<controls:ModernUserControl x:Class="ClientsTable.Views.ClientsTableView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,10 +6,13 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:controls="clr-namespace:LoanHelper.Controls"
+             xmlns:controls="clr-namespace:LoanHelper.Core.Controls;assembly=LoanHelper.Core"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="304.018" d:DesignWidth="652.232">
+    <controls:ModernUserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/LoanHelper.Core;component/Assets/ResourceDictionary.xaml"/>
+    </controls:ModernUserControl.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="NavigatedTo">
             <prism:InvokeCommandAction Command="{Binding NavigatedToCommand}"/>

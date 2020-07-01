@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -13,19 +12,16 @@ using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Extensions;
 using BankLoansDataModel.Services;
-using FirstFloor.ModernUI.Windows.Controls;
-using FirstFloor.ModernUI.Windows.Navigation;
-using LoanHelper.Core;
-using LoanHelper.Core.Events;
 using LoanHelper.Core.Extensions;
-using LoanHelper.Core.Views;
+using LoanHelper.Core.ViewModels;
+using FirstFloor.ModernUI.Windows.Navigation;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Services.Dialogs;
 
-namespace LoanHelper.ViewModels
+namespace ClientsTable.ViewModels
 {
-    public class AllClientsViewModel : ModernViewModelBase
+    public class ClientsTableViewModel : ModernViewModelBase
     {
         #region Backing Fields
         private ObservableCollection<Client> _clients;
@@ -37,7 +33,7 @@ namespace LoanHelper.ViewModels
         private readonly IDialogService _dialogService;
         #endregion
 
-        public AllClientsViewModel(IBankEntitiesContext bankEntities, IEventAggregator eventAggregator, IDialogService dialogService)
+        public ClientsTableViewModel(IBankEntitiesContext bankEntities, IEventAggregator eventAggregator, IDialogService dialogService)
         {
             _bankEntities = bankEntities;
             _eventAggregator = eventAggregator;
@@ -82,7 +78,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void VisibilityChanged()
         {
-            Debug.WriteLine("AllClientsViewModel - VisibilityChanged");
+            Debug.WriteLine("ClientsTableViewModel - VisibilityChanged");
         }
 
         /// <summary>
@@ -90,9 +86,9 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void LoadData()
         {
-            //_bankEntities.Clients.Load();
-            //Clients = _bankEntities.Clients.Local;
-            Debug.WriteLine("AllClientsViewModel - LoadData");
+            _bankEntities.Clients.Load();
+            Clients = _bankEntities.Clients.Local;
+            Debug.WriteLine("ClientsTableViewModel - LoadData");
         }
 
         /// <summary>
@@ -100,7 +96,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void NavigatedFrom()
         {
-            Debug.WriteLine("AllClientsViewModel - NavigatedFrom");
+            Debug.WriteLine("ClientsTableViewModel - NavigatedFrom");
         }
 
         /// <summary>
@@ -108,7 +104,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void NavigatedTo()
         {
-            Debug.WriteLine("AllClientsViewModel - NavigatedTo");
+            Debug.WriteLine("ClientsTableViewModel - NavigatedTo");
         }
 
         /// <summary>
@@ -116,13 +112,13 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void FragmentNavigation()
         {
-            Debug.WriteLine("AllClientsViewModel - FragmentNavigation");
+            Debug.WriteLine("ClientsTableViewModel - FragmentNavigation");
         }
 
         /// <summary>
         /// Вызывается, когда переходим на новое view.
         /// </summary>
-        private void NavigatingFrom(NavigatingCancelEventArgs e)
+        private void NavigatingFrom(NavigatingCancelEventArgs navigatingCancelEventArgs)
         {
             var dbcontext = _bankEntities as DbContext;
             var hasChanges = dbcontext?.ChangeTracker.HasChanges();
@@ -132,9 +128,9 @@ namespace LoanHelper.ViewModels
                 _dialogService.ShowOkCancelDialog(
                     Application.Current.FindResource("clients_edited_dialog_title") as string,
                     Application.Current.FindResource("clients_edited_dialog_message") as string,
-                    async r => { await NavigatingWithModifiedClientsCallBack(r, e, dbcontext); });
+                    async r => { await NavigatingWithModifiedClientsCallBack(r, navigatingCancelEventArgs, dbcontext); });
             }
-            Debug.WriteLine("AllClientsViewModel - NavigatingFrom");
+            Debug.WriteLine("ClientsTableViewModel - NavigatingFrom");
         }
 
         #endregion
@@ -189,7 +185,7 @@ namespace LoanHelper.ViewModels
         }
 
         /// <summary>
-        /// Возвращает список обновленных клиентов <see cref="Client"/>, чей <see cref="Client.Passport"/> или <see cref="Client.TIN"/> совпадает с базой; асинхронный.
+        /// Возвращает список обновленных клиентов <see cref="BankLoansDataModel.Client"/>, чей <see cref="BankLoansDataModel.Client.Passport"/> или <see cref="BankLoansDataModel.Client.TIN"/> совпадает с базой; асинхронный.
         /// </summary>
         /// <param name="objectContext">Контекст объектов базы данных.</param>
         /// <returns>Список неуникальных клиентов.</returns>
@@ -197,7 +193,7 @@ namespace LoanHelper.ViewModels
         {
             var updatedClients = await GetClientsByEntityState(objectContext, EntityState.Modified).AsAsyncEnumerableQuery().ToListAsync();
 
-            var clientsListPassportsWithLetters = await updatedClients.AsAsyncQueryable().Where(c => c.Passport.Any(char.IsLetter) || c.TIN.Any(char.IsLetter)).ToListAsync();
+            var clientsListPassportsWithLetters = await updatedClients.AsAsyncQueryable().Where(c => Enumerable.Any<char>(c.Passport, char.IsLetter) || Enumerable.Any<char>(c.TIN, char.IsLetter)).ToListAsync();
 
             var notUniqueClients = await updatedClients.AsAsyncQueryable()
                 .Where(c => _bankEntities.Clients.Any(b => b.PK_ClientId != c.PK_ClientId && (b.Passport == c.Passport || b.TIN == c.TIN))).ToListAsync();
@@ -209,7 +205,7 @@ namespace LoanHelper.ViewModels
         private static string GetBadPassportsForMessage(IEnumerable<Client> badClients)
         {
             var passports = badClients.Select(badClient => badClient.Passport);
-            return string.Join(", ", passports);
+            return string.Join((string) ", ", (IEnumerable<string>) passports);
         }
 
         private static string GetBadTinsForMessage(IEnumerable<Client> badClients)

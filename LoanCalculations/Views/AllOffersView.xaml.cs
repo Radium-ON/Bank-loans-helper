@@ -1,4 +1,4 @@
-﻿using LoanHelper.Controls;
+﻿using LoanHelper.Core.Controls;
 
 namespace LoanHelper.Views
 {

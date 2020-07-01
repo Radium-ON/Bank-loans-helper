@@ -2,7 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace LoanHelper.ViewModels
+namespace LoanHelper.Core.ViewModels
 {
     public abstract class ModernViewModelBase : BindableBase
     {

@@ -50,6 +50,9 @@
     <Reference Include="Prism.Wpf, Version=7.2.0.1422, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.7.2.0.1422\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="QuickConverter, Version=1.2.5.0, Culture=neutral, PublicKeyToken=9c892aa7bc2af2cf, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickConverter.1.2.5\lib\net40\QuickConverter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -81,11 +84,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ModernUserControl.cs" />
     <Compile Include="Extensions\AsyncObservableCollection.cs" />
     <Compile Include="CoreModule.cs" />
     <Compile Include="Events\ClientAddedEvent.cs" />
     <Compile Include="Extensions\DialogServiceExtensions.cs" />
     <Compile Include="Interfaces\IModernLinkService.cs" />
+    <Compile Include="ViewModels\ModernViewModelBase.cs" />
     <Compile Include="ViewModels\OkDialogViewModel.cs" />
     <Compile Include="ViewModels\OkCancelDialogViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,6 +107,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Assets\ResourceDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\OkDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

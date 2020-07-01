@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using FirstFloor.ModernUI.Windows;
 using FirstFloor.ModernUI.Windows.Navigation;
 
-namespace LoanHelper.Controls
+namespace LoanHelper.Core.Controls
 {
     /// <summary>
     /// Class ModernUserControl.

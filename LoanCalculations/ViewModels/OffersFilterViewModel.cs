@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using FirstFloor.ModernUI.Windows.Navigation;
+using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 
 namespace LoanHelper.ViewModels
