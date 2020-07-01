@@ -24,7 +24,7 @@ using Prism.Services.Dialogs;
 
 namespace ClientInfo.ViewModels
 {
-    public class ClientViewModel : BindableBase, IDataErrorInfo
+    public class ClientInfoViewModel : BindableBase, IDataErrorInfo
     {
         #region Backing Fields
         private readonly IEventAggregator _eventAggregator;
@@ -41,7 +41,7 @@ namespace ClientInfo.ViewModels
 
         #endregion
 
-        public ClientViewModel(IEventAggregator eventAggregator, IBankEntitiesContext bankEntities, IDialogService dialogService)
+        public ClientInfoViewModel(IEventAggregator eventAggregator, IBankEntitiesContext bankEntities, IDialogService dialogService)
         {
             _eventAggregator = eventAggregator;
             _bankEntities = bankEntities;
@@ -74,9 +74,13 @@ namespace ClientInfo.ViewModels
             if (!clientExist)
             {
                 _bankEntities.Clients.Add(newclient);
-                var count = await _bankEntities.SaveChangesAsync(CancellationToken.None);
-                _eventAggregator.GetEvent<ClientAddedEvent>().Publish();
-                ShowClientAddingNotification("Добавление клиента", $"Добавлено {count} записей.");
+                var status = await _bankEntities.SaveChangesWithValidationAsync(CancellationToken.None);
+                var message = "Новый клиент добавлен успешно.";
+                if (!status.IsValid)
+                {
+                    message = string.Join("\n", status.EfErrors);
+                }
+                ShowClientAddingNotification("Добавление клиента", message);
 
             }
             else

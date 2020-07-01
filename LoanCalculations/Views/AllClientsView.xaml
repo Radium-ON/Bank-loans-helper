@@ -32,46 +32,35 @@
     </i:Interaction.Triggers>
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-            <WrapPanel MinWidth="200">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="НОВЫЙ КЛИЕНТ" Style="{StaticResource Heading2}" Margin="0,0,0,20"/>
-                    <ContentControl Grid.Row="1" prism:RegionManager.RegionName="NewClientEditingForm"/>
-                </Grid>
-
-                <StackPanel Name="stack_all_clients" Margin="30,0,0,0">
-                    <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
-                    <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" CanUserAddRows="False" MaxWidth="1100" MaxHeight="380"
+            <StackPanel Name="stack_all_clients">
+                <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
+                <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" CanUserAddRows="False" MaxWidth="1100" MaxHeight="380"
                           SelectionMode="Single" SelectionUnit="FullRow"
                           ItemsSource="{Binding Clients}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">
 
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Изменить" Icon="{DynamicResource edit_icon_path}"
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Изменить" Icon="{DynamicResource edit_icon_path}"
                                           Command="{Binding UpdateClientCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
-                                <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
+                            <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
                                           Command="{Binding DeleteClientCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
 
-                        <DataGrid.Columns>
-                            <mui:DataGridTextColumn Header="Имя"  Binding="{Binding FirstName}"/>
-                            <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
-                            <mui:DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
-                            <mui:DataGridTextColumn Header="ИНН" Binding="{Binding TIN}"/>
-                            <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age}"/>
-                            <mui:DataGridTextColumn Header="Стаж" Binding="{Binding Seniority}"/>
-                            <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </WrapPanel>
+                    <DataGrid.Columns>
+                        <mui:DataGridTextColumn Header="Имя"  Binding="{Binding FirstName}"/>
+                        <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
+                        <mui:DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
+                        <mui:DataGridTextColumn Header="ИНН" Binding="{Binding TIN}"/>
+                        <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age}"/>
+                        <mui:DataGridTextColumn Header="Стаж" Binding="{Binding Seniority}"/>
+                        <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </controls:ModernUserControl>

@@ -43,7 +43,7 @@ namespace LoanHelper.ViewModels
             _eventAggregator = eventAggregator;
             _dialogService = dialogService;
 
-            _eventAggregator.GetEvent<ClientAddedEvent>().Subscribe(OnClientAdded);
+
 
             Clients = new AsyncObservableCollection<Client>();
 
@@ -53,7 +53,7 @@ namespace LoanHelper.ViewModels
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
+            LoadedCommand = new DelegateCommand(LoadData);
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
 
@@ -88,11 +88,11 @@ namespace LoanHelper.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private async Task LoadDataAsync()
+        private void LoadData()
         {
-            await _bankEntities.Clients.LoadAsync();
+            _bankEntities.Clients.Load();
             Clients = _bankEntities.Clients.Local;
-            Debug.WriteLine("AllClientsViewModel - LoadDataAsync");
+            Debug.WriteLine("AllClientsViewModel - LoadData");
         }
 
         /// <summary>
@@ -139,10 +139,7 @@ namespace LoanHelper.ViewModels
 
         #endregion
 
-        private void OnClientAdded()
-        {
-            _bankEntities.Clients.Load();
-        }
+
 
         private void ShowNotificationWithClientsReloaded(List<Client> badClients, Action<IDialogResult> callBack)
         {
@@ -199,7 +196,7 @@ namespace LoanHelper.ViewModels
         private async Task<List<Client>> GetNotUniqueClientsAsync(ObjectContext objectContext)
         {
             var updatedClients = await GetClientsByEntityState(objectContext, EntityState.Modified).AsAsyncEnumerableQuery().ToListAsync();
-            
+
             var clientsListPassportsWithLetters = await updatedClients.AsAsyncQueryable().Where(c => c.Passport.Any(char.IsLetter) || c.TIN.Any(char.IsLetter)).ToListAsync();
 
             var notUniqueClients = await updatedClients.AsAsyncQueryable()

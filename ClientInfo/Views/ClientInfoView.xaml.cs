@@ -3,11 +3,11 @@
 namespace ClientInfo.Views
 {
     /// <summary>
-    /// Interaction logic for ClientAddingView.xaml
+    /// Interaction logic for ClientView.xaml
     /// </summary>
-    public partial class ClientAddingView : UserControl
+    public partial class ClientInfoView : UserControl
     {
-        public ClientAddingView()
+        public ClientInfoView()
         {
             InitializeComponent();
         }

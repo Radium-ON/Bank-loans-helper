@@ -12,7 +12,7 @@ namespace ClientInfo
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion("NewClientEditingForm", typeof(ClientView));
+            regionManager.RegisterViewWithRegion("NewClientEditingForm", typeof(ClientInfoView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
