@@ -85,6 +85,7 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="Events\ClientAddedEvent.cs" />
     <Compile Include="Extensions\DialogServiceExtensions.cs" />
+    <Compile Include="Interfaces\IModernLinkService.cs" />
     <Compile Include="ViewModels\OkDialogViewModel.cs" />
     <Compile Include="ViewModels\OkCancelDialogViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,9 +96,7 @@
       <DependentUpon>OkCancelDialog.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
