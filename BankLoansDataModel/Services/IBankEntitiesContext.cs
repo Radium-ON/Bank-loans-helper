@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
+using BankLoansDataModel.Extensions;
 
 namespace BankLoansDataModel.Services
 {
@@ -13,5 +14,6 @@ namespace BankLoansDataModel.Services
         
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<EfStatus> SaveChangesWithValidationAsync(CancellationToken cancellationToken);
     }
 }

@@ -27,7 +27,7 @@ namespace LoanHelper
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register(typeof(IBankEntitiesContext), typeof(BankLoansEntities));
+            containerRegistry.Register(typeof(IBankEntitiesContext), typeof(BankEntitiesContext));
             containerRegistry.RegisterDialogWindow<PrismModernDialog>();
         }
 

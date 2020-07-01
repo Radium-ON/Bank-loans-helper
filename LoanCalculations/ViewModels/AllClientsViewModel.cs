@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -55,7 +56,7 @@ namespace LoanHelper.ViewModels
             LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
-        
+
         #region Properties
 
         public ObservableCollection<Client> Clients
@@ -147,7 +148,7 @@ namespace LoanHelper.ViewModels
         {
             _dialogService.ShowOkDialog(
                     "Нельзя перейти",
-                    $"Клиенты с данными паспорта: {GetBadPassportsForMessage(badClients)} и ИНН: {GetBadTinsForMessage(badClients)} уже существуют.",
+                    $"Клиенты с данными паспорта: {GetBadPassportsForMessage(badClients)} и ИНН: {GetBadTinsForMessage(badClients)} уже существуют или недопустимы.",
                     callBack);
         }
 
@@ -171,7 +172,15 @@ namespace LoanHelper.ViewModels
                 var badClients = await GetNotUniqueClientsAsync(CurrentObjectContext);
                 if (badClients.Count == 0)
                 {
-                    await _bankEntities.SaveChangesAsync(CancellationToken.None);
+                    var status = await _bankEntities.SaveChangesWithValidationAsync(CancellationToken.None);
+                    if (!status.IsValid)
+                    {
+                        e.Cancel = true;
+
+                        var updatedClients = GetClientsByEntityState(CurrentObjectContext, EntityState.Modified);
+                        _dialogService.ShowOkDialog("Ошибка обновления", string.Join("\n", status.EfErrors), m => { });
+                        await ReloadAllBadClientsAsync(updatedClients, dbcontext);
+                    }
                 }
                 else
                 {
@@ -189,10 +198,14 @@ namespace LoanHelper.ViewModels
         /// <returns>Список неуникальных клиентов.</returns>
         private async Task<List<Client>> GetNotUniqueClientsAsync(ObjectContext objectContext)
         {
-            var updatedClients = GetClientsByEntityState(objectContext, EntityState.Modified);
+            var updatedClients = await GetClientsByEntityState(objectContext, EntityState.Modified).AsAsyncEnumerableQuery().ToListAsync();
+            
+            var clientsListPassportsWithLetters = await updatedClients.AsAsyncQueryable().Where(c => c.Passport.Any(char.IsLetter) || c.TIN.Any(char.IsLetter)).ToListAsync();
 
             var notUniqueClients = await updatedClients.AsAsyncQueryable()
                 .Where(c => _bankEntities.Clients.Any(b => b.PK_ClientId != c.PK_ClientId && (b.Passport == c.Passport || b.TIN == c.TIN))).ToListAsync();
+
+            notUniqueClients.AddRange(clientsListPassportsWithLetters);
             return notUniqueClients;
         }
 
