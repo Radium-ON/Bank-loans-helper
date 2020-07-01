@@ -3,6 +3,6 @@ namespace LoanHelper.Core.Interfaces
 {
     public interface IModernLinkService
     {
-        Link GetLink();
+        Link GetModernLink();
     }
 }

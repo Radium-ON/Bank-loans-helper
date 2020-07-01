@@ -64,6 +64,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\ModernLinkService.cs" />
     <Compile Include="ViewModels\ClientInfoViewModel.cs" />
     <Compile Include="Views\ClientInfoView.xaml.cs">
       <DependentUpon>ClientInfoView.xaml</DependentUpon>
@@ -92,6 +93,9 @@
     <PackageReference Include="EntityFramework">
       <Version>6.4.4</Version>
     </PackageReference>
+    <PackageReference Include="ModernUI.WPF">
+      <Version>1.0.9</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Core">
       <Version>7.2.0.1422</Version>
     </PackageReference>
@@ -106,5 +110,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
