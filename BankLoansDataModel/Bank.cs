@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace BankLoansDataModel
 {
     using System;
@@ -23,6 +25,8 @@ namespace BankLoansDataModel
     
         public int PK_RegNumber { get; set; }
         public string Name { get; set; }
+
+        [MinLength(13)]
         public string OGRN { get; set; }
         public string License { get; set; }
     
