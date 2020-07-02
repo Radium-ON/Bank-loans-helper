@@ -196,38 +196,17 @@ namespace ClientInfo.ViewModels
             if (Array.IndexOf(_validatedProperties, propertyName) < 0)
                 return null;
 
-            string error = null;
-
-            switch (propertyName)
+            var error = propertyName switch
             {
-                case "FirstName":
-                    error = ValidateFirstName();
-                    break;
-
-                case "LastName":
-                    error = ValidateLastName();
-                    break;
-
-                case "Passport":
-                    error = ValidatePassport();
-                    break;
-
-                case "TIN":
-                    error = ValidateTin();
-                    break;
-
-                case "Age":
-                    error = ValidateAge();
-                    break;
-
-                case "Seniority":
-                    error = ValidateSeniority();
-                    break;
-
-                case "Salary":
-                    error = ValidateSalary();
-                    break;
-            }
+                "FirstName" => ValidateFirstName(),
+                "LastName" => ValidateLastName(),
+                "Passport" => ValidatePassport(),
+                "TIN" => ValidateTin(),
+                "Age" => ValidateAge(),
+                "Seniority" => ValidateSeniority(),
+                "Salary" => ValidateSalary(),
+                _ => null
+            };
 
             return error;
         }

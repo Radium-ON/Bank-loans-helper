@@ -2,15 +2,17 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
+using OffersTable.Properties;
 using Prism.Events;
 using Prism.Services.Dialogs;
 
 namespace OffersTable.ViewModels
 {
-    public class OfferInfoViewModel : BindableBase
+    public class OfferInfoViewModel : BindableBase, IDataErrorInfo
     {
         #region Backing Fields
 
@@ -18,6 +20,8 @@ namespace OffersTable.ViewModels
         private readonly IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
         private readonly Offer _offer;
+
+        private bool _isSelected;
 
         #endregion
 
@@ -28,6 +32,8 @@ namespace OffersTable.ViewModels
             _bankEntities = bankEntities;
             _eventAggregator = eventAggregator;
         }
+
+        #region Entity Properties
 
         public int OfferId => _offer.PK_OfferId;
 
@@ -143,5 +149,106 @@ namespace OffersTable.ViewModels
             }
         }
 
+        #endregion
+
+        #region UI Properties
+
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+
+        #endregion
+
+        #region Implementation of IDataErrorInfo
+
+        public string this[string columnName] => GetValidationError(columnName);
+
+        public string Error => null;
+
+        #endregion
+
+        #region Validation
+
+        public bool IsValid => _validatedProperties.All(property => GetValidationError(property) == null);
+
+        private static readonly string[] _validatedProperties =
+        {
+            "Interest",
+            "MinLoanAmount",
+            "MaxLoanAmount",
+            "MinSeniority",
+            "MinAge"
+        };
+
+
+
+        private string GetValidationError(string propertyName)
+        {
+            if (Array.IndexOf(_validatedProperties, propertyName) < 0)
+                return null;
+
+            var error = propertyName switch
+            {
+                "Interest" => ValidateInterest(),
+                "MinLoanAmount" => ValidateMinLoanAmount(),
+                "MaxLoanAmount" => ValidateMaxLoanAmount(),
+                "MinSeniority" => ValidateMinSeniority(),
+                "MinAge" => ValidateMinAge(),
+                _ => null
+            };
+            return error;
+        }
+
+
+
+        private string ValidateMinSeniority()
+        {
+            if (MinSeniority < 0 || MinSeniority > 100 || MinSeniority >= MinAge)
+            {
+                return Resources.offer_error_seniority_out_of_range;
+            }
+            return null;
+        }
+
+        private string ValidateMinAge()
+        {
+            if (MinAge <= 0 || MinAge <= MinSeniority)
+            {
+                return Resources.offer_error_age_out_of_range;
+            }
+            return null;
+        }
+
+        private string ValidateMaxLoanAmount()
+        {
+            if (MaxLoanAmount <= MinLoanAmount || MaxLoanAmount <= 0)
+            {
+                return Resources.offer_error_maxloanamount_out_of_range;
+            }
+            return null;
+        }
+
+        private string ValidateInterest()
+        {
+            if (Interest <= 0)
+            {
+                return Resources.offer_error_interest_negate;
+            }
+            return null;
+        }
+
+        private string ValidateMinLoanAmount()
+        {
+
+            if (MinLoanAmount >= MaxLoanAmount || MinLoanAmount <= 0)
+            {
+                return Resources.offer_error_minloanamount_out_of_range;
+            }
+            return null;
+        }
+
+        #endregion
     }
 }
