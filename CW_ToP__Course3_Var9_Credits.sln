@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{799B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientsTable", "ClientsTable\ClientsTable.csproj", "{E98DC35C-5CA5-4EA9-B2F3-F65919A32584}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersTable", "OffersTable\OffersTable.csproj", "{A2427F71-7593-4235-8F32-9685710AD33C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{E98DC35C-5CA5-4EA9-B2F3-F65919A32584}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E98DC35C-5CA5-4EA9-B2F3-F65919A32584}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E98DC35C-5CA5-4EA9-B2F3-F65919A32584}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2427F71-7593-4235-8F32-9685710AD33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2427F71-7593-4235-8F32-9685710AD33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2427F71-7593-4235-8F32-9685710AD33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2427F71-7593-4235-8F32-9685710AD33C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C9C6132F-59C3-4C90-BE5A-1BF0CC017B69} = {799BDEA3-3D98-4872-8D9E-BB313BE0CD55}
 		{E98DC35C-5CA5-4EA9-B2F3-F65919A32584} = {799BDEA3-3D98-4872-8D9E-BB313BE0CD55}
+		{A2427F71-7593-4235-8F32-9685710AD33C} = {799BDEA3-3D98-4872-8D9E-BB313BE0CD55}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAF58334-10A7-4D02-901E-8869C3B8CCE5}
