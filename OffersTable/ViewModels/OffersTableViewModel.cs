@@ -5,9 +5,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Navigation;
+using LoanHelper.Core.Extensions;
 using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 using Prism.Events;
@@ -26,7 +28,7 @@ namespace OffersTable.ViewModels
             _bankEntities = bankEntities;
             _dialogService = dialogService;
             _eventAggregator = eventAggregator;
-            DeleteOfferCommand = new DelegateCommand<OfferInfoViewModel>(async offerVm => await DeleteSelectedOfferAsync(offerVm));
+            DeleteOfferCommand = new DelegateCommand<OfferInfoViewModel>(async vm => await DeleteSelectedOffer(vm));
 
             OfferViewModels = new ObservableCollection<OfferInfoViewModel>();
 
@@ -112,14 +114,34 @@ namespace OffersTable.ViewModels
 
         #endregion
 
-        private async Task DeleteSelectedOfferAsync(OfferInfoViewModel offerVm)
+        private async Task DeleteSelectedOffer(OfferInfoViewModel offerVm)
         {
-            if (offerVm != null)
+            if (offerVm == null) return;
+
+            if (offerVm.GetOffer().Banks.Count == 0)
             {
-                _bankEntities.Offers.Remove(offerVm.GetOffer());
-                OfferViewModels.Remove(offerVm);
-                await _bankEntities.SaveChangesAsync(CancellationToken.None);
+                await RemoveOfferAsync(offerVm);
             }
+            else
+            {
+                _dialogService.ShowOkCancelDialog(
+                    Application.Current.FindResource("offer_deleted_dialog_title") as string,
+                    Application.Current.FindResource("offer_deleted_dialog_message") as string,
+                    async r =>
+                    {
+                        if (r.Result == ButtonResult.OK)
+                        {
+                            await RemoveOfferAsync(offerVm);
+                        }
+                    });
+            }
+        }
+
+        private async Task RemoveOfferAsync(OfferInfoViewModel offerVm)
+        {
+            _bankEntities.Offers.Remove(offerVm.GetOffer());
+            OfferViewModels.Remove(offerVm);
+            await _bankEntities.SaveChangesAsync(CancellationToken.None);
         }
 
         private async Task<IEnumerable<OfferInfoViewModel>> GetOfferInfoViewModelsAsync(IDbSet<Offer> offers)
