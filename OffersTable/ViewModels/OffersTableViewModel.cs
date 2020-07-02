@@ -8,13 +8,13 @@ using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 
-namespace LoanHelper.ViewModels
+namespace OffersTable.ViewModels
 {
-    public class AllOffersViewModel : ModernViewModelBase
+    public class OffersTableViewModel : ModernViewModelBase
     {
         private readonly IBankEntitiesContext _bankEntities;
 
-        public AllOffersViewModel(IBankEntitiesContext bankEntities)
+        public OffersTableViewModel(IBankEntitiesContext bankEntities)
         {
             _bankEntities = bankEntities;
 
@@ -44,7 +44,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void VisibilityChanged()
         {
-            Debug.WriteLine("AllOffersViewModel - VisibilityChanged");
+            Debug.WriteLine("OffersTableViewModel - VisibilityChanged");
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace LoanHelper.ViewModels
         {
             await _bankEntities.Offers.LoadAsync();
             Offers = _bankEntities.Offers.Local;
-            Debug.WriteLine("AllOffersViewModel - LoadData");
+            Debug.WriteLine("OffersTableViewModel - LoadData");
         }
 
 
@@ -64,7 +64,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void NavigatedFrom()
         {
-            Debug.WriteLine("AllOffersViewModel - NavigatedFrom");
+            Debug.WriteLine("OffersTableViewModel - NavigatedFrom");
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void NavigatedTo()
         {
-            Debug.WriteLine("AllOffersViewModel - NavigatedTo");
+            Debug.WriteLine("OffersTableViewModel - NavigatedTo");
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void FragmentNavigation()
         {
-            Debug.WriteLine("AllOffersViewModel - FragmentNavigation");
+            Debug.WriteLine("OffersTableViewModel - FragmentNavigation");
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace LoanHelper.ViewModels
         /// <param name="e">Параметры отмены навигации</param>
         private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
-            Debug.WriteLine("AllOffersViewModel - NavigatingFrom");
+            Debug.WriteLine("OffersTableViewModel - NavigatingFrom");
         }
     }
 }

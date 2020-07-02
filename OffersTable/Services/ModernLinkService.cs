@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ClientsTable.Views;
+using OffersTable.Views;
 using FirstFloor.ModernUI.Presentation;
 using LoanHelper.Core.Interfaces;
 
-namespace ClientsTable.Services
+namespace OffersTable.Services
 {
     public class ModernLinkService : IModernLinkService
     {
@@ -17,8 +17,8 @@ namespace ClientsTable.Services
         {
             return new Link
             {
-                DisplayName = "Клиенты",
-                Source = new Uri($"/ClientsTable;component/Views/{nameof(ClientsTableView)}.xaml", UriKind.Relative)
+                DisplayName = "Предложения",
+                Source = new Uri($"/OffersTable;component/Views/{nameof(OffersTableView)}.xaml", UriKind.Relative)
             };
         }
 

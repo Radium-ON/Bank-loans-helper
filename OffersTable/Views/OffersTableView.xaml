@@ -7,10 +7,13 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:controls="clr-namespace:LoanHelper.Core.Controls;assembly=LoanHelper.Core"
-             x:Class="LoanHelper.Views.AllOffersView"
+             x:Class="OffersTable.Views.OffersTableView"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="260.197" d:DesignWidth="990.045">
+    <controls:ModernUserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/LoanHelper.Core;component/Assets/ResourceDictionary.xaml"/>
+    </controls:ModernUserControl.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="NavigatedTo">
             <i:InvokeCommandAction Command="{Binding NavigatedToCommand}" />
@@ -35,7 +38,8 @@
         <ScrollViewer>
             <StackPanel MinWidth="200">
                 <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}" />
-                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" MaxHeight="200" ItemsSource="{Binding Offers}">
+                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" MaxHeight="600" CanUserAddRows="False"
+                          ItemsSource="{Binding Offers}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Interest}" Header="Ставка %" Width="SizeToHeader"/>
                         <DataGridTextColumn Binding="{Binding MinLoanAmount}" Header="Мин. сумма кредита" Width="SizeToHeader"/>
