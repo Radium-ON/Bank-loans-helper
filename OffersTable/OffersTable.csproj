@@ -99,6 +99,9 @@
       <Version>7.2.0.1422</Version>
     </PackageReference>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
+    <PackageReference Include="QuickConverter">
+      <Version>1.2.5</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BankLoansDataModel\BankLoansDataModel.csproj">

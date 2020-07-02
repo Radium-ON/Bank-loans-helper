@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:qc="http://QuickConverter.CodePlex.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:controls="clr-namespace:LoanHelper.Core.Controls;assembly=LoanHelper.Core"
              x:Class="OffersTable.Views.OffersTableView"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="260.197" d:DesignWidth="990.045">
+             d:DesignHeight="378.597" d:DesignWidth="1002.045">
     <controls:ModernUserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/LoanHelper.Core;component/Assets/ResourceDictionary.xaml"/>
     </controls:ModernUserControl.Resources>
@@ -36,36 +37,51 @@
     </i:Interaction.Triggers>
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}" />
-                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" MaxHeight="600" CanUserAddRows="False" SelectionUnit="FullRow" SelectionMode="Single"
-                          ItemsSource="{Binding OfferViewModels}">
-                    <DataGrid.Columns>
-                        <mui:DataGridTextColumn Header="Ставка %" Width="SizeToHeader"
+            <WrapPanel MinWidth="200" Orientation="Horizontal">
+                <StackPanel>
+                    <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}"/>
+                    <DataGrid x:Name="data_grid_offers" MaxHeight="600" CanUserAddRows="False" AutoGenerateColumns="False"
+                              SelectionUnit="FullRow" SelectionMode="Single"
+                              ItemsSource="{Binding OfferViewModels}">
+                        <DataGrid.Columns>
+                            <mui:DataGridTextColumn Header="Ставка %" Width="SizeToHeader"
                             Binding="{Binding Interest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
-                        <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="SizeToHeader"
+                            <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="SizeToHeader"
                             Binding="{Binding MinLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
-                        <mui:DataGridTextColumn  Header="Макс. сумма кредита" Width="SizeToHeader"
+                            <mui:DataGridTextColumn  Header="Макс. сумма кредита" Width="SizeToHeader"
                             Binding="{Binding MaxLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
-                        <mui:DataGridTextColumn  Header="Макс. срок в месяцах" Width="SizeToHeader"
+                            <mui:DataGridTextColumn  Header="Макс. срок в месяцах" Width="SizeToHeader"
                             Binding="{Binding MaxOfMonths, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
-                        <mui:DataGridTextColumn  Header="Мин. возраст" Width="SizeToHeader"
+                            <mui:DataGridTextColumn  Header="Мин. возраст" Width="SizeToHeader"
                             Binding="{Binding MinAge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
-                        <mui:DataGridTextColumn  Header="Мин. стаж" Width="SizeToHeader"
+                            <mui:DataGridTextColumn  Header="Мин. стаж" Width="SizeToHeader"
                             Binding="{Binding MinSeniority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
-                        <mui:DataGridTextColumn  Header="Активные кредиты" Width="SizeToHeader"
+                            <mui:DataGridTextColumn  Header="Активные кредиты" Width="SizeToHeader"
                             Binding="{Binding ActiveLoansNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
-                    </DataGrid.Columns>
+                        </DataGrid.Columns>
 
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
                                       Command="{Binding DeleteOfferCommand}"
                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-                </DataGrid>
-            </StackPanel>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                </StackPanel>
+                <StackPanel DataContext="{Binding ElementName=data_grid_offers, Path=SelectedItem.Banks}"
+                            Margin="20,7,0,0" Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding}}">
+                    <TextBlock Text="Такое предложение сделают следующие банки:" Style="{StaticResource Emphasis}"/>
+                    <DataGrid ItemsSource="{Binding}"
+                              AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <mui:DataGridTextColumn Header="Наименование" Binding="{Binding Path=Name}" Width="Auto"/>
+                            <mui:DataGridTextColumn Header="ОГРН" Binding="{Binding Path=OGRN}" Width="Auto"/>
+                            <mui:DataGridTextColumn Header="Лицензия" Binding="{Binding Path=License}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </WrapPanel>
         </ScrollViewer>
     </Grid>
 </controls:ModernUserControl>

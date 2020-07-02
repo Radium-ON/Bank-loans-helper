@@ -39,6 +39,8 @@
                 <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
                 <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" CanUserAddRows="False" MaxWidth="1100" MaxHeight="380"
                           SelectionMode="Single" SelectionUnit="FullRow"
+                          EnableRowVirtualization="True"
+                          ScrollViewer.CanContentScroll="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizing="True"
                           ItemsSource="{Binding Clients}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">
 

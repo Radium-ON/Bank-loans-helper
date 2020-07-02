@@ -1,6 +1,8 @@
-﻿using Prism.Ioc;
+﻿using System.Windows;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using QuickConverter;
 
 namespace OffersTable
 {
@@ -8,12 +10,14 @@ namespace OffersTable
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
- 
+            //Инициализация QuickConverter
+            EquationTokenizer.AddNamespace(typeof(object));
+            EquationTokenizer.AddNamespace(typeof(Visibility));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+
         }
     }
 }

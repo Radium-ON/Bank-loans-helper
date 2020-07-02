@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using BankLoansDataModel;
@@ -16,9 +17,9 @@ namespace OffersTable.ViewModels
     {
         #region Backing Fields
 
-//        private readonly IEventAggregator _eventAggregator;
-//        private readonly IBankEntitiesContext _bankEntities;
-//        private readonly IDialogService _dialogService;
+        //        private readonly IEventAggregator _eventAggregator;
+        //        private readonly IBankEntitiesContext _bankEntities;
+        //        private readonly IDialogService _dialogService;
         private readonly Offer _offer;
 
         private bool _isSelected;
@@ -28,9 +29,9 @@ namespace OffersTable.ViewModels
         public OfferInfoViewModel(Offer offer)
         {
             _offer = offer;
-//            _dialogService = dialogService;
-//            _bankEntities = bankEntities;
-//            _eventAggregator = eventAggregator;
+            //            _dialogService = dialogService;
+            //            _bankEntities = bankEntities;
+            //            _eventAggregator = eventAggregator;
         }
 
         public Offer GetOffer() => _offer;
@@ -157,6 +158,8 @@ namespace OffersTable.ViewModels
                 RaisePropertyChanged(nameof(IsValid));
             }
         }
+
+        public ObservableCollection<Bank> Banks => _offer.Banks;
 
         #endregion
 
