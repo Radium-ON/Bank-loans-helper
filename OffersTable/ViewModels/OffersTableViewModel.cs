@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
@@ -25,6 +26,7 @@ namespace OffersTable.ViewModels
             _bankEntities = bankEntities;
             _dialogService = dialogService;
             _eventAggregator = eventAggregator;
+            DeleteOfferCommand = new DelegateCommand<OfferInfoViewModel>(async offerVm => await DeleteSelectedOfferAsync(offerVm));
 
             OfferViewModels = new ObservableCollection<OfferInfoViewModel>();
 
@@ -49,6 +51,14 @@ namespace OffersTable.ViewModels
             set => SetProperty(ref _offerViewModels, value);
         }
 
+        #region DelegateCommands
+
+        public DelegateCommand<OfferInfoViewModel> DeleteOfferCommand { get; private set; }
+
+        #endregion
+
+        #region NavigationEvents Methods
+
         /// <summary>
         /// Вызывается после события IsVisibleChanged связанного view.
         /// </summary>
@@ -62,16 +72,10 @@ namespace OffersTable.ViewModels
         /// </summary>
         private async Task LoadData()
         {
-            await _bankEntities.Offers.LoadAsync();
-            OfferViewModels.AddRange(GetOfferInfoViewModels());
+            OfferViewModels.Clear();
+            OfferViewModels.AddRange(await GetOfferInfoViewModelsAsync(_bankEntities.Offers));
             Debug.WriteLine("OffersTableViewModel - LoadData");
         }
-
-        private List<OfferInfoViewModel> GetOfferInfoViewModels()
-        {
-            return _bankEntities.Offers.Local.Select(offer => new OfferInfoViewModel(offer,_dialogService,_bankEntities,_eventAggregator)).ToList();
-        }
-
 
         /// <summary>
         /// Вызывается после перехода к другому view.
@@ -104,6 +108,24 @@ namespace OffersTable.ViewModels
         private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
             Debug.WriteLine("OffersTableViewModel - NavigatingFrom");
+        }
+
+        #endregion
+
+        private async Task DeleteSelectedOfferAsync(OfferInfoViewModel offerVm)
+        {
+            if (offerVm != null)
+            {
+                _bankEntities.Offers.Remove(offerVm.GetOffer());
+                OfferViewModels.Remove(offerVm);
+                await _bankEntities.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+
+        private async Task<IEnumerable<OfferInfoViewModel>> GetOfferInfoViewModelsAsync(IDbSet<Offer> offers)
+        {
+            await offers.LoadAsync();
+            return offers.Local.Select(offer => new OfferInfoViewModel(offer));
         }
     }
 }

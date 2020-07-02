@@ -43,7 +43,7 @@ namespace ClientsTable.ViewModels
 
             Clients = new AsyncObservableCollection<Client>();
 
-            DeleteClientCommand = new DelegateCommand<Client>(async client => await DeleteSelectedClient(client));
+            DeleteClientCommand = new DelegateCommand<Client>(async client => await DeleteSelectedClientAsync(client));
 
             NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
@@ -65,7 +65,7 @@ namespace ClientsTable.ViewModels
 
         #endregion
 
-        #region Delegate Commands
+        #region DelegateCommands
 
         public DelegateCommand<Client> DeleteClientCommand { get; private set; }
 
@@ -145,7 +145,7 @@ namespace ClientsTable.ViewModels
                     callBack);
         }
 
-        private async Task DeleteSelectedClient(Client client)
+        private async Task DeleteSelectedClientAsync(Client client)
         {
             if (client != null)
             {

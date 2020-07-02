@@ -56,6 +56,14 @@
                         <mui:DataGridTextColumn  Header="Активные кредиты" Width="SizeToHeader"
                             Binding="{Binding ActiveLoansNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                     </DataGrid.Columns>
+
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
+                                      Command="{Binding DeleteOfferCommand}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </StackPanel>
         </ScrollViewer>
