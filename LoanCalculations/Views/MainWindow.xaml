@@ -12,11 +12,7 @@
                 <mui:Link DisplayName="выберите предложение" Source="/Views/OffersFilterView.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
-        <mui:LinkGroup DisplayName="Данные">
-            <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Предложения" Source="/Views/AllOffersView.xaml"/>
-            </mui:LinkGroup.Links>
-        </mui:LinkGroup>
+        <mui:LinkGroup DisplayName="Данные"/>
         <mui:LinkGroup DisplayName="настройки" GroupKey="settings">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="приложение" Source="/Views/SettingsPage.xaml" />
