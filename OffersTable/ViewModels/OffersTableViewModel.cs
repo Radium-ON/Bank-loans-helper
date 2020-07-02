@@ -1,22 +1,32 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core.ViewModels;
 using Prism.Commands;
+using Prism.Events;
+using Prism.Services.Dialogs;
 
 namespace OffersTable.ViewModels
 {
     public class OffersTableViewModel : ModernViewModelBase
     {
         private readonly IBankEntitiesContext _bankEntities;
+        private readonly IDialogService _dialogService;
+        private readonly IEventAggregator _eventAggregator;
 
-        public OffersTableViewModel(IBankEntitiesContext bankEntities)
+        public OffersTableViewModel(IBankEntitiesContext bankEntities, IDialogService dialogService, IEventAggregator eventAggregator)
         {
             _bankEntities = bankEntities;
+            _dialogService = dialogService;
+            _eventAggregator = eventAggregator;
+
+            OfferViewModels = new ObservableCollection<OfferInfoViewModel>();
 
             NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
@@ -27,16 +37,16 @@ namespace OffersTable.ViewModels
         }
 
         #region Backing Fields
-        private ObservableCollection<Offer> _offers;
+        private ObservableCollection<OfferInfoViewModel> _offerViewModels;
 
 
 
         #endregion
 
-        public ObservableCollection<Offer> Offers
+        public ObservableCollection<OfferInfoViewModel> OfferViewModels
         {
-            get => _offers;
-            set => SetProperty(ref _offers, value);
+            get => _offerViewModels;
+            set => SetProperty(ref _offerViewModels, value);
         }
 
         /// <summary>
@@ -53,10 +63,14 @@ namespace OffersTable.ViewModels
         private async Task LoadData()
         {
             await _bankEntities.Offers.LoadAsync();
-            Offers = _bankEntities.Offers.Local;
+            OfferViewModels.AddRange(GetOfferInfoViewModels());
             Debug.WriteLine("OffersTableViewModel - LoadData");
         }
 
+        private List<OfferInfoViewModel> GetOfferInfoViewModels()
+        {
+            return _bankEntities.Offers.Local.Select(offer => new OfferInfoViewModel(offer,_dialogService,_bankEntities,_eventAggregator)).ToList();
+        }
 
 
         /// <summary>

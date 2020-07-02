@@ -38,16 +38,23 @@
         <ScrollViewer>
             <StackPanel MinWidth="200">
                 <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}" />
-                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" MaxHeight="600" CanUserAddRows="False"
-                          ItemsSource="{Binding Offers}">
+                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" MaxHeight="600" CanUserAddRows="False" SelectionUnit="FullRow" SelectionMode="Single"
+                          ItemsSource="{Binding OfferViewModels}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Interest}" Header="Ставка %" Width="SizeToHeader"/>
-                        <DataGridTextColumn Binding="{Binding MinLoanAmount}" Header="Мин. сумма кредита" Width="SizeToHeader"/>
-                        <DataGridTextColumn Binding="{Binding MaxLoanAmount}" Header="Макс. сумма кредита" Width="SizeToHeader"/>
-                        <DataGridTextColumn Binding="{Binding MaxOfMonths}" Header="Макс. срок в месяцах" Width="SizeToHeader"/>
-                        <DataGridTextColumn Binding="{Binding MinAge}" Header="Мин. возраст" Width="SizeToHeader"/>
-                        <DataGridTextColumn Binding="{Binding MinSeniority}" Header="Мин. стаж" Width="SizeToHeader"/>
-                        <DataGridTextColumn Binding="{Binding ActiveLoansNumber}" Header="Активные кредиты" Width="SizeToHeader"/>
+                        <mui:DataGridTextColumn Header="Ставка %" Width="SizeToHeader"
+                            Binding="{Binding Interest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="SizeToHeader"
+                            Binding="{Binding MinLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn  Header="Макс. сумма кредита" Width="SizeToHeader"
+                            Binding="{Binding MaxLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn  Header="Макс. срок в месяцах" Width="SizeToHeader"
+                            Binding="{Binding MaxOfMonths, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn  Header="Мин. возраст" Width="SizeToHeader"
+                            Binding="{Binding MinAge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn  Header="Мин. стаж" Width="SizeToHeader"
+                            Binding="{Binding MinSeniority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn  Header="Активные кредиты" Width="SizeToHeader"
+                            Binding="{Binding ActiveLoansNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

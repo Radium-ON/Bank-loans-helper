@@ -34,8 +34,7 @@
                     HorizontalAlignment="Right"
                     Margin="0,1,2,0"
                     Text="{Binding Path=ErrorContent}"
-                    TextWrapping="Wrap"
-                />
+                    TextWrapping="Wrap"/>
         </DataTemplate>
     </UserControl.Resources>
     <Grid MinWidth="200">

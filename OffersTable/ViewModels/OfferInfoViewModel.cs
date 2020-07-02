@@ -50,6 +50,7 @@ namespace OffersTable.ViewModels
                 _offer.Interest = value;
 
                 RaisePropertyChanged(nameof(Interest));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
 
@@ -66,6 +67,7 @@ namespace OffersTable.ViewModels
                 _offer.MinLoanAmount = value;
 
                 RaisePropertyChanged(nameof(MinLoanAmount));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
 
@@ -82,6 +84,7 @@ namespace OffersTable.ViewModels
                 _offer.MaxLoanAmount = value;
 
                 RaisePropertyChanged(nameof(MaxLoanAmount));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
 
@@ -98,6 +101,7 @@ namespace OffersTable.ViewModels
                 _offer.MaxOfMonths = value;
 
                 RaisePropertyChanged(nameof(MaxOfMonths));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
 
@@ -114,6 +118,7 @@ namespace OffersTable.ViewModels
                 _offer.ActiveLoansNumber = value;
 
                 RaisePropertyChanged(nameof(ActiveLoansNumber));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
 
@@ -130,6 +135,7 @@ namespace OffersTable.ViewModels
                 _offer.MinSeniority = value;
 
                 RaisePropertyChanged(nameof(MinSeniority));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
 
@@ -146,6 +152,7 @@ namespace OffersTable.ViewModels
                 _offer.MinAge = value;
 
                 RaisePropertyChanged(nameof(MinAge));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
 
