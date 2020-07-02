@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanHelper", "LoanCalculations\LoanHelper.csproj", "{5E4B903C-EBE4-4E4D-81BD-021F38E83F89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanHelper", "LoanHelper\LoanHelper.csproj", "{5E4B903C-EBE4-4E4D-81BD-021F38E83F89}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankLoansDataModel", "BankLoansDataModel\BankLoansDataModel.csproj", "{836BA870-E560-4EC7-81C2-6C7C4A465EB7}"
 EndProject
