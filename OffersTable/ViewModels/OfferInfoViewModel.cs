@@ -19,14 +19,6 @@ namespace OffersTable.ViewModels
         private readonly IDialogService _dialogService;
         private readonly Offer _offer;
 
-        private float _interest;
-        private decimal _minLoanAmount;
-        private decimal _maxLoanAmount;
-        private int _maxOfMonths;
-        private int? _activeLoansNumber;
-        private int? _minSeniority;
-        private int? _minAge;
-
         #endregion
 
         public OfferInfoViewModel(Offer offer, IDialogService dialogService, IBankEntitiesContext bankEntities, IEventAggregator eventAggregator)
@@ -57,38 +49,98 @@ namespace OffersTable.ViewModels
 
         public decimal MinLoanAmount
         {
-            get => _minLoanAmount;
-            set => _minLoanAmount = value;
+            get => _offer.MinLoanAmount;
+            set
+            {
+                if (value == _offer.MinLoanAmount)
+                {
+                    return;
+                }
+
+                _offer.MinLoanAmount = value;
+
+                RaisePropertyChanged(nameof(MinLoanAmount));
+            }
         }
 
         public decimal MaxLoanAmount
         {
-            get => _maxLoanAmount;
-            set => _maxLoanAmount = value;
+            get => _offer.MaxLoanAmount;
+            set
+            {
+                if (value == _offer.MaxLoanAmount)
+                {
+                    return;
+                }
+
+                _offer.MaxLoanAmount = value;
+
+                RaisePropertyChanged(nameof(MaxLoanAmount));
+            }
         }
 
         public int MaxOfMonths
         {
-            get => _maxOfMonths;
-            set => _maxOfMonths = value;
+            get => _offer.MaxOfMonths;
+            set
+            {
+                if (value == _offer.MaxOfMonths)
+                {
+                    return;
+                }
+
+                _offer.MaxOfMonths = value;
+
+                RaisePropertyChanged(nameof(MaxOfMonths));
+            }
         }
 
-        public Nullable<int> ActiveLoansNumber
+        public int? ActiveLoansNumber
         {
-            get => _activeLoansNumber;
-            set => _activeLoansNumber = value;
+            get => _offer.ActiveLoansNumber;
+            set
+            {
+                if (value == _offer.ActiveLoansNumber)
+                {
+                    return;
+                }
+
+                _offer.ActiveLoansNumber = value;
+
+                RaisePropertyChanged(nameof(ActiveLoansNumber));
+            }
         }
 
-        public Nullable<int> MinSeniority
+        public int? MinSeniority
         {
-            get => _minSeniority;
-            set => _minSeniority = value;
+            get => _offer.MinSeniority;
+            set
+            {
+                if (value == _offer.MinSeniority)
+                {
+                    return;
+                }
+
+                _offer.MinSeniority = value;
+
+                RaisePropertyChanged(nameof(MinSeniority));
+            }
         }
 
-        public Nullable<int> MinAge
+        public int? MinAge
         {
-            get => _minAge;
-            set => _minAge = value;
+            get => _offer.MinAge;
+            set
+            {
+                if (value == _offer.MinAge)
+                {
+                    return;
+                }
+
+                _offer.MinAge = value;
+
+                RaisePropertyChanged(nameof(MinAge));
+            }
         }
 
     }
