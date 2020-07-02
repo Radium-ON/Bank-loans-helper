@@ -126,8 +126,8 @@ namespace ClientsTable.ViewModels
             if (hasChanges == true)
             {
                 _dialogService.ShowOkCancelDialog(
-                    Application.Current.FindResource("clients_edited_dialog_title") as string,
-                    Application.Current.FindResource("clients_edited_dialog_message") as string,
+                    Application.Current.FindResource("some_data_changed_dialog_title") as string,
+                    Application.Current.FindResource("some_data_changed_dialog_message") as string,
                     async r => { await NavigatingWithModifiedClientsCallBack(r, navigatingCancelEventArgs, dbcontext); });
             }
             Debug.WriteLine("ClientsTableViewModel - NavigatingFrom");
@@ -170,16 +170,16 @@ namespace ClientsTable.ViewModels
                     {
                         e.Cancel = true;
 
-                        var updatedClients = GetClientsByEntityState(CurrentObjectContext, EntityState.Modified);
+                        var updatedClients = CurrentObjectContext.GetEntriesByEntityState<Client>(EntityState.Modified);
                         _dialogService.ShowOkDialog("Ошибка обновления", string.Join("\n", status.EfErrors), m => { });
-                        await ReloadAllBadClientsAsync(updatedClients, dbcontext);
+                        await dbcontext.ReloadAllEntitiesAsync(updatedClients);
                     }
                 }
                 else
                 {
                     e.Cancel = true;
                     ShowNotificationWithClientsReloaded(badClients,
-                        async n => await ReloadAllBadClientsAsync(badClients, dbcontext));
+                        async n => await dbcontext.ReloadAllEntitiesAsync(badClients));
                 }
             }
         }
@@ -191,7 +191,7 @@ namespace ClientsTable.ViewModels
         /// <returns>Список неуникальных клиентов.</returns>
         private async Task<List<Client>> GetNotUniqueClientsAsync(ObjectContext objectContext)
         {
-            var updatedClients = await GetClientsByEntityState(objectContext, EntityState.Modified).AsAsyncEnumerableQuery().ToListAsync();
+            var updatedClients = await objectContext.GetEntriesByEntityState<Client>(EntityState.Modified).AsAsyncEnumerableQuery().ToListAsync();
 
             var clientsListPassportsWithLetters = await updatedClients.AsAsyncQueryable().Where(c => Enumerable.Any<char>(c.Passport, char.IsLetter) || Enumerable.Any<char>(c.TIN, char.IsLetter)).ToListAsync();
 
@@ -205,30 +205,13 @@ namespace ClientsTable.ViewModels
         private static string GetBadPassportsForMessage(IEnumerable<Client> badClients)
         {
             var passports = badClients.Select(badClient => badClient.Passport);
-            return string.Join((string) ", ", (IEnumerable<string>) passports);
+            return string.Join((string)", ", (IEnumerable<string>)passports);
         }
 
         private static string GetBadTinsForMessage(IEnumerable<Client> badClients)
         {
             var tins = badClients.Select(badClient => badClient.TIN);
             return string.Join(", ", tins);
-        }
-
-        private static IEnumerable<Client> GetClientsByEntityState(ObjectContext objectContext, EntityState state)
-        {
-            var updatedObjects =
-                from entry in objectContext.ObjectStateManager.GetObjectStateEntries(state)
-                where entry.EntityKey != null
-                select entry.Entity as Client;
-            return updatedObjects;
-        }
-
-        private static async Task ReloadAllBadClientsAsync(IEnumerable<Client> badClients, DbContext dbcontext)
-        {
-            foreach (var badClient in badClients)
-            {
-                await dbcontext.ReloadEntityAsync(badClient);
-            }
         }
     }
 }

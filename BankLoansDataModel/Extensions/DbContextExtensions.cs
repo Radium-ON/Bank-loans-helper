@@ -14,5 +14,13 @@ namespace BankLoansDataModel.Extensions
         {
             await context.Entry(entity).ReloadAsync(cancellationToken);
         }
+
+        public static async Task ReloadAllEntitiesAsync<TEntity>(this DbContext dbcontext, IEnumerable<TEntity> entities) where TEntity : class
+        {
+            foreach (var e in entities)
+            {
+                await dbcontext.ReloadEntityAsync(e);
+            }
+        }
     }
 }

@@ -82,6 +82,7 @@
     <Compile Include="Extensions\DbAsyncQueryProvider.cs" />
     <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="Extensions\EfStatus.cs" />
+    <Compile Include="Extensions\ObjectContextExtensions.cs" />
     <Compile Include="Services\BankEntitiesContext.cs" />
     <Compile Include="Services\EdmOperations.cs" />
     <Compile Include="LoanAgreement.cs">
