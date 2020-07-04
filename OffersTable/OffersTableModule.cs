@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using OffersTable.ViewModels;
+using OffersTable.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -17,7 +19,7 @@ namespace OffersTable
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterDialog<OfferAddingDialog, OfferAddingDialogViewModel>();
         }
     }
 }

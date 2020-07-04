@@ -15,6 +15,7 @@ using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core.Extensions;
 using LoanHelper.Core.ViewModels;
+using OffersTable.Views;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Services.Dialogs;
@@ -47,6 +48,7 @@ namespace OffersTable.ViewModels
 
         private void ShowAddOfferDialog()
         {
+            _dialogService.ShowDialog(nameof(OfferAddingDialog), new DialogParameters { { "OfferInfoViewModel", new OfferInfoViewModel(new Offer(), _bankEntities) } }, r => { });
         }
 
 
@@ -169,7 +171,7 @@ namespace OffersTable.ViewModels
         private async Task<IEnumerable<OfferInfoViewModel>> GetOfferInfoViewModelsAsync(IDbSet<Offer> offers)
         {
             await offers.LoadAsync();
-            return offers.Local.Select(offer => new OfferInfoViewModel(offer));
+            return offers.Local.Select(offer => new OfferInfoViewModel(offer, _bankEntities));
         }
 
         private async Task NavigatingWithModifiedOffersCallBack(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)

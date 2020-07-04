@@ -17,21 +17,17 @@ namespace OffersTable.ViewModels
     {
         #region Backing Fields
 
-        //        private readonly IEventAggregator _eventAggregator;
-        //        private readonly IBankEntitiesContext _bankEntities;
-        //        private readonly IDialogService _dialogService;
+        private readonly IBankEntitiesContext _bankEntities;
         private readonly Offer _offer;
 
         private bool _isSelected;
 
         #endregion
 
-        public OfferInfoViewModel(Offer offer)
+        public OfferInfoViewModel(Offer offer, IBankEntitiesContext bankEntities)
         {
             _offer = offer;
-            //            _dialogService = dialogService;
-            //            _bankEntities = bankEntities;
-            //            _eventAggregator = eventAggregator;
+            _bankEntities = bankEntities;
         }
 
         public Offer GetOffer() => _offer;
