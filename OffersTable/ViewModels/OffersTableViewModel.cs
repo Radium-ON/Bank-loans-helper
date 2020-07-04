@@ -33,6 +33,7 @@ namespace OffersTable.ViewModels
             _dialogService = dialogService;
             _eventAggregator = eventAggregator;
             DeleteOfferCommand = new DelegateCommand<OfferInfoViewModel>(async vm => await DeleteSelectedOffer(vm));
+            AddOfferCommand = new DelegateCommand(ShowAddOfferDialog);
 
             OfferViewModels = new ObservableCollection<OfferInfoViewModel>();
 
@@ -43,6 +44,11 @@ namespace OffersTable.ViewModels
             LoadedCommand = new DelegateCommand(async () => await LoadData());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
+
+        private void ShowAddOfferDialog()
+        {
+        }
+
 
         #region Backing Fields
         private ObservableCollection<OfferInfoViewModel> _offerViewModels;
@@ -62,7 +68,7 @@ namespace OffersTable.ViewModels
         #region DelegateCommands
 
         public DelegateCommand<OfferInfoViewModel> DeleteOfferCommand { get; private set; }
-
+        public DelegateCommand AddOfferCommand { get; private set; }
         #endregion
 
         #region NavigationEvents Methods

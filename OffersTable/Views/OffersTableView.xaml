@@ -65,6 +65,9 @@
                                 <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
                                       Command="{Binding DeleteOfferCommand}"
                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
+
+                                <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon_path}"
+                                      Command="{Binding AddOfferCommand}"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
