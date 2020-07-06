@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using Prism.Commands;
@@ -10,9 +11,27 @@ namespace OffersTable.ViewModels
 {
     public class OfferAddingDialogViewModel : BindableBase, IDialogAware, IDataErrorInfo
     {
+        #region DelegateCommands
+
         private DelegateCommand<string> _closeDialogCommand;
+
         public DelegateCommand<string> CloseDialogCommand =>
             _closeDialogCommand ??= new DelegateCommand<string>(CloseDialog);
+
+        private DelegateCommand _addOfferCommand;
+        public DelegateCommand AddOfferCommand =>
+            _addOfferCommand ??= new DelegateCommand(AddOfferToContext, CanAddOffer)
+                .ObservesProperty(() => OfferInfoViewModel.IsValid)
+                .ObservesProperty(() => OfferInfoViewModel.IsOfferUnique);
+
+        private bool CanAddOffer()
+        {
+            return OfferInfoViewModel == null || OfferInfoViewModel.IsValid && OfferInfoViewModel.IsOfferUnique;
+        }
+
+        #endregion
+
+        #region Bindable Properties
 
         private string _title = "Новое предложение";
         public string Title
@@ -28,6 +47,13 @@ namespace OffersTable.ViewModels
             set => SetProperty(ref _offerInfoViewModel, value);
         }
 
+        #endregion
+
+        private void AddOfferToContext()
+        {
+            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters { { "AddedOfferViewModel", OfferInfoViewModel } }));
+        }
+
 
         public event Action<IDialogResult> RequestClose;
 
@@ -40,7 +66,7 @@ namespace OffersTable.ViewModels
                 _ => ButtonResult.None
             };
 
-            RaiseRequestClose(new DialogResult(result, new DialogParameters { { "AddedOffer", OfferInfoViewModel.GetOffer() } }));
+            RaiseRequestClose(new DialogResult(result));
         }
 
         public virtual void RaiseRequestClose(IDialogResult dialogResult)
@@ -50,7 +76,7 @@ namespace OffersTable.ViewModels
 
         public virtual bool CanCloseDialog()
         {
-            return OfferInfoViewModel.IsValid;
+            return true;
         }
 
         public virtual void OnDialogClosed()

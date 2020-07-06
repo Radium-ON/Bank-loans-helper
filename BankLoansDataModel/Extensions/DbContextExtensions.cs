@@ -22,5 +22,11 @@ namespace BankLoansDataModel.Extensions
                 await dbcontext.ReloadEntityAsync(e);
             }
         }
+
+        public static async Task<bool> ContainsEntityAsync<TEntity>(this DbContext context, TEntity entity) where TEntity : class
+        {
+            return await context.Set<TEntity>().ContainsAsync(entity);
+        }
+
     }
 }

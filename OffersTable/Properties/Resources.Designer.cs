@@ -61,6 +61,15 @@ namespace OffersTable.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Кредитная нагрузка не может быть отрицательной..
+        /// </summary>
+        internal static string offer_error_active_loans_number_out_of_range {
+            get {
+                return ResourceManager.GetString("offer_error_active_loans_number_out_of_range", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Минимальный возраст не входит в допустимый диапазон..
         /// </summary>
         internal static string offer_error_age_out_of_range {

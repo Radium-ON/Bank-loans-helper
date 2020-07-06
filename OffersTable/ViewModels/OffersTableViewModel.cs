@@ -48,8 +48,21 @@ namespace OffersTable.ViewModels
 
         private void ShowAddOfferDialog()
         {
-            _dialogService.ShowDialog(nameof(OfferAddingDialog), new DialogParameters { { "OfferInfoViewModel", new OfferInfoViewModel(new Offer(), _bankEntities) } }, r => { });
+            _dialogService.ShowDialog(nameof(OfferAddingDialog), new DialogParameters { { "OfferInfoViewModel", new OfferInfoViewModel(new Offer(), _bankEntities) } },
+                async r =>
+                {
+                    if (r.Result == ButtonResult.OK)
+                    {
+                        var addedOfferVm = r.Parameters.GetValue<OfferInfoViewModel>("AddedOfferViewModel");
+
+                        _bankEntities.Offers.Add(addedOfferVm.Offer);
+                        await _bankEntities.SaveChangesAsync(CancellationToken.None);
+
+                        OfferViewModels.Add(addedOfferVm);
+                    }
+                });
         }
+
 
 
         #region Backing Fields
@@ -142,7 +155,7 @@ namespace OffersTable.ViewModels
         {
             if (offerVm == null) return;
 
-            if (offerVm.GetOffer().Banks.Count == 0)
+            if (offerVm.Offer.Banks.Count == 0)
             {
                 await RemoveOfferAsync(offerVm);
             }
@@ -163,7 +176,7 @@ namespace OffersTable.ViewModels
 
         private async Task RemoveOfferAsync(OfferInfoViewModel offerVm)
         {
-            _bankEntities.Offers.Remove(offerVm.GetOffer());
+            _bankEntities.Offers.Remove(offerVm.Offer);
             OfferViewModels.Remove(offerVm);
             await _bankEntities.SaveChangesAsync(CancellationToken.None);
         }

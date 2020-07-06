@@ -4,8 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using BankLoansDataModel;
+using BankLoansDataModel.Extensions;
 using BankLoansDataModel.Services;
 using OffersTable.Properties;
 using Prism.Events;
@@ -30,7 +34,28 @@ namespace OffersTable.ViewModels
             _bankEntities = bankEntities;
         }
 
-        public Offer GetOffer() => _offer;
+        public Offer Offer => _offer;
+
+        public bool IsOfferUnique => !CheckIsOfferContainsInContext(_offer);
+
+        /// <summary>
+        /// Определяет, содержится ли в контексте элемент <see cref="Offer"/> с заданными атрибутами.
+        /// </summary>
+        /// <param name="offer">Новая сущность "Предложение банка"</param>
+        /// <returns>True: предложение с параметрами найдено в контексте. False: предложение уникально.</returns>
+        private bool CheckIsOfferContainsInContext(Offer offer)
+        {
+            var findedOffer = _bankEntities.Offers.FirstOrDefault(existedOffer =>
+                    existedOffer.Interest == offer.Interest &&
+                    existedOffer.MinLoanAmount == offer.MinLoanAmount &&
+                    existedOffer.MaxLoanAmount == offer.MaxLoanAmount &&
+                    existedOffer.MaxOfMonths == offer.MaxOfMonths &&
+                    existedOffer.ActiveLoansNumber == offer.ActiveLoansNumber &&
+                    existedOffer.MinSeniority == offer.MinSeniority &&
+                    existedOffer.MinAge == offer.MinAge);
+
+            return findedOffer != null;
+        }
 
         #region Entity Properties
 
@@ -41,7 +66,7 @@ namespace OffersTable.ViewModels
             get => _offer.Interest;
             set
             {
-                if (Math.Abs(value - _offer.Interest) < 1)
+                if (value == _offer.Interest)
                 {
                     return;
                 }
@@ -187,7 +212,8 @@ namespace OffersTable.ViewModels
             "MinLoanAmount",
             "MaxLoanAmount",
             "MinSeniority",
-            "MinAge"
+            "MinAge",
+            "ActiveLoansNumber"
         };
 
 
@@ -204,11 +230,20 @@ namespace OffersTable.ViewModels
                 "MaxLoanAmount" => ValidateMaxLoanAmount(),
                 "MinSeniority" => ValidateMinSeniority(),
                 "MinAge" => ValidateMinAge(),
+                "ActiveLoansNumber" => ValidateActiveLoansNumber(),
                 _ => null
             };
             return error;
         }
 
+        private string ValidateActiveLoansNumber()
+        {
+            if (ActiveLoansNumber<0)
+            {
+                return Resources.offer_error_active_loans_number_out_of_range;
+            }
+            return null;
+        }
 
 
         private string ValidateMinSeniority()
@@ -240,7 +275,7 @@ namespace OffersTable.ViewModels
 
         private string ValidateInterest()
         {
-            if (Interest <= 0)
+            if (Interest <= 0f)
             {
                 return Resources.offer_error_interest_negate;
             }
