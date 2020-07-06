@@ -1,28 +1,19 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
-using ClientInfo.Properties;
-using ClientInfo.ViewModels;
-using ClientInfo.Views;
-using LoanHelper.Core.Events;
+using ClientsTable.Properties;
 using LoanHelper.Core.Extensions;
-using LoanHelper.Core.Views;
+using Prism.Commands;
 using Prism.Events;
-using Prism.Ioc;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
-namespace ClientInfo.ViewModels
+namespace ClientsTable.ViewModels
 {
     public class ClientInfoViewModel : BindableBase, IDataErrorInfo
     {
