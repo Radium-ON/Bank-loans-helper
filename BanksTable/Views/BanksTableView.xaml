@@ -36,8 +36,16 @@
     </i:Interaction.Triggers>
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-            <WrapPanel Name="stack_all_banks">
-                <StackPanel x:Name="stack_banks">
+            <Grid Name="grid_all_banks">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="stack_banks" Grid.Row="0" Grid.RowSpan="2">
                     <TextBlock Text="БАНКИ" Style="{StaticResource Heading2}" />
                     <DataGrid x:Name="data_grid_banks" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="400"
                           SelectionMode="Single" SelectionUnit="FullRow"
@@ -64,8 +72,8 @@
                     </DataGrid>
                 </StackPanel>
 
-                <StackPanel x:Name="stack_bank_clients" DataContext="{Binding ElementName=data_grid_banks, Path=SelectedItem.LoanAgreements, UpdateSourceTrigger=PropertyChanged}"
-                            Margin="20,7,0,0" Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding}}">
+                <StackPanel x:Name="stack_bank_clients" Grid.Row="0" Grid.Column="1" DataContext="{Binding ElementName=data_grid_banks, Path=SelectedItem.LoanAgreements, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="20,6,0,0" Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding}}">
                     <TextBlock Text="Клиенты банка:" Style="{StaticResource Emphasis}"/>
 
                     <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True">
@@ -87,8 +95,8 @@
                     </DataGrid>
                 </StackPanel>
 
-                <StackPanel x:Name="stack_bank_offers" DataContext="{Binding ElementName=data_grid_banks, Path=SelectedItem.Offers, UpdateSourceTrigger=PropertyChanged}"
-                            Margin="20,7,0,0" Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding}}">
+                <StackPanel x:Name="stack_bank_offers" Grid.Row="1" Grid.Column="1" DataContext="{Binding ElementName=data_grid_banks, Path=SelectedItem.Offers, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="20,17,0,0" Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding}}">
                     <TextBlock Text="Банк предложит кредит на этих условиях:" Style="{StaticResource Emphasis}"/>
 
                     <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="1000">
@@ -103,7 +111,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
-            </WrapPanel>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </controls:ModernUserControl>
