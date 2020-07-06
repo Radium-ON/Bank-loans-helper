@@ -37,7 +37,7 @@
     </i:Interaction.Triggers>
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-            <WrapPanel MinWidth="200" Orientation="Horizontal">
+            <WrapPanel MinWidth="200">
                 <StackPanel>
                     <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}"/>
                     <DataGrid x:Name="data_grid_offers" MaxHeight="600" CanUserAddRows="False" AutoGenerateColumns="False"

@@ -8,7 +8,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="329.289"
-             MaxHeight="200">
+             MaxHeight="250">
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="16"/>
