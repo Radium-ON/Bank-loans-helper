@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ClientInfo.Views;
+using BanksTable.Views;
 using FirstFloor.ModernUI.Presentation;
 using LoanHelper.Core.Interfaces;
 
-namespace ClientInfo.Services
+namespace BanksTable.Services
 {
     public class ModernLinkService : IModernLinkService
     {
@@ -17,8 +13,8 @@ namespace ClientInfo.Services
         {
             return new Link
             {
-                DisplayName = "новый клиент",
-                Source = new Uri($"/ClientInfo;component/Views/{nameof(ClientInfoView)}.xaml", UriKind.Relative)
+                DisplayName = "Банки",
+                Source = new Uri($"/BanksTable;component/Views/{nameof(BanksTableView)}.xaml", UriKind.Relative)
             };
         }
 

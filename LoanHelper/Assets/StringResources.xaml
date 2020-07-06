@@ -8,5 +8,7 @@
     <sys:String x:Key="offer_deleted_dialog_message" >Этим предложением владеют некоторые банки.&#13;Вы уверены, что хотите удалить его?</sys:String>
     <sys:String x:Key="client_deleted_dialog_title" >Удаление клиента</sys:String>
     <sys:String x:Key="client_deleted_dialog_message" >Этот клиент владеет долговыми обязательствами.&#13;Вы уверены, что хотите удалить его?</sys:String>
+    <sys:String x:Key="bank_deleted_dialog_title" >Удаление банка</sys:String>
+    <sys:String x:Key="bank_deleted_dialog_message" >Этот банк уже выдавал кредиты своим клиентам.&#13;Вы уверены, что хотите удалить его?</sys:String>
 
 </ResourceDictionary>

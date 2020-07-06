@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientInfo.Properties {
+namespace BanksTable.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ClientInfo.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ClientInfo.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BanksTable.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,29 @@ namespace ClientInfo.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не заполнен возраст клиента!.
+        ///   Looks up a localized string similar to Не заполнено наименование банка..
         /// </summary>
-        internal static string client_error_missing_age {
+        internal static string bank_error_missing_bankname {
             get {
-                return ResourceManager.GetString("client_error_missing_age", resourceCulture);
+                return ResourceManager.GetString("bank_error_missing_bankname", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не заполнено имя клиента!.
+        ///   Looks up a localized string similar to Нет данных о лицензии..
         /// </summary>
-        internal static string client_error_missing_first_name {
+        internal static string bank_error_missing_license {
             get {
-                return ResourceManager.GetString("client_error_missing_first_name", resourceCulture);
+                return ResourceManager.GetString("bank_error_missing_license", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не заполнена фамилия клиента!.
+        ///   Looks up a localized string similar to ОГРН состоит из 13 цифр..
         /// </summary>
-        internal static string client_error_missing_lastname {
+        internal static string bank_error_missing_ogrn {
             get {
-                return ResourceManager.GetString("client_error_missing_lastname", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Нет паспортных данных!.
-        /// </summary>
-        internal static string client_error_missing_passport {
-            get {
-                return ResourceManager.GetString("client_error_missing_passport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Нет данных о зарплате!.
-        /// </summary>
-        internal static string client_error_missing_salary {
-            get {
-                return ResourceManager.GetString("client_error_missing_salary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не вписан трудовой стаж!.
-        /// </summary>
-        internal static string client_error_missing_seniority {
-            get {
-                return ResourceManager.GetString("client_error_missing_seniority", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не заполнен ИНН!.
-        /// </summary>
-        internal static string client_error_missing_tin {
-            get {
-                return ResourceManager.GetString("client_error_missing_tin", resourceCulture);
+                return ResourceManager.GetString("bank_error_missing_ogrn", resourceCulture);
             }
         }
     }
