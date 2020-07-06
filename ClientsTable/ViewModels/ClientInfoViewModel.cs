@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
@@ -18,137 +19,145 @@ namespace ClientsTable.ViewModels
     public class ClientInfoViewModel : BindableBase, IDataErrorInfo
     {
         #region Backing Fields
-        private readonly IEventAggregator _eventAggregator;
-        private readonly IBankEntitiesContext _bankEntities;
-        private readonly IDialogService _dialogService;
 
-        private string _firstName;
-        private string _lastName;
-        private string _passport;
-        private string _tin;
-        private int _age;
-        private int _seniority;
-        private decimal _salary;
+        private readonly IBankEntitiesContext _bankEntities;
+        private readonly Client _client;
 
         #endregion
 
-        public ClientInfoViewModel(IEventAggregator eventAggregator, IBankEntitiesContext bankEntities, IDialogService dialogService)
+        public ClientInfoViewModel(Client client, IBankEntitiesContext bankEntities)
         {
-            _eventAggregator = eventAggregator;
+            _client = client;
             _bankEntities = bankEntities;
-            _dialogService = dialogService;
-
-            AddClientCommand = new DelegateCommand(async () => await AddClient(), CanAddClient)
-                .ObservesProperty(() => IsValid);
         }
 
-        private bool CanAddClient()
+        public Client Client => _client;
+
+        public bool IsClientUnique => !CheckIsClientContainsInContext(_client);
+
+        private bool CheckIsClientContainsInContext(Client client)
         {
-            return IsValid;
+            return _bankEntities.Clients.Any(c => c.Passport == client.Passport || c.TIN == client.TIN);
         }
 
-        private async Task AddClient()
-        {
+        #region Entity Properties
 
-            await _bankEntities.Clients.LoadAsync();
-            var newclient = new Client
-            {
-                FirstName = FirstName,
-                LastName = LastName,
-                Passport = Passport,
-                TIN = TIN,
-                Age = Age,
-                Seniority = Seniority,
-                Salary = Salary
-            };
-            var clientExist = await _bankEntities.Clients.AnyAsync(c => c.Passport == newclient.Passport || c.TIN == newclient.TIN);
-            if (!clientExist)
-            {
-                _bankEntities.Clients.Add(newclient);
-                var status = await _bankEntities.SaveChangesWithValidationAsync(CancellationToken.None);
-                var message = "Новый клиент добавлен успешно.";
-                if (!status.IsValid)
-                {
-                    message = string.Join("\n", status.EfErrors);
-                }
-                ShowClientAddingNotification("Добавление клиента", message);
-
-            }
-            else
-            {
-                ShowClientAddingNotification("Клиент не добавлен", $"Клиент с паспортом {newclient.Passport} и ИНН {newclient.TIN} уже существует.");
-            }
-        }
-
-        private void ShowClientAddingNotification(string title, string message)
-        {
-            _dialogService.ShowOkDialog(title, message, r => { });
-        }
-
-        #region Bindable Properties
+        public int ClientId => _client.PK_ClientId;
 
         public string FirstName
         {
-            get => _firstName;
+            get => _client.FirstName;
             set
             {
-                SetProperty(ref _firstName, value, () => RaisePropertyChanged(nameof(IsValid)));
+                if (value == _client.FirstName)
+                {
+                    return;
+                }
+
+                _client.FirstName = value;
+
+                RaisePropertyChanged(nameof(FirstName));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public string LastName
         {
-            get => _lastName;
+            get => _client.LastName;
             set
             {
-                SetProperty(ref _lastName, value, () => RaisePropertyChanged(nameof(IsValid)));
+                if (value == _client.LastName)
+                {
+                    return;
+                }
+
+                _client.LastName = value;
+
+                RaisePropertyChanged(nameof(LastName));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public string Passport
         {
-            get { return _passport; }
+            get => _client.Passport;
             set
             {
-                SetProperty(ref _passport, value, () => RaisePropertyChanged(nameof(IsValid)));
+                if (value == _client.Passport)
+                {
+                    return;
+                }
+
+                _client.Passport = value;
+
+                RaisePropertyChanged(nameof(Passport));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
-        public string TIN
+        public string Tin
         {
-            get { return _tin; }
+            get => _client.TIN;
             set
             {
-                SetProperty(ref _tin, value, () => RaisePropertyChanged(nameof(IsValid)));
+                if (value == _client.TIN)
+                {
+                    return;
+                }
+
+                _client.TIN = value;
+
+                RaisePropertyChanged(nameof(Tin));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public int Age
         {
-            get { return _age; }
+            get => _client.Age;
             set
             {
-                SetProperty(ref _age, value, () => RaisePropertyChanged(nameof(IsValid)));
+                if (value == _client.Age)
+                {
+                    return;
+                }
+
+                _client.Age = value;
+
+                RaisePropertyChanged(nameof(Age));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public int Seniority
         {
-            get { return _seniority; }
+            get => _client.Seniority;
             set
             {
-                SetProperty(ref _seniority, value, () => RaisePropertyChanged(nameof(IsValid)));
+                if (value == _client.Seniority)
+                {
+                    return;
+                }
+
+                _client.Seniority = value;
+
+                RaisePropertyChanged(nameof(Seniority));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
         public decimal Salary
         {
-            get { return _salary; }
+            get => _client.Salary;
             set
             {
-                SetProperty(ref _salary, value, () => RaisePropertyChanged(nameof(IsValid)));
+                if (value == _client.Salary)
+                {
+                    return;
+                }
+
+                _client.Salary = value;
+
+                RaisePropertyChanged(nameof(Salary));
+                RaisePropertyChanged(nameof(IsValid));
             }
         }
-        #endregion
 
-        #region DelegateCommands
-
-        public DelegateCommand AddClientCommand { get; private set; }
-
+        public ObservableCollection<LoanAgreement> LoanAgreements => _client.LoanAgreements;
         #endregion
 
         #region Implementation of IDataErrorInfo
@@ -174,7 +183,7 @@ namespace ClientsTable.ViewModels
             "FirstName",
             "LastName",
             "Passport",
-            "TIN",
+            "Tin",
             "Age",
             "Seniority",
             "Salary"
@@ -192,7 +201,7 @@ namespace ClientsTable.ViewModels
                 "FirstName" => ValidateFirstName(),
                 "LastName" => ValidateLastName(),
                 "Passport" => ValidatePassport(),
-                "TIN" => ValidateTin(),
+                "Tin" => ValidateTin(),
                 "Age" => ValidateAge(),
                 "Seniority" => ValidateSeniority(),
                 "Salary" => ValidateSalary(),
@@ -231,7 +240,7 @@ namespace ClientsTable.ViewModels
 
         private string ValidateTin()
         {
-            if (IsStringMissing(TIN) || !IsStringAllDigits(TIN) || TIN.Length != 12 || TIN.StartsWith("0"))
+            if (IsStringMissing(Tin) || !IsStringAllDigits(Tin) || Tin.Length != 12 || Tin.StartsWith("0"))
             {
                 return Resources.client_error_missing_tin;
             }

@@ -6,4 +6,7 @@
     <sys:String x:Key="some_data_changed_dialog_message" >Все внесённые изменения будут сохранены.&#13;Готовы продолжить?</sys:String>
     <sys:String x:Key="offer_deleted_dialog_title" >Удаление предложения</sys:String>
     <sys:String x:Key="offer_deleted_dialog_message" >Этим предложением владеют некоторые банки.&#13;Вы уверены, что хотите удалить его?</sys:String>
+    <sys:String x:Key="client_deleted_dialog_title" >Удаление клиента</sys:String>
+    <sys:String x:Key="client_deleted_dialog_message" >Этот клиент владеет долговыми обязательствами.&#13;Вы уверены, что хотите удалить его?</sys:String>
+
 </ResourceDictionary>

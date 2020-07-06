@@ -36,19 +36,19 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel Name="stack_all_clients">
-                <TextBlock Text="ВСЕ КЛИЕНТЫ" Style="{StaticResource Heading2}" />
-                <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" CanUserAddRows="False" MaxWidth="1100" MaxHeight="380"
+                <TextBlock Text="КЛИЕНТЫ" Style="{StaticResource Heading2}" />
+                <DataGrid x:Name="data_grid_clients" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="400"
                           SelectionMode="Single" SelectionUnit="FullRow"
                           EnableRowVirtualization="True"
                           ScrollViewer.CanContentScroll="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizing="True"
-                          ItemsSource="{Binding Clients}"
+                          ItemsSource="{Binding ClientInfoViewModels, UpdateSourceTrigger=PropertyChanged}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Изменить" Icon="{DynamicResource edit_icon_path}"
-                                          Command="{Binding UpdateClientCommand}"
-                                          CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
+                            <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon_path}"
+                                      Command="{Binding AddClientCommand}"/>
+
                             <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
                                           Command="{Binding DeleteClientCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
@@ -56,13 +56,13 @@
                     </DataGrid.ContextMenu>
 
                     <DataGrid.Columns>
-                        <mui:DataGridTextColumn Header="Имя"  Binding="{Binding FirstName}"/>
-                        <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
-                        <mui:DataGridTextColumn Header="Паспорт" Binding="{Binding Passport}"/>
-                        <mui:DataGridTextColumn Header="ИНН" Binding="{Binding TIN}"/>
-                        <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age}"/>
-                        <mui:DataGridTextColumn Header="Стаж" Binding="{Binding Seniority}"/>
-                        <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
+                        <mui:DataGridTextColumn Header="Имя"  Binding="{Binding FirstName, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn Header="Фамилия" Binding="{Binding LastName, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}" />
+                        <mui:DataGridTextColumn Header="Паспорт" Binding="{Binding Passport, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn Header="ИНН" Binding="{Binding Tin, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn Header="Стаж" Binding="{Binding Seniority, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

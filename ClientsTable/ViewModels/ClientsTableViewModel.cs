@@ -12,6 +12,7 @@ using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Extensions;
 using BankLoansDataModel.Services;
+using ClientsTable.Views;
 using LoanHelper.Core.Extensions;
 using LoanHelper.Core.ViewModels;
 using FirstFloor.ModernUI.Windows.Navigation;
@@ -24,50 +25,63 @@ namespace ClientsTable.ViewModels
     public class ClientsTableViewModel : ModernViewModelBase
     {
         #region Backing Fields
-        private ObservableCollection<Client> _clients;
 
-
+        private AsyncObservableCollection<ClientInfoViewModel> _clientInfoViewModels;
 
         private readonly IBankEntitiesContext _bankEntities;
-        private readonly IEventAggregator _eventAggregator;
         private readonly IDialogService _dialogService;
+
         #endregion
 
-        public ClientsTableViewModel(IBankEntitiesContext bankEntities, IEventAggregator eventAggregator, IDialogService dialogService)
+        public ClientsTableViewModel(IBankEntitiesContext bankEntities, IDialogService dialogService)
         {
             _bankEntities = bankEntities;
-            _eventAggregator = eventAggregator;
             _dialogService = dialogService;
 
+            DeleteClientCommand = new DelegateCommand<ClientInfoViewModel>(async vm => await DeleteSelectedClientAsync(vm));
+            AddClientCommand = new DelegateCommand(ShowAddClientDialog);
 
-
-            Clients = new AsyncObservableCollection<Client>();
-
-            DeleteClientCommand = new DelegateCommand<Client>(async client => await DeleteSelectedClientAsync(client));
+            ClientInfoViewModels = new AsyncObservableCollection<ClientInfoViewModel>();
 
             NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(LoadData);
+            LoadedCommand = new DelegateCommand(async () => await LoadData());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
 
-        #region Properties
-
-        public ObservableCollection<Client> Clients
+        private void ShowAddClientDialog()
         {
-            get => _clients;
-            set => SetProperty(ref _clients, value);
+            _dialogService.ShowDialog(nameof(ClientAddingDialog), new DialogParameters { { "ClientInfoViewModel", new ClientInfoViewModel(new Client(), _bankEntities) } },
+                async r =>
+                {
+                    if (r.Result == ButtonResult.OK)
+                    {
+                        var addedClientVm = r.Parameters.GetValue<ClientInfoViewModel>("AddedClientViewModel");
+
+                        _bankEntities.Clients.Add(addedClientVm.Client);
+                        await _bankEntities.SaveChangesAsync(CancellationToken.None);
+
+                        ClientInfoViewModels.Add(addedClientVm);
+                    }
+                });
+        }
+
+
+
+        public AsyncObservableCollection<ClientInfoViewModel> ClientInfoViewModels
+        {
+            get => _clientInfoViewModels;
+            set => SetProperty(ref _clientInfoViewModels, value);
         }
 
         public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
 
-        #endregion
-
         #region DelegateCommands
 
-        public DelegateCommand<Client> DeleteClientCommand { get; private set; }
+        public DelegateCommand<ClientInfoViewModel> DeleteClientCommand { get; private set; }
+        public DelegateCommand AddClientCommand { get; private set; }
 
         #endregion
 
@@ -84,10 +98,10 @@ namespace ClientsTable.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private void LoadData()
+        private async Task LoadData()
         {
-            _bankEntities.Clients.Load();
-            Clients = _bankEntities.Clients.Local;
+            ClientInfoViewModels.Clear();
+            ClientInfoViewModels.AddRange(await GetOfferInfoViewModelsAsync(_bankEntities.Clients));
             Debug.WriteLine("ClientsTableViewModel - LoadData");
         }
 
@@ -135,25 +149,42 @@ namespace ClientsTable.ViewModels
 
         #endregion
 
-
-
-        private void ShowNotificationWithClientsReloaded(List<Client> badClients, Action<IDialogResult> callBack)
+        private async Task DeleteSelectedClientAsync(ClientInfoViewModel clientVm)
         {
-            _dialogService.ShowOkDialog(
-                    "Нельзя перейти",
-                    $"Клиенты с данными паспорта: {GetBadPassportsForMessage(badClients)} и ИНН: {GetBadTinsForMessage(badClients)} уже существуют или недопустимы.",
-                    callBack);
-        }
+            if (clientVm == null) return;
 
-        private async Task DeleteSelectedClientAsync(Client client)
-        {
-            if (client != null)
+            if (clientVm.Client.LoanAgreements.Count == 0)
             {
-                _bankEntities.Clients.Remove(client);
-                await _bankEntities.SaveChangesAsync(CancellationToken.None);
+                await RemoveOfferAsync(clientVm);
+            }
+            else
+            {
+                _dialogService.ShowOkCancelDialog(
+                    Application.Current.FindResource("client_deleted_dialog_title") as string,
+                    Application.Current.FindResource("client_deleted_dialog_message") as string,
+                    async r =>
+                    {
+                        if (r.Result == ButtonResult.OK)
+                        {
+                            await RemoveOfferAsync(clientVm);
+                        }
+                    });
             }
         }
 
+        private async Task RemoveOfferAsync(ClientInfoViewModel clientVm)
+        {
+            _bankEntities.Clients.Remove(clientVm.Client);
+            ClientInfoViewModels.Remove(clientVm);
+            await _bankEntities.SaveChangesAsync(CancellationToken.None);
+        }
+
+        private async Task<IEnumerable<ClientInfoViewModel>> GetOfferInfoViewModelsAsync(IDbSet<Client> clients)
+        {
+            await clients.LoadAsync();
+            return clients.Local.Select(client => new ClientInfoViewModel(client, _bankEntities));
+        }
+        
         private async Task NavigatingWithModifiedClientsCallBack(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
         {
             if (r.Result == ButtonResult.Cancel)
@@ -162,7 +193,8 @@ namespace ClientsTable.ViewModels
             }
             else if (r.Result == ButtonResult.OK)
             {
-                var badClients = await GetNotUniqueClientsAsync(CurrentObjectContext);
+                var updatedClients = CurrentObjectContext.GetEntriesByEntityState<Client>(EntityState.Modified);
+                var badClients = await GetNotValidClientViewModelsAsync(ClientInfoViewModels);
                 if (badClients.Count == 0)
                 {
                     var status = await _bankEntities.SaveChangesWithValidationAsync(CancellationToken.None);
@@ -170,7 +202,6 @@ namespace ClientsTable.ViewModels
                     {
                         e.Cancel = true;
 
-                        var updatedClients = CurrentObjectContext.GetEntriesByEntityState<Client>(EntityState.Modified);
                         _dialogService.ShowOkDialog("Ошибка обновления", string.Join("\n", status.EfErrors), m => { });
                         await dbcontext.ReloadAllEntitiesAsync(updatedClients);
                     }
@@ -178,40 +209,19 @@ namespace ClientsTable.ViewModels
                 else
                 {
                     e.Cancel = true;
-                    ShowNotificationWithClientsReloaded(badClients,
-                        async n => await dbcontext.ReloadAllEntitiesAsync(badClients));
+                    await dbcontext.ReloadAllEntitiesAsync(updatedClients);
                 }
             }
         }
-
+        
         /// <summary>
-        /// Возвращает список обновленных клиентов <see cref="BankLoansDataModel.Client"/>, чей <see cref="BankLoansDataModel.Client.Passport"/> или <see cref="BankLoansDataModel.Client.TIN"/> совпадает с базой; асинхронный.
+        /// Возвращает список оболочек неисправных клиентов <see cref="ClientInfoViewModel"/>; асинхронный.
         /// </summary>
-        /// <param name="objectContext">Контекст объектов базы данных.</param>
+        /// <param name="clientInfoViewModels"></param>
         /// <returns>Список неуникальных клиентов.</returns>
-        private async Task<List<Client>> GetNotUniqueClientsAsync(ObjectContext objectContext)
+        private async Task<List<ClientInfoViewModel>> GetNotValidClientViewModelsAsync(IEnumerable<ClientInfoViewModel> clientInfoViewModels)
         {
-            var updatedClients = await objectContext.GetEntriesByEntityState<Client>(EntityState.Modified).AsAsyncEnumerableQuery().ToListAsync();
-
-            var clientsListPassportsWithLetters = await updatedClients.AsAsyncQueryable().Where(c => Enumerable.Any<char>(c.Passport, char.IsLetter) || Enumerable.Any<char>(c.TIN, char.IsLetter)).ToListAsync();
-
-            var notUniqueClients = await updatedClients.AsAsyncQueryable()
-                .Where(c => _bankEntities.Clients.Any(b => b.PK_ClientId != c.PK_ClientId && (b.Passport == c.Passport || b.TIN == c.TIN))).ToListAsync();
-
-            notUniqueClients.AddRange(clientsListPassportsWithLetters);
-            return notUniqueClients;
-        }
-
-        private static string GetBadPassportsForMessage(IEnumerable<Client> badClients)
-        {
-            var passports = badClients.Select(badClient => badClient.Passport);
-            return string.Join((string)", ", (IEnumerable<string>)passports);
-        }
-
-        private static string GetBadTinsForMessage(IEnumerable<Client> badClients)
-        {
-            var tins = badClients.Select(badClient => badClient.TIN);
-            return string.Join(", ", tins);
+            return await clientInfoViewModels.AsAsyncQueryable().Where(vm => vm.IsValid == false).ToListAsync();
         }
     }
 }

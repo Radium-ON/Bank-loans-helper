@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
@@ -24,16 +23,21 @@ namespace OffersTable.ViewModels
 {
     public class OffersTableViewModel : ModernViewModelBase
     {
+        #region Backing Fields
+
+        private ObservableCollection<OfferInfoViewModel> _offerViewModels;
+
         private readonly IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
-        private readonly IEventAggregator _eventAggregator;
 
-        public OffersTableViewModel(IBankEntitiesContext bankEntities, IDialogService dialogService, IEventAggregator eventAggregator)
+        #endregion
+
+        public OffersTableViewModel(IBankEntitiesContext bankEntities, IDialogService dialogService)
         {
             _bankEntities = bankEntities;
             _dialogService = dialogService;
-            _eventAggregator = eventAggregator;
-            DeleteOfferCommand = new DelegateCommand<OfferInfoViewModel>(async vm => await DeleteSelectedOffer(vm));
+
+            DeleteOfferCommand = new DelegateCommand<OfferInfoViewModel>(async vm => await DeleteSelectedOfferAsync(vm));
             AddOfferCommand = new DelegateCommand(ShowAddOfferDialog);
 
             OfferViewModels = new ObservableCollection<OfferInfoViewModel>();
@@ -65,13 +69,6 @@ namespace OffersTable.ViewModels
 
 
 
-        #region Backing Fields
-        private ObservableCollection<OfferInfoViewModel> _offerViewModels;
-
-
-
-        #endregion
-
         public ObservableCollection<OfferInfoViewModel> OfferViewModels
         {
             get => _offerViewModels;
@@ -84,6 +81,7 @@ namespace OffersTable.ViewModels
 
         public DelegateCommand<OfferInfoViewModel> DeleteOfferCommand { get; private set; }
         public DelegateCommand AddOfferCommand { get; private set; }
+
         #endregion
 
         #region NavigationEvents Methods
@@ -151,7 +149,7 @@ namespace OffersTable.ViewModels
 
         #endregion
 
-        private async Task DeleteSelectedOffer(OfferInfoViewModel offerVm)
+        private async Task DeleteSelectedOfferAsync(OfferInfoViewModel offerVm)
         {
             if (offerVm == null) return;
 
@@ -216,13 +214,12 @@ namespace OffersTable.ViewModels
                 }
             }
         }
-
-
+        
         /// <summary>
         /// Возвращает список оболочек неисправных предложений <see cref="OfferInfoViewModel"/>; асинхронный.
         /// </summary>
         /// <param name="offerInfoViewModels"></param>
-        /// <returns>Список неуникальных клиентов.</returns>
+        /// <returns>Список неуникальных предложений.</returns>
         private async Task<List<OfferInfoViewModel>> GetNotValidOfferViewModelsAsync(IEnumerable<OfferInfoViewModel> offerInfoViewModels)
         {
             return await offerInfoViewModels.AsAsyncQueryable().Where(vm => vm.IsValid == false).ToListAsync();
