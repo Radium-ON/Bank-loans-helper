@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Prism">
-      <HintPath>..\packages\Prism.Core.7.2.0.1422\lib\net45\Prism.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -68,6 +65,9 @@
     </Compile>
     <Compile Include="Services\ModernLinkService.cs" />
     <Compile Include="ViewModels\LoanOffersFilterViewModel.cs" />
+    <Compile Include="Views\ClientSelectorView.xaml.cs">
+      <DependentUpon>ClientSelectorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoanOffersFilterView.xaml.cs">
       <DependentUpon>LoanOffersFilterView.xaml</DependentUpon>
     </Compile>
@@ -108,6 +108,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\ClientSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoanOffersFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
