@@ -11,7 +11,6 @@ namespace LoanHelper.Views
         public MainWindow()
         {
             InitializeComponent();
-            ContentSource = MenuLinkGroups.First().Links.First().Source;
         }
     }
 }

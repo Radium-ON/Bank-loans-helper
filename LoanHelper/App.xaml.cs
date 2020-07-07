@@ -47,8 +47,15 @@ namespace LoanHelper
         {
             base.InitializeShell(shell);
             var modernWindow = shell as ModernWindow;
-            var linkGroupCollection = modernWindow?.MenuLinkGroups.Single(l => l.DisplayName == "Данные");
-            linkGroupCollection?.Links.AddRange(_linkCollection);
+            var mainLinkGroup = modernWindow?.MenuLinkGroups.Single(l => l.DisplayName == "Кредитный помощник");
+            var linkGroup = modernWindow?.MenuLinkGroups.Single(l => l.DisplayName == "Данные");
+
+            var mainModuleLink = _linkCollection.Single(l => l.DisplayName == "Подбор кредита");
+            mainLinkGroup?.Links.Add(mainModuleLink);
+            _linkCollection.Remove(mainModuleLink);
+            linkGroup?.Links.AddRange(_linkCollection);
+
+            modernWindow.ContentSource = mainModuleLink.Source;
         }
 
         protected override IModuleCatalog CreateModuleCatalog()

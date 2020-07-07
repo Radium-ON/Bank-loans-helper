@@ -1,28 +1,51 @@
-﻿using System.Diagnostics;
+﻿using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
+using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core.ViewModels;
 using Prism.Commands;
+using Prism.Services.Dialogs;
 
-namespace LoanHelper.ViewModels
+namespace LoanOffersFilter.ViewModels
 {
-    public class OffersFilterViewModel : ModernViewModelBase
+    public class LoanOffersFilterViewModel : ModernViewModelBase
     {
-        public OffersFilterViewModel()
+        #region Backing Fields
+
+
+        private readonly IBankEntitiesContext _bankEntities;
+        private readonly IDialogService _dialogService;
+
+        #endregion
+
+        public LoanOffersFilterViewModel(IBankEntitiesContext bankEntities, IDialogService dialogService)
         {
+            _bankEntities = bankEntities;
+            _dialogService = dialogService;
+
+            #region Navigation Commands
+
             NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
             LoadedCommand = new DelegateCommand(LoadData);
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
+
+            #endregion
         }
+
+        public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
+
+        #region NavigationEvents Methods
 
         /// <summary>
         /// Вызывается после события IsVisibleChanged связанного view.
         /// </summary>
         private void VisibilityChanged()
         {
-            Debug.WriteLine("OffersFilterViewModel - VisibilityChanged");
+            Debug.WriteLine("LoanOffersFilterViewModel - VisibilityChanged");
         }
 
         /// <summary>
@@ -30,7 +53,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void LoadData()
         {
-            Debug.WriteLine("OffersFilterViewModel - LoadData");
+            Debug.WriteLine("LoanOffersFilterViewModel - LoadData");
         }
 
         /// <summary>
@@ -38,7 +61,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void NavigatedFrom()
         {
-            Debug.WriteLine("OffersFilterViewModel - NavigatedFrom");
+            Debug.WriteLine("LoanOffersFilterViewModel - NavigatedFrom");
         }
 
         /// <summary>
@@ -46,7 +69,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void NavigatedTo()
         {
-            Debug.WriteLine("OffersFilterViewModel - NavigatedTo");
+            Debug.WriteLine("LoanOffersFilterViewModel - NavigatedTo");
         }
 
         /// <summary>
@@ -54,7 +77,7 @@ namespace LoanHelper.ViewModels
         /// </summary>
         private void FragmentNavigation()
         {
-            Debug.WriteLine("OffersFilterViewModel - FragmentNavigation");
+            Debug.WriteLine("LoanOffersFilterViewModel - FragmentNavigation");
         }
 
         /// <summary>
@@ -63,7 +86,9 @@ namespace LoanHelper.ViewModels
         /// <param name="e">Параметры отмены навигации</param>
         private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
-            Debug.WriteLine("OffersFilterViewModel - NavigatingFrom");
+            Debug.WriteLine("LoanOffersFilterViewModel - NavigatingFrom");
         }
+
+        #endregion
     }
 }

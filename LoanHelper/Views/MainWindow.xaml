@@ -7,11 +7,7 @@
         Height="600" Width="1110">
 
     <mui:ModernWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="Кредитный помощник">
-            <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Подбор кредита" Source="/Views/OffersFilterView.xaml" />
-            </mui:LinkGroup.Links>
-        </mui:LinkGroup>
+        <mui:LinkGroup DisplayName="Кредитный помощник"/>
         <mui:LinkGroup DisplayName="Данные"/>
         <mui:LinkGroup DisplayName="настройки" GroupKey="settings">
             <mui:LinkGroup.Links>

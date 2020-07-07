@@ -42,12 +42,16 @@ namespace OffersTable.ViewModels
 
             OfferViewModels = new ObservableCollection<OfferInfoViewModel>();
 
+            #region Navigation Commands
+
             NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
             LoadedCommand = new DelegateCommand(async () => await LoadData());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
+
+            #endregion
         }
 
         private void ShowAddOfferDialog()
@@ -214,7 +218,7 @@ namespace OffersTable.ViewModels
                 }
             }
         }
-        
+
         /// <summary>
         /// Возвращает список оболочек неисправных предложений <see cref="OfferInfoViewModel"/>; асинхронный.
         /// </summary>

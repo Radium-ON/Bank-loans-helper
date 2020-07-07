@@ -124,8 +124,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="ViewModels\ClientViewModel.cs" />
-    <Compile Include="ViewModels\OffersFilterViewModel.cs" />
     <Compile Include="Views\ClientAddingView.xaml.cs">
       <DependentUpon>ClientAddingView.xaml</DependentUpon>
     </Compile>
@@ -158,17 +156,10 @@
       <DependentUpon>Appearance.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\AppearanceViewModel.cs" />
-    <Page Include="Views\OffersFilterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Views\OffersFilterView.xaml.cs">
-      <DependentUpon>OffersFilterView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -184,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BankLoansDataModel\BankLoansDataModel.csproj">
