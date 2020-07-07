@@ -89,7 +89,7 @@
                             <mui:DataGridTextColumn Header="Номер договора" Binding="{Binding AgreementNumber}"/>
                             <mui:DataGridTextColumn Header="Ставка %" Binding="{Binding Interest}"/>
                             <mui:DataGridTextColumn Header="Сумма" Binding="{Binding LoanAmount}"/>
-                            <mui:DataGridTextColumn Header="Дата заключения" Binding="{Binding ContractDate}"/>
+                            <mui:DataGridTextColumn Header="Дата заключения" Binding="{Binding ContractDate, StringFormat=d}"/>
                             <mui:DataGridCheckBoxColumn Header="Погашен" Binding="{Binding IsRepaid}" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
