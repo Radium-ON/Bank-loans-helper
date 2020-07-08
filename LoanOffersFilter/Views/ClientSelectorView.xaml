@@ -7,10 +7,10 @@
              xmlns:local="clr-namespace:LoanOffersFilter.Views"
              mc:Ignorable="d" 
              d:DesignHeight="472.689" d:DesignWidth="307.143">
-    <Grid>
+    <Grid MinWidth="300">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="stack_client_selector">
             <TextBlock Text="ВЫБЕРИТЕ КЛИЕНТА" Margin="10,0,0,0" Style="{StaticResource Heading2}"/>
@@ -27,31 +27,31 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="ФИО" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
-                <TextBlock x:Name="tb_fullname" Grid.Column="1" TextWrapping="Wrap" Text="TextBlock"/>
-                <TextBlock Text="Возраст" Grid.Row="1" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
+                <TextBlock x:Name="tb_fullname" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Text="TextBlock"/>
+                <TextBlock Text="Возраст" Grid.Row="1" Grid.Column="0" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
                 <TextBlock x:Name="tb_age" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" Grid.Column="1"/>
-                <TextBlock Text="Стаж" Grid.Row="2" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
+                <TextBlock Text="Стаж" Grid.Row="2" Grid.Column="0" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
                 <TextBlock x:Name="tb_seniority" Grid.Row="2" TextWrapping="Wrap" Text="TextBlock" Grid.Column="1"/>
-                <TextBlock Text="Зарплата" Grid.Row="3" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
+                <TextBlock Text="Зарплата" Grid.Row="3" Grid.Column="0" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
                 <TextBlock x:Name="tb_salary" Grid.Row="3" TextWrapping="Wrap" Text="TextBlock" Grid.Column="1"/>
 
             </Grid>
 
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <StackPanel x:Name="stack_loan_amount" Margin="0,10">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Сумма кредита" Margin="10,0,0,0" Style="{StaticResource Heading2}"/>
-                <TextBlock x:Name="tb_loan_amount" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            <StackPanel x:Name="stack_loan_amount" Margin="0,5">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Сумма кредита" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
+                <TextBox x:Name="input_loan_amount" HorizontalAlignment="Center" TextWrapping="Wrap" MinWidth="80" Margin="0,0,0,10"/>
                 <Slider/>
             </StackPanel>
-            <StackPanel x:Name="stack_duration" Margin="0,10">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Срок в месяцах" Margin="10,0,0,0" Style="{StaticResource Heading2}"/>
-                <TextBlock x:Name="tb_months" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            <StackPanel x:Name="stack_duration" Margin="0,5">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Срок в месяцах" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
+                <TextBox x:Name="input_months" HorizontalAlignment="Center" TextWrapping="Wrap" MinWidth="80" Margin="0,0,0,10"/>
                 <Slider/>
             </StackPanel>
-            <StackPanel x:Name="stack_interest" Margin="0,10">
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ставка %" Margin="10,0,0,0" Style="{StaticResource Heading2}"/>
-                <TextBlock x:Name="tb_interest" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            <StackPanel x:Name="stack_interest" Margin="0,5">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ставка %" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
+                <TextBox x:Name="tb_interest" HorizontalAlignment="Center" TextWrapping="Wrap" MinWidth="80" Margin="0,0,0,10"/>
                 <Slider/>
             </StackPanel>
 

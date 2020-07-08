@@ -7,11 +7,12 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:qc="http://QuickConverter.CodePlex.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:controls="clr-namespace:LoanHelper.Core.Controls;assembly=LoanHelper.Core" xmlns:views="clr-namespace:LoanOffersFilter.Views"
-                            prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:controls="clr-namespace:LoanHelper.Core.Controls;assembly=LoanHelper.Core"
+             xmlns:views="clr-namespace:LoanOffersFilter.Views"
              mc:Ignorable="d" 
+             prism:ViewModelLocator.AutoWireViewModel="True"
              d:DesignHeight="283.961" d:DesignWidth="542.449"
-             MinWidth="1">
+             >
     <controls:ModernUserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/LoanHelper.Core;component/Assets/ResourceDictionary.xaml"/>
     </controls:ModernUserControl.Resources>
@@ -42,9 +43,9 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <views:ClientSelectorView Grid.Column="0" Margin="0,0,30,0"/>
-                
+
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -67,16 +68,11 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
-                    <Grid x:Name="grid_loan_accept" Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition MinWidth="100"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition MinWidth="100"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Размер платежа" Style="{StaticResource Emphasis}" Grid.Column="0"/>
-                        <TextBlock x:Name="text_payment" Grid.Column="1"/>
-                        <Button Content="Принять" Grid.Column="2" HorizontalAlignment="Right" MinWidth="100"/>
-                    </Grid>
+                    <WrapPanel x:Name="panel_loan_accept" Grid.Row="1">
+                        <TextBlock Text="РАЗМЕР ПЛАТЕЖА" Style="{StaticResource Emphasis}" Margin="0,4,0,4"/>
+                        <TextBlock x:Name="text_payment" MinWidth="100" MinHeight="25" Text="gay" Margin="0,0,10,0" TextAlignment="Center"/>
+                        <Button Content="Принять" FontWeight="DemiBold" Margin="8,4,0,0"/>
+                    </WrapPanel>
                 </Grid>
             </Grid>
         </ScrollViewer>
