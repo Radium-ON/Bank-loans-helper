@@ -1,6 +1,10 @@
-﻿using System.Data.Entity.Core.Objects;
+﻿using System.ComponentModel;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Data;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core.ViewModels;
@@ -13,9 +17,10 @@ namespace LoanOffersFilter.ViewModels
     {
         #region Backing Fields
 
-
         private readonly IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
+
+        private ICollectionView _clientsCollectionView;
 
         #endregion
 
@@ -30,13 +35,20 @@ namespace LoanOffersFilter.ViewModels
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(LoadData);
+            LoadedCommand = new DelegateCommand(async () => await LoadData());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
 
             #endregion
         }
 
         public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
+
+
+        public ICollectionView ClientsCollectionView
+        {
+            get => _clientsCollectionView;
+            set => SetProperty(ref _clientsCollectionView, value);
+        }
 
         #region NavigationEvents Methods
 
@@ -51,8 +63,12 @@ namespace LoanOffersFilter.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private void LoadData()
+        private async Task LoadData()
         {
+            await _bankEntities.Clients.LoadAsync();
+
+            ClientsCollectionView = CollectionViewSource.GetDefaultView(_bankEntities.Clients.Local);
+
             Debug.WriteLine("LoanOffersFilterViewModel - LoadData");
         }
 
