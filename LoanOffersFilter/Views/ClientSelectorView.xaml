@@ -61,21 +61,27 @@
         <StackPanel Grid.Row="1">
             <StackPanel x:Name="stack_loan_amount" Margin="0,5">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Сумма кредита" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
+                <Button Width="20" Height="20" Command="{Binding RemoveLoanAmountFilterCommand}" Content="X"/>
                 <TextBox x:Name="input_loan_amount" HorizontalAlignment="Center" MinWidth="80" Margin="0,0,0,10"
-                         Text="{Binding ElementName=slider_loan_amount, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Slider x:Name="slider_loan_amount" Maximum="10000000" TickFrequency="1000" IsSnapToTickEnabled="True"/>
+                         Text="{Binding LoanAmountInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Slider x:Name="slider_loan_amount" Maximum="10000000" TickFrequency="1000" IsSnapToTickEnabled="True"
+                        Value="{Binding ElementName=input_loan_amount, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel x:Name="stack_duration" Margin="0,5">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Срок в месяцах" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
+                <Button Width="20" Height="20" Command="{Binding RemoveMonthsFilterCommand}" Content="X"/>
                 <TextBox x:Name="input_months" HorizontalAlignment="Center" MinWidth="80" Margin="0,0,0,10"
-                         Text="{Binding ElementName=slider_months, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Slider x:Name="slider_months" Maximum="480" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                         Text="{Binding MonthsInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Slider x:Name="slider_months" Maximum="480" TickFrequency="1" IsSnapToTickEnabled="True"
+                        Value="{Binding ElementName=input_months, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel x:Name="stack_interest" Margin="0,5">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ставка %" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
-                <TextBox x:Name="tb_interest" HorizontalAlignment="Center" MinWidth="80" Margin="0,0,0,10"
-                         Text="{Binding ElementName=slider_interest, Path=Value,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Slider x:Name="slider_interest" Maximum="100" TickFrequency="0.1" IsSnapToTickEnabled="True"/>
+                <Button Width="20" Height="20" Command="{Binding RemoveInterestFilterCommand}" Content="X"/>
+                <TextBox x:Name="input_interest" HorizontalAlignment="Center" MinWidth="80" Margin="0,0,0,10"
+                         Text="{Binding InterestInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Slider x:Name="slider_interest" Maximum="100" TickFrequency="0.1" IsSnapToTickEnabled="True"
+                        Value="{Binding ElementName=input_interest, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
         </StackPanel>
