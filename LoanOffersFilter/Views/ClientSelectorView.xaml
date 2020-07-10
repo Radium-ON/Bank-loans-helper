@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:qc="http://QuickConverter.CodePlex.com/"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-             xmlns:local="clr-namespace:LoanOffersFilter.Views"
              mc:Ignorable="d" 
              d:DesignHeight="472.689" d:DesignWidth="307.143"
              DataContext="{Binding}">
@@ -17,7 +15,7 @@
         <StackPanel x:Name="stack_client_selector">
             <TextBlock Text="ВЫБЕРИТЕ КЛИЕНТА" Margin="10,0,0,0" Style="{StaticResource Heading2}"/>
             <ComboBox x:Name="cmb_client" Margin="10,10,10,0" VerticalAlignment="Center"
-                      ItemsSource="{Binding ClientsCollectionView}" IsSynchronizedWithCurrentItem="True">
+                      ItemsSource="{Binding ClientsCollectionView, IsAsync=True}" IsSynchronizedWithCurrentItem="True">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">

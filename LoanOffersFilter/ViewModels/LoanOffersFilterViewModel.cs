@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core.ViewModels;
@@ -21,6 +22,7 @@ namespace LoanOffersFilter.ViewModels
         private readonly IDialogService _dialogService;
 
         private ICollectionView _clientsCollectionView;
+        private CollectionViewSource _offersViewSource;
 
         #endregion
 
@@ -29,6 +31,8 @@ namespace LoanOffersFilter.ViewModels
             _bankEntities = bankEntities;
             _dialogService = dialogService;
 
+            OffersViewSource = new CollectionViewSource();
+            OffersViewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Offer.Banks)));
             #region Navigation Commands
 
             NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
@@ -50,6 +54,12 @@ namespace LoanOffersFilter.ViewModels
             set => SetProperty(ref _clientsCollectionView, value);
         }
 
+        public CollectionViewSource OffersViewSource
+        {
+            get => _offersViewSource;
+            set => SetProperty(ref _offersViewSource, value);
+        }
+
         #region NavigationEvents Methods
 
         /// <summary>
@@ -66,8 +76,12 @@ namespace LoanOffersFilter.ViewModels
         private async Task LoadData()
         {
             await _bankEntities.Clients.LoadAsync();
+            await _bankEntities.Banks.LoadAsync();
+            await _bankEntities.Offers.LoadAsync();
 
             ClientsCollectionView = CollectionViewSource.GetDefaultView(_bankEntities.Clients.Local);
+            OffersViewSource.Source = _bankEntities.Offers.Local;
+
 
             Debug.WriteLine("LoanOffersFilterViewModel - LoadData");
         }
