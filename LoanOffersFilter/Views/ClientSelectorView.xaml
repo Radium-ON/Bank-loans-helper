@@ -27,6 +27,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Button Width="20" Height="20" Command="{Binding RemoveClientFilterCommand}" Content="X"/>
             <Grid x:Name="grid_client_info" Margin="10,20,10,10"
                   DataContext="{Binding ElementName=cmb_client, Path=SelectedItem, UpdateSourceTrigger=PropertyChanged}">
                 <Grid.ColumnDefinitions>

@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -28,6 +29,7 @@ namespace LoanOffersFilter.ViewModels
         private ICollectionView _clientsCollectionView;
         private CollectionViewSource _offersViewSource;
         private ObservableCollection<Offer> _offers;
+        private Client _selectedClient;
 
         private int? _monthsInput;
         private decimal? _loanAmountInput;
@@ -35,6 +37,7 @@ namespace LoanOffersFilter.ViewModels
         private bool _canRemoveMonthsFilter;
         private bool _canRemoveLoanAmountFilter;
         private bool _canRemoveInterestFilter;
+        private bool _canRemoveClientFilter;
 
         #endregion
 
@@ -44,9 +47,8 @@ namespace LoanOffersFilter.ViewModels
             _dialogService = dialogService;
 
             OffersViewSource = new CollectionViewSource();
-            OffersViewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Offer.Banks)));
 
-            InitializeCommands();
+            InitFilterCommands();
 
             #region Navigation Commands
 
@@ -60,9 +62,13 @@ namespace LoanOffersFilter.ViewModels
             #endregion
         }
 
+        private void OnCurrentClientChanged(object sender, EventArgs e)
+        {
+            SelectedClient = (Client)ClientsCollectionView.CurrentItem;
+        }
+
         public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
-
-
+        
         public ICollectionView ClientsCollectionView
         {
             get => _clientsCollectionView;
@@ -75,13 +81,19 @@ namespace LoanOffersFilter.ViewModels
             set => SetProperty(ref _offersViewSource, value);
         }
 
+        public Client SelectedClient
+        {
+            get => _selectedClient;
+            set => SetProperty(ref _selectedClient, value, () => ApplyFilter(_selectedClient != null ? FilterField.Client : FilterField.None));
+        }
+
         public ObservableCollection<Offer> Offers
         {
             get => _offers;
             set => SetProperty(ref _offers, value);
         }
 
-        #region Filter Properties
+        #region Filter Sliders Properties
 
         public int? MonthsInput
         {
@@ -100,8 +112,6 @@ namespace LoanOffersFilter.ViewModels
             get => _interestInput;
             set => SetProperty(ref _interestInput, value, () => ApplyFilter(_interestInput.HasValue ? FilterField.Interest : FilterField.None));
         }
-
-
 
         /// <summary>
         /// Gets or sets a flag indicating if the Months filter, if applied, can be removed.
@@ -130,10 +140,23 @@ namespace LoanOffersFilter.ViewModels
             set => SetProperty(ref _canRemoveInterestFilter, value);
         }
 
+        /// <summary>
+        /// Gets or sets a flag indicating if the Client filter, if applied, can be removed.
+        /// </summary>
+        public bool CanRemoveClientFilter
+        {
+            get => _canRemoveClientFilter;
+            set => SetProperty(ref _canRemoveClientFilter, value);
+        }
+
         #endregion
 
-        #region Commands
+        #region Filter Commands
 
+        public ICommand RemoveClientFilterCommand
+        {
+            get; private set;
+        }
         public ICommand ResetFiltersCommand
         {
             get;
@@ -157,13 +180,16 @@ namespace LoanOffersFilter.ViewModels
 
         #endregion
 
-        private void InitializeCommands()
+        private void InitFilterCommands()
         {
-            ResetFiltersCommand = new RelayCommand(ResetFilters, null);
+            ResetFiltersCommand = new RelayCommand(ResetFilters);
+            RemoveClientFilterCommand = new RelayCommand(RemoveClientFilter, o => CanRemoveClientFilter);
             RemoveMonthsFilterCommand = new RelayCommand(RemoveMonthsFilter, o => CanRemoveMonthsFilter);
             RemoveLoanAmountFilterCommand = new RelayCommand(RemoveLoanAmountFilter, o => CanRemoveLoanAmountFilter);
             RemoveInterestFilterCommand = new RelayCommand(RemoveInterestFilter, o => CanRemoveInterestFilter);
         }
+
+        #region Filtering Helpers
 
         /// <summary>
         /// Очищает фильтры отпиской от событий и обнулением свойств выбора
@@ -171,9 +197,17 @@ namespace LoanOffersFilter.ViewModels
         /// <param name="o"></param>
         public void ResetFilters(object o)
         {
+            RemoveClientFilter(o);
             RemoveInterestFilter(o);
             RemoveLoanAmountFilter(o);
             RemoveMonthsFilter(o);
+        }
+
+        private void RemoveClientFilter(object o)
+        {
+            OffersViewSource.Filter -= FilterByClient;
+            SelectedClient = null;
+            CanRemoveClientFilter = false;
         }
 
         public void RemoveMonthsFilter(object o)
@@ -211,9 +245,22 @@ namespace LoanOffersFilter.ViewModels
          *   allows it to be changed to another filter value. This applies to the other filters as well
          */
 
+        public void AddClientFilter()
+        {
+            if (CanRemoveClientFilter)
+            {
+                OffersViewSource.Filter -= FilterByClient;
+                OffersViewSource.Filter += FilterByClient;
+            }
+            else
+            {
+                OffersViewSource.Filter += FilterByClient;
+                CanRemoveClientFilter = true;
+            }
+        }
+
         public void AddMonthsFilter()
         {
-            // see Notes on Adding Filters:
             if (CanRemoveMonthsFilter)
             {
                 OffersViewSource.Filter -= FilterByMonths;
@@ -228,7 +275,6 @@ namespace LoanOffersFilter.ViewModels
 
         public void AddLoanAmountFilter()
         {
-            // see Notes on Adding Filters:
             if (CanRemoveLoanAmountFilter)
             {
                 OffersViewSource.Filter -= FilterByLoanAmount;
@@ -243,7 +289,6 @@ namespace LoanOffersFilter.ViewModels
 
         public void AddInterestFilter()
         {
-            // see Notes on Adding Filters:
             if (CanRemoveInterestFilter)
             {
                 OffersViewSource.Filter -= FilterByInterest;
@@ -256,12 +301,26 @@ namespace LoanOffersFilter.ViewModels
             }
         }
 
+        #endregion
+
+        #region Filter Handlers
+
         /* Notes on Filter Methods:
          * When using multiple filters, do not explicitly set anything to true.  Rather,
          * only hide things which do not match the filter criteria
          * by setting e.Accepted = false.  If you set e.Accept = true, if effectively
          * clears out any previous filters applied to it.  
          */
+
+        private void FilterByClient(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Offer src))
+                e.Accepted = false;
+            else if (SelectedClient.Age < src.MinAge ||
+                     SelectedClient.Seniority < src.MinSeniority ||
+                     SelectedClient.LoanAgreements.Count(l => l.IsRepaid == false) > src.ActiveLoansNumber)
+                e.Accepted = false;
+        }
 
         private void FilterByLoanAmount(object sender, FilterEventArgs e)
         {
@@ -270,6 +329,7 @@ namespace LoanOffersFilter.ViewModels
             else if (LoanAmountInput > src.MaxLoanAmount || LoanAmountInput < src.MinLoanAmount)
                 e.Accepted = false;
         }
+
         private void FilterByInterest(object sender, FilterEventArgs e)
         {
             if (!(e.Item is Offer src))
@@ -277,6 +337,7 @@ namespace LoanOffersFilter.ViewModels
             else if (InterestInput < src.Interest)
                 e.Accepted = false;
         }
+
         private void FilterByMonths(object sender, FilterEventArgs e)
         {
             if (!(e.Item is Offer src))
@@ -287,15 +348,20 @@ namespace LoanOffersFilter.ViewModels
 
         private enum FilterField
         {
+            Client,
             LoanAmount,
             Months,
             Interest,
             None
         }
+
         private void ApplyFilter(FilterField field)
         {
             switch (field)
             {
+                case FilterField.Client:
+                    AddClientFilter();
+                    break;
                 case FilterField.LoanAmount:
                     AddLoanAmountFilter();
                     break;
@@ -305,10 +371,10 @@ namespace LoanOffersFilter.ViewModels
                 case FilterField.Interest:
                     AddInterestFilter();
                     break;
-                default:
-                    break;
             }
         }
+
+        #endregion
 
         #region NavigationEvents Methods
 
@@ -332,8 +398,12 @@ namespace LoanOffersFilter.ViewModels
             Offers = _bankEntities.Offers.Local;
 
             ClientsCollectionView = CollectionViewSource.GetDefaultView(_bankEntities.Clients.Local);
+            ClientsCollectionView.CurrentChanged += OnCurrentClientChanged;
             OffersViewSource.Source = Offers;
-
+            using (OffersViewSource.DeferRefresh())
+            {
+                OffersViewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Offer.Banks)));
+            }
 
             Debug.WriteLine("LoanOffersFilterViewModel - LoadData");
         }
@@ -368,6 +438,7 @@ namespace LoanOffersFilter.ViewModels
         /// <param name="e">Параметры отмены навигации</param>
         private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
+            ClientsCollectionView.CurrentChanged -= OnCurrentClientChanged;
             Debug.WriteLine("LoanOffersFilterViewModel - NavigatingFrom");
         }
 
