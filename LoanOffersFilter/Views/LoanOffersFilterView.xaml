@@ -109,6 +109,9 @@
                         <TextBlock Text="РАЗМЕР ПЛАТЕЖА" Style="{StaticResource Emphasis}" Margin="0,4,0,4"/>
                         <TextBlock x:Name="text_payment" MinWidth="100" MinHeight="25" Margin="0,0,10,0" TextAlignment="Center"
                                    Text="{Binding Payment, Mode=OneWay, StringFormat=N2}"/>
+                        <TextBlock Text="Осталось средств:" Style="{StaticResource Emphasis}" Margin="0,4,0,4"/>
+                        <TextBlock x:Name="text_available_funds" MinWidth="100" MinHeight="25" Margin="0,0,10,0" TextAlignment="Center"
+                                   Text="{Binding AvailableFunds, Mode=OneWay, StringFormat=N2}"/>
                         <Button Content="Оформить" FontWeight="DemiBold" Margin="8,4,0,0"/>
                     </WrapPanel>
                 </Grid>

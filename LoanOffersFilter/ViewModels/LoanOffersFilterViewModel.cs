@@ -51,11 +51,13 @@ namespace LoanOffersFilter.ViewModels
             OffersViewSource = new CollectionViewSource();
 
             #region Filter Commands
+
             ResetFiltersCommand = new RelayCommand(ResetFilters);
             RemoveClientFilterCommand = new RelayCommand(RemoveClientFilter, o => CanRemoveClientFilter);
             RemoveMonthsFilterCommand = new RelayCommand(RemoveMonthsFilter, o => CanRemoveMonthsFilter);
             RemoveLoanAmountFilterCommand = new RelayCommand(RemoveLoanAmountFilter, o => CanRemoveLoanAmountFilter);
             RemoveInterestFilterCommand = new RelayCommand(RemoveInterestFilter, o => CanRemoveInterestFilter);
+
             #endregion
 
             #region Navigation Commands
@@ -73,12 +75,36 @@ namespace LoanOffersFilter.ViewModels
         private void OnCurrentClientChanged(object sender, EventArgs e)
         {
             SelectedClient = (Client)ClientsCollectionView.CurrentItem;
+            RaisePropertyChanged(nameof(AvailableFunds));
         }
 
         private void OnCurrentOfferChanged(object sender, EventArgs e)
         {
+            var currentOffer = (Offer)OffersViewSource.View.CurrentItem;
             RaisePropertyChanged(nameof(Payment));
+            RaisePropertyChanged(nameof(AvailableFunds));
+            if (currentOffer != null)
+            {
+                InterestInput = currentOffer.Interest;
+                RemoveInterestFilterCommand.Execute(null);
+            }
         }
+
+        private void InitCollectionViews()
+        {
+            ClientsCollectionView = CollectionViewSource.GetDefaultView(_bankEntities.Clients.Local);
+            ClientsCollectionView.CurrentChanged += OnCurrentClientChanged;
+            OffersViewSource.Source = Offers;
+            OffersViewSource.View.CurrentChanged += OnCurrentOfferChanged;
+            using (OffersViewSource.DeferRefresh())
+            {
+                if (OffersViewSource.GroupDescriptions.Count == 0)
+                {
+                    OffersViewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Offer.Banks)));
+                }
+            }
+        }
+
 
         public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
 
@@ -97,7 +123,8 @@ namespace LoanOffersFilter.ViewModels
         public Client SelectedClient
         {
             get => _selectedClient;
-            set => SetProperty(ref _selectedClient, value, () => ApplyFilter(_selectedClient != null ? FilterField.Client : FilterField.None));
+            set => SetProperty(ref _selectedClient, value,
+                () => ApplyFilter(_selectedClient != null ? FilterField.Client : FilterField.None));
         }
 
         public ObservableCollection<Offer> Offers
@@ -107,6 +134,19 @@ namespace LoanOffersFilter.ViewModels
         }
 
         public double Payment => CalculatePayment();
+
+        public double AvailableFunds
+        {
+            get
+            {
+                if (SelectedClient == null)
+                {
+                    return 0;
+                }
+                return (double)SelectedClient.Salary - (double)SelectedClient.LoanAgreements
+                    .Where(l => l.IsRepaid == false).Sum(l => l.Payment) - Payment;
+            }
+        }
 
         private double CalculatePayment()
         {
@@ -141,6 +181,7 @@ namespace LoanOffersFilter.ViewModels
                 {
                     ApplyFilter(_monthsInput.HasValue ? FilterField.Months : FilterField.None);
                     RaisePropertyChanged(nameof(Payment));
+                    RaisePropertyChanged(nameof(AvailableFunds));
                 });
         }
 
@@ -151,6 +192,7 @@ namespace LoanOffersFilter.ViewModels
             {
                 ApplyFilter(_loanAmountInput.HasValue ? FilterField.LoanAmount : FilterField.None);
                 RaisePropertyChanged(nameof(Payment));
+                RaisePropertyChanged(nameof(AvailableFunds));
             });
         }
 
@@ -435,13 +477,9 @@ namespace LoanOffersFilter.ViewModels
 
             Offers = _bankEntities.Offers.Local;
 
-            ClientsCollectionView = CollectionViewSource.GetDefaultView(_bankEntities.Clients.Local);
-            ClientsCollectionView.CurrentChanged += OnCurrentClientChanged;
-            OffersViewSource.Source = Offers;
-            OffersViewSource.View.CurrentChanged += OnCurrentOfferChanged;
-            using (OffersViewSource.DeferRefresh())
+            if (ClientsCollectionView == null)
             {
-                OffersViewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Offer.Banks)));
+                InitCollectionViews();
             }
 
             Debug.WriteLine("LoanOffersFilterViewModel - LoadData");
@@ -460,6 +498,10 @@ namespace LoanOffersFilter.ViewModels
         /// </summary>
         private void NavigatedTo()
         {
+            if (ClientsCollectionView == null)
+            {
+                InitCollectionViews();
+            }
             Debug.WriteLine("LoanOffersFilterViewModel - NavigatedTo");
         }
 
