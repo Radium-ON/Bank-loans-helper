@@ -50,6 +50,8 @@ namespace LoanOffersFilter.ViewModels
 
             OffersViewSource = new CollectionViewSource();
 
+            CreateLoanAgreementCommand = new DelegateCommand(CreateLoanAgreement, CanCreateLoanAgreement).ObservesProperty(() => AvailableFunds);
+
             #region Filter Commands
 
             ResetFiltersCommand = new RelayCommand(ResetFilters);
@@ -70,6 +72,17 @@ namespace LoanOffersFilter.ViewModels
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
 
             #endregion
+        }
+
+        private bool CanCreateLoanAgreement()
+        {
+            return AvailableFunds >= 0;
+        }
+
+
+        private void CreateLoanAgreement()
+        {
+
         }
 
         private void OnCurrentClientChanged(object sender, EventArgs e)
@@ -240,7 +253,7 @@ namespace LoanOffersFilter.ViewModels
 
         #endregion
 
-        #region Filter Commands
+        #region Commands Properties
 
         public ICommand RemoveClientFilterCommand
         {
@@ -265,6 +278,11 @@ namespace LoanOffersFilter.ViewModels
         {
             get;
             private set;
+        }
+
+        public ICommand CreateLoanAgreementCommand
+        {
+            get; private set;
         }
 
         #endregion
