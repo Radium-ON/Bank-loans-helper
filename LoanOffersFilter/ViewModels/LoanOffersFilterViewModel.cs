@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -19,6 +20,7 @@ using Prism.Services.Dialogs;
 
 namespace LoanOffersFilter.ViewModels
 {
+    [SuppressMessage("ReSharper", "AsyncConverter.ConfigureAwaitHighlighting")]
     public class LoanOffersFilterViewModel : ModernViewModelBase
     {
         #region Backing Fields
@@ -48,7 +50,13 @@ namespace LoanOffersFilter.ViewModels
 
             OffersViewSource = new CollectionViewSource();
 
-            InitFilterCommands();
+            #region Filter Commands
+            ResetFiltersCommand = new RelayCommand(ResetFilters);
+            RemoveClientFilterCommand = new RelayCommand(RemoveClientFilter, o => CanRemoveClientFilter);
+            RemoveMonthsFilterCommand = new RelayCommand(RemoveMonthsFilter, o => CanRemoveMonthsFilter);
+            RemoveLoanAmountFilterCommand = new RelayCommand(RemoveLoanAmountFilter, o => CanRemoveLoanAmountFilter);
+            RemoveInterestFilterCommand = new RelayCommand(RemoveInterestFilter, o => CanRemoveInterestFilter);
+            #endregion
 
             #region Navigation Commands
 
@@ -56,7 +64,7 @@ namespace LoanOffersFilter.ViewModels
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(async () => await LoadData());
+            LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
 
             #endregion
@@ -68,7 +76,7 @@ namespace LoanOffersFilter.ViewModels
         }
 
         public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
-        
+
         public ICollectionView ClientsCollectionView
         {
             get => _clientsCollectionView;
@@ -179,15 +187,6 @@ namespace LoanOffersFilter.ViewModels
         }
 
         #endregion
-
-        private void InitFilterCommands()
-        {
-            ResetFiltersCommand = new RelayCommand(ResetFilters);
-            RemoveClientFilterCommand = new RelayCommand(RemoveClientFilter, o => CanRemoveClientFilter);
-            RemoveMonthsFilterCommand = new RelayCommand(RemoveMonthsFilter, o => CanRemoveMonthsFilter);
-            RemoveLoanAmountFilterCommand = new RelayCommand(RemoveLoanAmountFilter, o => CanRemoveLoanAmountFilter);
-            RemoveInterestFilterCommand = new RelayCommand(RemoveInterestFilter, o => CanRemoveInterestFilter);
-        }
 
         #region Filtering Helpers
 
@@ -389,7 +388,7 @@ namespace LoanOffersFilter.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private async Task LoadData()
+        private async Task LoadDataAsync()
         {
             await _bankEntities.Clients.LoadAsync();
             await _bankEntities.Banks.LoadAsync();

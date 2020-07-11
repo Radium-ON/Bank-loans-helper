@@ -46,10 +46,10 @@
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon_path}"
+                            <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon}"
                                       Command="{Binding AddClientCommand}"/>
 
-                            <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon_path}"
+                            <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon}"
                                           Command="{Binding DeleteClientCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
                         </ContextMenu>
