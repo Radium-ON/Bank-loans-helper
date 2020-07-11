@@ -34,7 +34,7 @@ namespace LoanOffersFilter.ViewModels
         private Client _selectedClient;
 
         private int? _monthsInput;
-        private decimal? _loanAmountInput;
+        private double? _loanAmountInput;
         private float? _interestInput;
         private bool _canRemoveMonthsFilter;
         private bool _canRemoveLoanAmountFilter;
@@ -75,6 +75,11 @@ namespace LoanOffersFilter.ViewModels
             SelectedClient = (Client)ClientsCollectionView.CurrentItem;
         }
 
+        private void OnCurrentOfferChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(nameof(Payment));
+        }
+
         public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
 
         public ICollectionView ClientsCollectionView
@@ -101,18 +106,52 @@ namespace LoanOffersFilter.ViewModels
             set => SetProperty(ref _offers, value);
         }
 
+        public double Payment => CalculatePayment();
+
+        private double CalculatePayment()
+        {
+            double? result = 0;
+            if (OffersViewSource.View != null)
+            {
+                if (OffersViewSource.View.CurrentItem is Offer currentOffer)
+                {
+                    double? interestPerMonth = (currentOffer.Interest / 12.0) * 0.01;
+                    if (MonthsInput.HasValue)
+                    {
+                        var power = Math.Pow((double)(1 + interestPerMonth), (double)MonthsInput);
+                        var numerator = interestPerMonth * power;
+                        var denominator = power - 1;
+                        var annuityRate = numerator / denominator;
+
+                        result = (LoanAmountInput * annuityRate);
+                    }
+                }
+            }
+
+            return (double)result;
+        }
+
         #region Filter Sliders Properties
 
         public int? MonthsInput
         {
             get => _monthsInput;
-            set => SetProperty(ref _monthsInput, value, () => ApplyFilter(_monthsInput.HasValue ? FilterField.Months : FilterField.None));
+            set => SetProperty(ref _monthsInput, value,
+                () =>
+                {
+                    ApplyFilter(_monthsInput.HasValue ? FilterField.Months : FilterField.None);
+                    RaisePropertyChanged(nameof(Payment));
+                });
         }
 
-        public decimal? LoanAmountInput
+        public double? LoanAmountInput
         {
             get => _loanAmountInput;
-            set => SetProperty(ref _loanAmountInput, value, () => ApplyFilter(_loanAmountInput.HasValue ? FilterField.LoanAmount : FilterField.None));
+            set => SetProperty(ref _loanAmountInput, value, () =>
+            {
+                ApplyFilter(_loanAmountInput.HasValue ? FilterField.LoanAmount : FilterField.None);
+                RaisePropertyChanged(nameof(Payment));
+            });
         }
 
         public float? InterestInput
@@ -325,7 +364,7 @@ namespace LoanOffersFilter.ViewModels
         {
             if (!(e.Item is Offer src))
                 e.Accepted = false;
-            else if (LoanAmountInput > src.MaxLoanAmount || LoanAmountInput < src.MinLoanAmount)
+            else if (LoanAmountInput > (double?)src.MaxLoanAmount || LoanAmountInput < (double?)src.MinLoanAmount)
                 e.Accepted = false;
         }
 
@@ -399,6 +438,7 @@ namespace LoanOffersFilter.ViewModels
             ClientsCollectionView = CollectionViewSource.GetDefaultView(_bankEntities.Clients.Local);
             ClientsCollectionView.CurrentChanged += OnCurrentClientChanged;
             OffersViewSource.Source = Offers;
+            OffersViewSource.View.CurrentChanged += OnCurrentOfferChanged;
             using (OffersViewSource.DeferRefresh())
             {
                 OffersViewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Offer.Banks)));
@@ -438,6 +478,7 @@ namespace LoanOffersFilter.ViewModels
         private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
             ClientsCollectionView.CurrentChanged -= OnCurrentClientChanged;
+            OffersViewSource.View.CurrentChanged -= OnCurrentOfferChanged;
             Debug.WriteLine("LoanOffersFilterViewModel - NavigatingFrom");
         }
 

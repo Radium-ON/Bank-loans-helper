@@ -68,17 +68,17 @@
             <StackPanel x:Name="stack_loan_amount" Margin="0,5">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Сумма кредита" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Center">
-                    <TextBox x:Name="input_loan_amount"  MinWidth="100" FontSize="14" Text="{Binding LoanAmountInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="input_loan_amount"  MinWidth="100" FontSize="14" Text="{Binding LoanAmountInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
                     <mui:ModernButton Margin="10,0,0,0" IconHeight="14" IconWidth="14" EllipseDiameter="24" IconData="{DynamicResource remove_filter_icon}"
                                               Command="{Binding RemoveLoanAmountFilterCommand}" />
                 </StackPanel>
-                <Slider x:Name="slider_loan_amount" Maximum="1000000000" TickFrequency="10000" IsSnapToTickEnabled="True" Margin="10,0,10,0"
+                <Slider x:Name="slider_loan_amount" Maximum="1000000000" TickFrequency="1000" IsSnapToTickEnabled="True" Margin="10,0,10,0"
                         Value="{Binding ElementName=input_loan_amount, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel x:Name="stack_duration" Margin="0,5">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Срок в месяцах" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
                 <StackPanel Margin="0,0,0,10" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBox x:Name="input_months" MinWidth="100" Text="{Binding MonthsInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14"/>
+                    <TextBox x:Name="input_months" MinWidth="100" Text="{Binding MonthsInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" FontSize="14"/>
                     <mui:ModernButton Margin="10,0,0,0" IconHeight="14" IconWidth="14" EllipseDiameter="24" IconData="{DynamicResource remove_filter_icon}"
                                   Command="{Binding RemoveMonthsFilterCommand}"/>
                 </StackPanel>
@@ -88,7 +88,7 @@
             <StackPanel x:Name="stack_interest" Margin="0,5">
                 <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Ставка %" Margin="10,0,0,10" Style="{StaticResource Heading2}"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-                    <TextBox x:Name="input_interest"  MinWidth="100" Text="{Binding InterestInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14"/>
+                    <TextBox x:Name="input_interest"  MinWidth="100" Text="{Binding InterestInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" FontSize="14"/>
                     <mui:ModernButton Margin="10,0,0,0" IconHeight="14" IconWidth="14" EllipseDiameter="24" IconData="{DynamicResource remove_filter_icon}"
                                   Command="{Binding RemoveInterestFilterCommand}"/>
                 </StackPanel>

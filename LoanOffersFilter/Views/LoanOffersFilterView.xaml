@@ -53,7 +53,8 @@
                     </Grid.RowDefinitions>
                     <StackPanel x:Name="stack_offers" Grid.Row="0">
                         <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}"/>
-                        <ListView x:Name="list_view_offers" ItemsSource="{Binding Path=OffersViewSource.View, IsAsync=True}" MaxHeight="400">
+                        <ListView x:Name="list_view_offers" ItemsSource="{Binding Path=OffersViewSource.View, IsAsync=True}" MaxHeight="400"
+                                  IsSynchronizedWithCurrentItem="True">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,4,0,0">
@@ -106,8 +107,9 @@
                     </StackPanel>
                     <WrapPanel x:Name="panel_loan_accept" Grid.Row="1">
                         <TextBlock Text="РАЗМЕР ПЛАТЕЖА" Style="{StaticResource Emphasis}" Margin="0,4,0,4"/>
-                        <TextBlock x:Name="text_payment" MinWidth="100" MinHeight="25" Text="gay" Margin="0,0,10,0" TextAlignment="Center"/>
-                        <Button Content="Принять" FontWeight="DemiBold" Margin="8,4,0,0"/>
+                        <TextBlock x:Name="text_payment" MinWidth="100" MinHeight="25" Margin="0,0,10,0" TextAlignment="Center"
+                                   Text="{Binding Payment, Mode=OneWay, StringFormat=N2}"/>
+                        <Button Content="Оформить" FontWeight="DemiBold" Margin="8,4,0,0"/>
                     </WrapPanel>
                 </Grid>
             </Grid>
