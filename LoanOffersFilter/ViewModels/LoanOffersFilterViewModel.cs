@@ -88,8 +88,7 @@ namespace LoanOffersFilter.ViewModels
                    LoanAmountInput.HasValue &&
                    MonthsInput.HasValue;
         }
-
-
+        
         private void CreateLoanAgreement()
         {
             var agreement = new LoanAgreement
@@ -158,6 +157,7 @@ namespace LoanOffersFilter.ViewModels
                 }
             }
         }
+
 
 
         public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
@@ -570,10 +570,6 @@ namespace LoanOffersFilter.ViewModels
         /// </summary>
         private void NavigatedTo()
         {
-            if (ClientsCollectionView == null)
-            {
-                InitCollectionViews();
-            }
             Debug.WriteLine("LoanOffersFilterViewModel - NavigatedTo");
         }
 
@@ -591,8 +587,6 @@ namespace LoanOffersFilter.ViewModels
         /// <param name="e">Параметры отмены навигации</param>
         private void NavigatingFrom(NavigatingCancelEventArgs e)
         {
-            ClientsCollectionView.CurrentChanged -= OnCurrentClientChanged;
-            OffersViewSource.View.CurrentChanged -= OnCurrentOfferChanged;
             Debug.WriteLine("LoanOffersFilterViewModel - NavigatingFrom");
         }
 
