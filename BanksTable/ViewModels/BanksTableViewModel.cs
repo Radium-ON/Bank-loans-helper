@@ -41,7 +41,7 @@ namespace BanksTable.ViewModels
             DeleteBankCommand = new DelegateCommand<BankInfoViewModel>(async vm => await DeleteSelectedBankAsync(vm));
             AddBankCommand = new DelegateCommand(ShowAddBankDialog);
             DeleteOfferFromBankCommand = new DelegateCommand<Offer>(async offer => await DeleteSelectedOfferAsync(offer));
-            AddOfferToBankCommand = new DelegateCommand(ShowAddOfferToBankDialog);
+            AddOfferToBankCommand = new DelegateCommand(ShowAddOfferToBankDialog, CanShowAddOfferToBankDialog).ObservesProperty(() => SelectedBankViewModel);
 
             BankInfoViewModels = new AsyncObservableCollection<BankInfoViewModel>();
 
@@ -57,8 +57,20 @@ namespace BanksTable.ViewModels
             #endregion
         }
 
+        private bool CanShowAddOfferToBankDialog()
+        {
+            return SelectedBankViewModel != null;
+        }
+
         private void ShowAddOfferToBankDialog()
         {
+            _dialogService.ShowDialog(nameof(OfferToBankAddingDialog),
+                new DialogParameters
+                {
+                    { "BankViewModel", SelectedBankViewModel },
+                    {"DbContext", _bankEntities}
+                },
+                r => { });
         }
 
         private async Task DeleteSelectedOfferAsync(Offer offer)

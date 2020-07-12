@@ -27,7 +27,7 @@ namespace OffersTable.ViewModels
 
         private ObservableCollection<OfferInfoViewModel> _offerViewModels;
 
-        private readonly IBankEntitiesContext _bankEntities;
+        private IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
 
         #endregion
@@ -48,7 +48,7 @@ namespace OffersTable.ViewModels
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(async () => await LoadData());
+            LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
 
             #endregion
@@ -101,8 +101,9 @@ namespace OffersTable.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private async Task LoadData()
+        private async Task LoadDataAsync()
         {
+            _bankEntities = new BankEntitiesContext();
             OfferViewModels.Clear();
             OfferViewModels.AddRange(await GetOfferInfoViewModelsAsync(_bankEntities.Offers));
             Debug.WriteLine("OffersTableViewModel - LoadData");
@@ -146,7 +147,7 @@ namespace OffersTable.ViewModels
                 _dialogService.ShowOkCancelDialog(
                     Application.Current.FindResource("some_data_changed_dialog_title") as string,
                     Application.Current.FindResource("some_data_changed_dialog_message") as string,
-                    async r => { await NavigatingWithModifiedOffersCallBack(r, e, dbcontext); });
+                    async r => { await NavigatingWithModifiedOffersCallBackAsync(r, e, dbcontext); });
             }
             Debug.WriteLine("OffersTableViewModel - NavigatingFrom");
         }
@@ -189,7 +190,7 @@ namespace OffersTable.ViewModels
             return offers.Local.Select(offer => new OfferInfoViewModel(offer, _bankEntities));
         }
 
-        private async Task NavigatingWithModifiedOffersCallBack(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
+        private async Task NavigatingWithModifiedOffersCallBackAsync(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
         {
             if (r.Result == ButtonResult.Cancel)
             {

@@ -97,8 +97,13 @@
                     </DataGrid>
                 </StackPanel>
 
-                <StackPanel x:Name="stack_bank_offers" Grid.Row="1" Grid.Column="1" Margin="20,17,0,0"
-                            Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding ElementName=data_grid_banks, Path=SelectedItem.Offers}}">
+                <StackPanel x:Name="stack_bank_offers" Grid.Row="1" Grid.Column="1" Margin="20,17,0,0">
+                    <StackPanel.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon}"
+                                      Command="{Binding AddOfferToBankCommand}"/>
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
                     <TextBlock Text="Банк предложит кредит на этих условиях:" Style="{StaticResource Emphasis}"/>
 
                     <DataGrid ItemsSource="{Binding ElementName=data_grid_banks, Path=SelectedItem.Offers}" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="1000">
@@ -114,9 +119,6 @@
 
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon}"
-                                          Command="{Binding AddOfferToBankCommand}"/>
-
                                 <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon}"
                                           Command="{Binding DeleteOfferFromBankCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>

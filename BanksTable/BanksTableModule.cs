@@ -15,6 +15,7 @@ namespace BanksTable
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<BankAddingDialog, BankAddingDialogViewModel>();
+            containerRegistry.RegisterDialog<OfferToBankAddingDialog, OfferToBankAddingDialogViewModel>();
         }
     }
 }

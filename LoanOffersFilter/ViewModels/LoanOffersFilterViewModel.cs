@@ -28,7 +28,7 @@ namespace LoanOffersFilter.ViewModels
     {
         #region Backing Fields
 
-        private readonly IBankEntitiesContext _bankEntities;
+        private IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
 
         private ICollectionView _clientsCollectionView;
@@ -52,7 +52,11 @@ namespace LoanOffersFilter.ViewModels
             _bankEntities = bankEntities;
             _dialogService = dialogService;
 
-            OffersViewSource = new CollectionViewSource();
+            OffersViewSource = new CollectionViewSource
+            {
+                IsLiveFilteringRequested = true,
+                IsLiveGroupingRequested = true,
+            };
 
             CreateLoanAgreementCommand = new DelegateCommand(CreateLoanAgreement, CanCreateLoanAgreement).ObservesProperty(() => AvailableFunds);
 
@@ -88,7 +92,7 @@ namespace LoanOffersFilter.ViewModels
                    LoanAmountInput.HasValue &&
                    MonthsInput.HasValue;
         }
-        
+
         private void CreateLoanAgreement()
         {
             var agreement = new LoanAgreement
@@ -147,7 +151,7 @@ namespace LoanOffersFilter.ViewModels
         {
             ClientsCollectionView = CollectionViewSource.GetDefaultView(_bankEntities.Clients.Local);
             ClientsCollectionView.CurrentChanged += OnCurrentClientChanged;
-            OffersViewSource.Source = Offers;
+
             OffersViewSource.View.CurrentChanged += OnCurrentOfferChanged;
             using (OffersViewSource.DeferRefresh())
             {
@@ -544,10 +548,12 @@ namespace LoanOffersFilter.ViewModels
         /// </summary>
         private async Task LoadDataAsync()
         {
+            _bankEntities = new BankEntitiesContext();
             await _bankEntities.Clients.LoadAsync();
             await _bankEntities.Offers.LoadAsync();
 
             Offers = _bankEntities.Offers.Local;
+            OffersViewSource.Source = Offers;
 
             if (ClientsCollectionView == null)
             {
