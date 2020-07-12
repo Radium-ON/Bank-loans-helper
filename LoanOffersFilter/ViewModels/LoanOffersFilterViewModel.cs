@@ -193,7 +193,18 @@ namespace LoanOffersFilter.ViewModels
             set => SetProperty(ref _offers, value);
         }
 
-        public double Payment => CalculatePayment();
+        public double Payment
+        {
+            get
+            {
+                if (MonthsInput.HasValue && LoanAmountInput.HasValue)
+                {
+                    return CalculatePayment();
+                }
+
+                return 0;
+            }
+        }
 
         public double AvailableFunds
         {

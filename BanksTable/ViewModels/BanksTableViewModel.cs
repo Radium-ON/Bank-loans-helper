@@ -26,7 +26,7 @@ namespace BanksTable.ViewModels
 
         private AsyncObservableCollection<BankInfoViewModel> _bankInfoViewModels;
 
-        private readonly IBankEntitiesContext _bankEntities;
+        private IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
 
         #endregion
@@ -45,7 +45,7 @@ namespace BanksTable.ViewModels
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(async () => await LoadData());
+            LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
 
@@ -96,8 +96,9 @@ namespace BanksTable.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private async Task LoadData()
+        private async Task LoadDataAsync()
         {
+            _bankEntities = new BankEntitiesContext();
             BankInfoViewModels.Clear();
             BankInfoViewModels.AddRange(await GetBankInfoViewModelsAsync(_bankEntities.Banks));
             Debug.WriteLine("BanksTableViewModel - LoadData");

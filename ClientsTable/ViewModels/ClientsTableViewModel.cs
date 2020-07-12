@@ -28,7 +28,7 @@ namespace ClientsTable.ViewModels
 
         private AsyncObservableCollection<ClientInfoViewModel> _clientInfoViewModels;
 
-        private readonly IBankEntitiesContext _bankEntities;
+        private IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
 
         #endregion
@@ -47,7 +47,7 @@ namespace ClientsTable.ViewModels
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
             NavigatedToCommand = new DelegateCommand(NavigatedTo);
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
-            LoadedCommand = new DelegateCommand(async () => await LoadData());
+            LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
         }
 
@@ -98,8 +98,9 @@ namespace ClientsTable.ViewModels
         /// <summary>
         /// Вызывается после события Loaded связанного view.
         /// </summary>
-        private async Task LoadData()
+        private async Task LoadDataAsync()
         {
+            _bankEntities = new BankEntitiesContext();
             ClientInfoViewModels.Clear();
             ClientInfoViewModels.AddRange(await GetOfferInfoViewModelsAsync(_bankEntities.Clients));
             Debug.WriteLine("ClientsTableViewModel - LoadData");
