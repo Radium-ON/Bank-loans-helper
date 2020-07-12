@@ -46,6 +46,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="ФИО" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
                 <TextBlock x:Name="tb_fullname" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap">
@@ -62,6 +63,8 @@
                 <TextBlock x:Name="tb_seniority" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Seniority}" Grid.Column="1"/>
                 <TextBlock Text="Зарплата" Grid.Row="3" Grid.Column="0" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
                 <TextBlock x:Name="tb_salary" Grid.Row="3" TextWrapping="Wrap" Text="{Binding Salary}" Grid.Column="1"/>
+                <TextBlock Text="Кредиты" Grid.Row="4" Grid.Column="0" Margin="0,0,0,5" Style="{StaticResource Emphasis}"/>
+                <TextBlock x:Name="tb_active_loans" Grid.Row="4" TextWrapping="Wrap" Text="{Binding Path=LoanAgreements.Count}" Grid.Column="1"/>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1">

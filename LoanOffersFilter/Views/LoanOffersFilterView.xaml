@@ -54,7 +54,13 @@
                     <StackPanel x:Name="stack_offers" Grid.Row="0">
                         <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}"/>
                         <ListView x:Name="list_view_offers" ItemsSource="{Binding Path=OffersViewSource.View, IsAsync=True}" MaxHeight="400"
+                                  SelectionMode="Single"
                                   IsSynchronizedWithCurrentItem="True">
+                           <i:Interaction.Triggers>
+                               <i:EventTrigger EventName="SelectionChanged">
+                                   <prism:InvokeCommandAction Command="{Binding TakeSelectedItemGroupNameCommand}"/>
+                               </i:EventTrigger>
+                           </i:Interaction.Triggers>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,4,0,0">

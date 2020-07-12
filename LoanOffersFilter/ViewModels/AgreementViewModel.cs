@@ -11,7 +11,7 @@ using Prism.Mvvm;
 
 namespace LoanOffersFilter.ViewModels
 {
-    public class LoanAgreementViewModel : BindableBase, IDataErrorInfo
+    public class AgreementViewModel : BindableBase, IDataErrorInfo
     {
         #region Backing Fields
 
@@ -20,7 +20,7 @@ namespace LoanOffersFilter.ViewModels
 
         #endregion
 
-        public LoanAgreementViewModel(LoanAgreement agreement, IBankEntitiesContext bankEntities)
+        public AgreementViewModel(LoanAgreement agreement, IBankEntitiesContext bankEntities)
         {
             _agreement = agreement;
             _bankEntities = bankEntities;
@@ -28,9 +28,9 @@ namespace LoanOffersFilter.ViewModels
 
         public LoanAgreement Agreement => _agreement;
 
-        public bool IsLoanAgreementUnique => !CheckIsClientContainsInContext(_agreement);
+        public bool IsAgreementUnique => !CheckIsAgreementContainsInContext(_agreement);
 
-        private bool CheckIsClientContainsInContext(LoanAgreement agreement)
+        private bool CheckIsAgreementContainsInContext(LoanAgreement agreement)
         {
             return _bankEntities.LoanAgreements.Any(l => l.AgreementNumber == agreement.AgreementNumber);
         }
@@ -41,7 +41,6 @@ namespace LoanOffersFilter.ViewModels
 
         public bool? IsRepaid => _agreement.IsRepaid;
 
-        public Bank Bank => _agreement.Bank;
 
         public Client Client => _agreement.Client;
 
@@ -147,6 +146,22 @@ namespace LoanOffersFilter.ViewModels
             }
         }
 
+        public Bank Bank
+        {
+            get => _agreement.Bank;
+            set
+            {
+                if (value == _agreement.Bank)
+                {
+                    return;
+                }
+
+                _agreement.Bank = value;
+
+                RaisePropertyChanged(nameof(Bank));
+                RaisePropertyChanged(nameof(IsValid));
+            }
+        }
         #endregion
 
         #region Implementation of IDataErrorInfo
@@ -170,7 +185,8 @@ namespace LoanOffersFilter.ViewModels
         private static readonly string[] _validatedProperties =
         {
             "AgreementNumber",
-            "ContractDate"
+            "ContractDate",
+            "Bank"
         };
 
 
@@ -184,10 +200,16 @@ namespace LoanOffersFilter.ViewModels
             {
                 "AgreementNumber" => ValidateAgreementNumber(),
                 "ContractDate" => ValidateContractDate(),
+                "Bank" => ValidateBank(),
                 _ => null
             };
 
             return error;
+        }
+
+        private string ValidateBank()
+        {
+            return Bank == null ? "Выберите кредитующий банк." : null;
         }
 
         private string ValidateAgreementNumber()
@@ -201,10 +223,14 @@ namespace LoanOffersFilter.ViewModels
 
         private string ValidateContractDate()
         {
-
+            if (ContractDate.Date == DateTime.MinValue)
+            {
+                ContractDate = DateTime.Now;
+            }
             if (ContractDate.Date > DateTime.Today)
+            {
                 return "Установите дату не позже сегодняшней.";
-
+            }
             return null;
         }
 
@@ -219,7 +245,7 @@ namespace LoanOffersFilter.ViewModels
         {
             return value.All(char.IsDigit);
         }
-        
+
         #endregion
     }
 }

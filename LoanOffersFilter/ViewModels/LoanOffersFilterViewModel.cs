@@ -7,7 +7,9 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using BankLoansDataModel;
@@ -15,6 +17,7 @@ using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows.Navigation;
 using LoanHelper.Core.ViewModels;
+using LoanOffersFilter.Views;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 
@@ -40,6 +43,7 @@ namespace LoanOffersFilter.ViewModels
         private bool _canRemoveLoanAmountFilter;
         private bool _canRemoveInterestFilter;
         private bool _canRemoveClientFilter;
+        private Offer _selectedOffer;
 
         #endregion
 
@@ -74,31 +78,68 @@ namespace LoanOffersFilter.ViewModels
             #endregion
         }
 
+
+
         private bool CanCreateLoanAgreement()
         {
-            return AvailableFunds >= 0;
+            return AvailableFunds >= 0 &&
+                   SelectedOffer != null &&
+                   OffersViewSource.View.CurrentItem != null &&
+                   LoanAmountInput.HasValue &&
+                   MonthsInput.HasValue;
         }
 
 
         private void CreateLoanAgreement()
         {
+            var agreement = new LoanAgreement
+            {
+                Client = SelectedClient,
+                Interest = SelectedOffer.Interest,
+                Months = (int)MonthsInput,
+                LoanAmount = (decimal)LoanAmountInput,
+                Payment = (decimal?)Payment,
+            };
 
+            ShowAddAgreementDialog(agreement);
+            ResetFilters(null);
+        }
+
+        private void ShowAddAgreementDialog(LoanAgreement agreement)
+        {
+            _dialogService.ShowDialog(nameof(AgreementAddingDialog),
+                new DialogParameters
+                {
+                    { "AgreementViewModel", new AgreementViewModel(agreement, _bankEntities) },
+                    {"CurrentOffer",(Offer)OffersViewSource.View.CurrentItem}
+                },
+                async r =>
+                {
+                    if (r.Result == ButtonResult.OK)
+                    {
+                        var addedAgreementVm = r.Parameters.GetValue<AgreementViewModel>("AddedAgreementViewModel");
+
+                        SelectedClient.LoanAgreements.Add(addedAgreementVm.Agreement);
+                        await _bankEntities.SaveChangesAsync(CancellationToken.None);
+                    }
+                });
         }
 
         private void OnCurrentClientChanged(object sender, EventArgs e)
         {
             SelectedClient = (Client)ClientsCollectionView.CurrentItem;
+            RaisePropertyChanged(nameof(Payment));
             RaisePropertyChanged(nameof(AvailableFunds));
         }
 
         private void OnCurrentOfferChanged(object sender, EventArgs e)
         {
-            var currentOffer = (Offer)OffersViewSource.View.CurrentItem;
+            SelectedOffer = (Offer)OffersViewSource.View.CurrentItem;
             RaisePropertyChanged(nameof(Payment));
             RaisePropertyChanged(nameof(AvailableFunds));
-            if (currentOffer != null)
+            if (SelectedOffer != null)
             {
-                InterestInput = currentOffer.Interest;
+                InterestInput = SelectedOffer.Interest;
                 RemoveInterestFilterCommand.Execute(null);
             }
         }
@@ -138,6 +179,12 @@ namespace LoanOffersFilter.ViewModels
             get => _selectedClient;
             set => SetProperty(ref _selectedClient, value,
                 () => ApplyFilter(_selectedClient != null ? FilterField.Client : FilterField.None));
+        }
+
+        public Offer SelectedOffer
+        {
+            get => _selectedOffer;
+            set => SetProperty(ref _selectedOffer, value);
         }
 
         public ObservableCollection<Offer> Offers
@@ -281,6 +328,10 @@ namespace LoanOffersFilter.ViewModels
         }
 
         public ICommand CreateLoanAgreementCommand
+        {
+            get; private set;
+        }
+        public ICommand TakeSelectedItemGroupNameCommand
         {
             get; private set;
         }
@@ -490,7 +541,6 @@ namespace LoanOffersFilter.ViewModels
         private async Task LoadDataAsync()
         {
             await _bankEntities.Clients.LoadAsync();
-            await _bankEntities.Banks.LoadAsync();
             await _bankEntities.Offers.LoadAsync();
 
             Offers = _bankEntities.Offers.Local;

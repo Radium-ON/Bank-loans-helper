@@ -142,7 +142,7 @@ namespace ClientsTable.ViewModels
                 _dialogService.ShowOkCancelDialog(
                     Application.Current.FindResource("some_data_changed_dialog_title") as string,
                     Application.Current.FindResource("some_data_changed_dialog_message") as string,
-                    async r => { await NavigatingWithModifiedClientsCallBack(r, navigatingCancelEventArgs, dbcontext); });
+                    async r => { await NavigatingWithModifiedClientsCallBackAsync(r, navigatingCancelEventArgs, dbcontext); });
             }
             Debug.WriteLine("ClientsTableViewModel - NavigatingFrom");
         }
@@ -184,8 +184,8 @@ namespace ClientsTable.ViewModels
             await clients.LoadAsync();
             return clients.Local.Select(client => new ClientInfoViewModel(client, _bankEntities));
         }
-        
-        private async Task NavigatingWithModifiedClientsCallBack(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
+
+        private async Task NavigatingWithModifiedClientsCallBackAsync(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
         {
             if (r.Result == ButtonResult.Cancel)
             {
@@ -213,7 +213,7 @@ namespace ClientsTable.ViewModels
                 }
             }
         }
-        
+
         /// <summary>
         /// Возвращает список оболочек неисправных клиентов <see cref="ClientInfoViewModel"/>; асинхронный.
         /// </summary>

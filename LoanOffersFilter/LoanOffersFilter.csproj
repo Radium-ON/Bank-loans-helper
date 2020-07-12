@@ -66,8 +66,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Services\ModernLinkService.cs" />
-    <Compile Include="ViewModels\LoanAgreementViewModel.cs" />
+    <Compile Include="ViewModels\AgreementAddingDialogViewModel.cs" />
+    <Compile Include="ViewModels\AgreementViewModel.cs" />
     <Compile Include="ViewModels\LoanOffersFilterViewModel.cs" />
+    <Compile Include="Views\AgreementAddingDialog.xaml.cs">
+      <DependentUpon>AgreementAddingDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ClientSelectorView.xaml.cs">
       <DependentUpon>ClientSelectorView.xaml</DependentUpon>
     </Compile>
@@ -111,6 +115,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\AgreementAddingDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ClientSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

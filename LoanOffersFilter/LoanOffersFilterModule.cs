@@ -1,4 +1,5 @@
-﻿using LoanOffersFilter.Views;
+﻿using LoanOffersFilter.ViewModels;
+using LoanOffersFilter.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 
@@ -13,7 +14,7 @@ namespace LoanOffersFilter
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+            containerRegistry.RegisterDialog<AgreementAddingDialog,AgreementAddingDialogViewModel>();
         }
     }
 }
