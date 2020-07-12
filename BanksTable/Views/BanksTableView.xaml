@@ -10,7 +10,8 @@
              xmlns:controls="clr-namespace:LoanHelper.Core.Controls;assembly=LoanHelper.Core"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="331.934" d:DesignWidth="1019.647">
+             d:DesignHeight="331.934" d:DesignWidth="1019.647"
+             x:Name="user_control">
     <controls:ModernUserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/LoanHelper.Core;component/Assets/ResourceDictionary.xaml"/>
     </controls:ModernUserControl.Resources>
@@ -51,7 +52,8 @@
                           SelectionMode="Single" SelectionUnit="FullRow"
                           EnableRowVirtualization="True"
                           ScrollViewer.CanContentScroll="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizing="True"
-                          ItemsSource="{Binding BankInfoViewModels, UpdateSourceTrigger=PropertyChanged}">
+                          ItemsSource="{Binding BankInfoViewModels, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedBankViewModel, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
 
                         <DataGrid.ContextMenu>
                             <ContextMenu>
@@ -72,11 +74,11 @@
                     </DataGrid>
                 </StackPanel>
 
-                <StackPanel x:Name="stack_bank_clients" Grid.Row="0" Grid.Column="1" DataContext="{Binding ElementName=data_grid_banks, Path=SelectedItem.LoanAgreements, UpdateSourceTrigger=PropertyChanged}"
-                            Margin="20,6,0,0" Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding}}">
+                <StackPanel x:Name="stack_bank_clients" Grid.Row="0" Grid.Column="1" Margin="20,6,0,0"
+                             Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding ElementName=data_grid_banks, Path=SelectedItem.LoanAgreements}}">
                     <TextBlock Text="Клиенты банка:" Style="{StaticResource Emphasis}"/>
 
-                    <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid ItemsSource="{Binding ElementName=data_grid_banks, Path=SelectedItem.LoanAgreements}" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <mui:DataGridTextColumn Header="Имя клиента">
                                 <mui:DataGridTextColumn.Binding>
@@ -95,11 +97,11 @@
                     </DataGrid>
                 </StackPanel>
 
-                <StackPanel x:Name="stack_bank_offers" Grid.Row="1" Grid.Column="1" DataContext="{Binding ElementName=data_grid_banks, Path=SelectedItem.Offers, UpdateSourceTrigger=PropertyChanged}"
-                            Margin="20,17,0,0" Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding}}">
+                <StackPanel x:Name="stack_bank_offers" Grid.Row="1" Grid.Column="1" Margin="20,17,0,0"
+                            Visibility="{qc:Binding '$P.Count!=0 ? Visibility.Visible : Visibility.Collapsed', P={Binding ElementName=data_grid_banks, Path=SelectedItem.Offers}}">
                     <TextBlock Text="Банк предложит кредит на этих условиях:" Style="{StaticResource Emphasis}"/>
 
-                    <DataGrid ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="1000">
+                    <DataGrid ItemsSource="{Binding ElementName=data_grid_banks, Path=SelectedItem.Offers}" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="1000">
                         <DataGrid.Columns>
                             <mui:DataGridTextColumn Header="Ставка %" Width="Auto" Binding="{Binding Interest}"/>
                             <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="Auto" Binding="{Binding MinLoanAmount}"/>
@@ -109,6 +111,17 @@
                             <mui:DataGridTextColumn  Header="Мин. стаж" Width="Auto" Binding="{Binding MinSeniority}"/>
                             <mui:DataGridTextColumn  Header="Активные кредиты" Width="Auto" Binding="{Binding ActiveLoansNumber}"/>
                         </DataGrid.Columns>
+
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon}"
+                                          Command="{Binding AddOfferToBankCommand}"/>
+
+                                <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon}"
+                                          Command="{Binding DeleteOfferFromBankCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                     </DataGrid>
                 </StackPanel>
             </Grid>

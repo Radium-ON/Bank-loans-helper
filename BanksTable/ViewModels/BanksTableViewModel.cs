@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using BankLoansDataModel;
 using BankLoansDataModel.Extensions;
 using BankLoansDataModel.Services;
@@ -28,6 +29,7 @@ namespace BanksTable.ViewModels
 
         private IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
+        private BankInfoViewModel _selectedBankViewModel;
 
         #endregion
 
@@ -38,8 +40,12 @@ namespace BanksTable.ViewModels
 
             DeleteBankCommand = new DelegateCommand<BankInfoViewModel>(async vm => await DeleteSelectedBankAsync(vm));
             AddBankCommand = new DelegateCommand(ShowAddBankDialog);
+            DeleteOfferFromBankCommand = new DelegateCommand<Offer>(async offer => await DeleteSelectedOfferAsync(offer));
+            AddOfferToBankCommand = new DelegateCommand(ShowAddOfferToBankDialog);
 
             BankInfoViewModels = new AsyncObservableCollection<BankInfoViewModel>();
+
+            #region Navigation Commands
 
             NavigatingFromCommand = new DelegateCommand<NavigatingCancelEventArgs>(NavigatingFrom);
             NavigatedFromCommand = new DelegateCommand(NavigatedFrom);
@@ -47,6 +53,21 @@ namespace BanksTable.ViewModels
             FragmentNavigationCommand = new DelegateCommand(FragmentNavigation);
             LoadedCommand = new DelegateCommand(async () => await LoadDataAsync());
             IsVisibleChangedCommand = new DelegateCommand(VisibilityChanged);
+
+            #endregion
+        }
+
+        private void ShowAddOfferToBankDialog()
+        {
+        }
+
+        private async Task DeleteSelectedOfferAsync(Offer offer)
+        {
+            if (SelectedBankViewModel != null)
+            {
+                SelectedBankViewModel.Offers.Remove(offer);
+                await _bankEntities.SaveChangesAsync(CancellationToken.None);
+            }
         }
 
         private void ShowAddBankDialog()
@@ -74,12 +95,20 @@ namespace BanksTable.ViewModels
             set => SetProperty(ref _bankInfoViewModels, value);
         }
 
+        public BankInfoViewModel SelectedBankViewModel
+        {
+            get => _selectedBankViewModel;
+            set => SetProperty<BankInfoViewModel>(ref _selectedBankViewModel, value);
+        }
+
         public ObjectContext CurrentObjectContext => ((IObjectContextAdapter)_bankEntities).ObjectContext;
 
-        #region DelegateCommands
+        #region Commands
 
-        public DelegateCommand<BankInfoViewModel> DeleteBankCommand { get; private set; }
-        public DelegateCommand AddBankCommand { get; private set; }
+        public ICommand DeleteBankCommand { get; private set; }
+        public ICommand AddBankCommand { get; private set; }
+        public ICommand AddOfferToBankCommand { get; private set; }
+        public ICommand DeleteOfferFromBankCommand { get; private set; }
 
         #endregion
 
@@ -154,7 +183,7 @@ namespace BanksTable.ViewModels
 
             if (bankVm.Bank.LoanAgreements.Count == 0 && bankVm.Bank.Offers.Count == 0)
             {
-                await RemoveOfferAsync(bankVm);
+                await RemoveBankAsync(bankVm);
             }
             else
             {
@@ -165,13 +194,13 @@ namespace BanksTable.ViewModels
                     {
                         if (r.Result == ButtonResult.OK)
                         {
-                            await RemoveOfferAsync(bankVm);
+                            await RemoveBankAsync(bankVm);
                         }
                     });
             }
         }
 
-        private async Task RemoveOfferAsync(BankInfoViewModel bankVm)
+        private async Task RemoveBankAsync(BankInfoViewModel bankVm)
         {
             _bankEntities.Banks.Remove(bankVm.Bank);
             BankInfoViewModels.Remove(bankVm);
