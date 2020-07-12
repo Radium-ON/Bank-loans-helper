@@ -111,7 +111,7 @@ namespace LoanOffersFilter.ViewModels
                 new DialogParameters
                 {
                     { "AgreementViewModel", new AgreementViewModel(agreement, _bankEntities) },
-                    {"CurrentOffer",(Offer)OffersViewSource.View.CurrentItem}
+                    {"CurrentOffer",SelectedOffer}
                 },
                 async r =>
                 {
@@ -197,7 +197,7 @@ namespace LoanOffersFilter.ViewModels
         {
             get
             {
-                if (MonthsInput.HasValue && LoanAmountInput.HasValue)
+                if (MonthsInput.HasValue && LoanAmountInput.HasValue && SelectedOffer != null)
                 {
                     return CalculatePayment();
                 }
@@ -222,23 +222,16 @@ namespace LoanOffersFilter.ViewModels
         private double CalculatePayment()
         {
             double? result = 0;
-            if (OffersViewSource.View != null)
+            double? interestPerMonth = (SelectedOffer.Interest / 12.0) * 0.01;
+            if (MonthsInput.HasValue)
             {
-                if (OffersViewSource.View.CurrentItem is Offer currentOffer)
-                {
-                    double? interestPerMonth = (currentOffer.Interest / 12.0) * 0.01;
-                    if (MonthsInput.HasValue)
-                    {
-                        var power = Math.Pow((double)(1 + interestPerMonth), (double)MonthsInput);
-                        var numerator = interestPerMonth * power;
-                        var denominator = power - 1;
-                        var annuityRate = numerator / denominator;
+                var power = Math.Pow((double)(1 + interestPerMonth), (double)MonthsInput);
+                var numerator = interestPerMonth * power;
+                var denominator = power - 1;
+                var annuityRate = numerator / denominator;
 
-                        result = (LoanAmountInput * annuityRate);
-                    }
-                }
+                result = (LoanAmountInput * annuityRate);
             }
-
             return (double)result;
         }
 
