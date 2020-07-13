@@ -45,11 +45,11 @@
                               ItemsSource="{Binding OfferViewModels, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <mui:DataGridTextColumn Header="Ставка %" Width="SizeToHeader"
-                            Binding="{Binding Interest, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:##.##}, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                            Binding="{Binding Interest, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=P2, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                             <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="SizeToHeader"
-                            Binding="{Binding MinLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                            Binding="{Binding MinLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=C0, ConverterCulture='ru-RU', ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                             <mui:DataGridTextColumn  Header="Макс. сумма кредита" Width="SizeToHeader"
-                            Binding="{Binding MaxLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                            Binding="{Binding MaxLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  StringFormat=C0, ConverterCulture='ru-RU',ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                             <mui:DataGridTextColumn  Header="Макс. срок в месяцах" Width="SizeToHeader"
                             Binding="{Binding MaxOfMonths, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                             <mui:DataGridTextColumn  Header="Мин. возраст" Width="SizeToHeader"

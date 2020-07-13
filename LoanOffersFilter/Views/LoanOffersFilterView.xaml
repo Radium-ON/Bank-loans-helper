@@ -55,8 +55,9 @@
                         <TextBlock Text="ПРЕДЛОЖЕНИЯ БАНКОВ" Style="{StaticResource Heading2}"/>
                         <ListView x:Name="list_view_offers" ItemsSource="{Binding Path=OffersViewSource.View, IsAsync=True}" MaxHeight="400"
                                   SelectionMode="Single"
+                                  SelectedItem="{Binding SelectedOffer, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                   IsSynchronizedWithCurrentItem="True">
-                           
+
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,4,0,0">
@@ -67,11 +68,11 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Orientation="Horizontal">
                                             <TextBlock Text="Ставка %" Style="{StaticResource Emphasis}"/>
-                                            <TextBlock Text="{Binding Interest}" Margin="4,0,4,0"/>
+                                            <TextBlock Text="{Binding Interest, StringFormat=P2}" Margin="4,0,4,0"/>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                                             <TextBlock Text="Макс. сумма кредита" Style="{StaticResource Emphasis}"/>
-                                            <TextBlock Text="{Binding MaxLoanAmount}" Margin="4,0,4,0"/>
+                                            <TextBlock Text="{Binding MaxLoanAmount, StringFormat=C0, ConverterCulture='ru-RU'}" Margin="4,0,4,0"/>
                                         </StackPanel>
                                         <StackPanel Grid.Column="2" Orientation="Horizontal" >
                                             <TextBlock Text="Макс. срок в месяцах" Style="{StaticResource Emphasis}"/>
@@ -110,10 +111,10 @@
                     <WrapPanel x:Name="panel_loan_accept" Grid.Row="1">
                         <TextBlock Text="РАЗМЕР ПЛАТЕЖА" Style="{StaticResource Emphasis}" Margin="0,4,0,4"/>
                         <TextBlock x:Name="text_payment" MinWidth="100" MinHeight="25" Margin="0,0,10,0" TextAlignment="Center"
-                                   Text="{Binding Payment, Mode=OneWay, StringFormat=N2}"/>
+                                   Text="{Binding Payment, Mode=OneWay, StringFormat=C, ConverterCulture='ru-RU'}"/>
                         <TextBlock Text="Осталось средств:" Style="{StaticResource Emphasis}" Margin="0,4,0,4"/>
                         <TextBlock x:Name="text_available_funds" MinWidth="100" MinHeight="25" Margin="0,0,10,0" TextAlignment="Center"
-                                   Text="{Binding AvailableFunds, Mode=OneWay, StringFormat=N2}"/>
+                                   Text="{Binding AvailableFunds, Mode=OneWay, StringFormat=C, ConverterCulture='ru-RU'}"/>
                         <Button Content="Оформить" Command="{Binding CreateLoanAgreementCommand}" FontWeight="DemiBold" Margin="8,4,0,0"/>
                     </WrapPanel>
                 </Grid>

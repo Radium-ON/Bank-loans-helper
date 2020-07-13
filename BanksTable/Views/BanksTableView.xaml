@@ -57,10 +57,11 @@
 
                         <DataGrid.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon}"
+                                <MenuItem Header="Добавить банк" Icon="{DynamicResource add_to_list_icon}"
                                       Command="{Binding AddBankCommand}"/>
-
-                                <MenuItem Header="Удалить" Icon="{DynamicResource delete_icon}"
+                                <MenuItem Header="Добавить предложение для банка" Icon="{DynamicResource add_to_list_icon}"
+                                          Command="{Binding AddOfferToBankCommand}"/>
+                                <MenuItem Header="Удалить банк" Icon="{DynamicResource delete_icon}"
                                           Command="{Binding DeleteBankCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
                             </ContextMenu>
@@ -89,8 +90,8 @@
                                 </mui:DataGridTextColumn.Binding>
                             </mui:DataGridTextColumn>
                             <mui:DataGridTextColumn Header="Номер договора" Binding="{Binding AgreementNumber}"/>
-                            <mui:DataGridTextColumn Header="Ставка %" Binding="{Binding Interest}"/>
-                            <mui:DataGridTextColumn Header="Сумма" Binding="{Binding LoanAmount}"/>
+                            <mui:DataGridTextColumn Header="Ставка %" Binding="{Binding Interest, StringFormat=P2}"/>
+                            <mui:DataGridTextColumn Header="Сумма" Binding="{Binding LoanAmount, StringFormat=C0, ConverterCulture='ru-RU'}"/>
                             <mui:DataGridTextColumn Header="Дата заключения" Binding="{Binding ContractDate, StringFormat=d}"/>
                             <mui:DataGridCheckBoxColumn Header="Погашен" Binding="{Binding IsRepaid}" IsReadOnly="True"/>
                         </DataGrid.Columns>
@@ -100,7 +101,7 @@
                 <StackPanel x:Name="stack_bank_offers" Grid.Row="1" Grid.Column="1" Margin="20,17,0,0">
                     <StackPanel.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Добавить" Icon="{DynamicResource add_to_list_icon}"
+                            <MenuItem Header="Добавить предложение для банка" Icon="{DynamicResource add_to_list_icon}"
                                       Command="{Binding AddOfferToBankCommand}"/>
                         </ContextMenu>
                     </StackPanel.ContextMenu>
@@ -108,9 +109,9 @@
 
                     <DataGrid ItemsSource="{Binding ElementName=data_grid_banks, Path=SelectedItem.Offers}" AutoGenerateColumns="False" IsReadOnly="True" MaxWidth="1000">
                         <DataGrid.Columns>
-                            <mui:DataGridTextColumn Header="Ставка %" Width="Auto" Binding="{Binding Interest}"/>
-                            <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="Auto" Binding="{Binding MinLoanAmount}"/>
-                            <mui:DataGridTextColumn  Header="Макс. сумма кредита" Width="Auto" Binding="{Binding MaxLoanAmount}"/>
+                            <mui:DataGridTextColumn Header="Ставка %" Width="Auto" Binding="{Binding Interest, StringFormat=P2}"/>
+                            <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="Auto" Binding="{Binding MinLoanAmount, StringFormat=C0, ConverterCulture='ru-RU'}"/>
+                            <mui:DataGridTextColumn  Header="Макс. сумма кредита" Width="Auto" Binding="{Binding MaxLoanAmount, StringFormat=C0, ConverterCulture='ru-RU'}"/>
                             <mui:DataGridTextColumn  Header="Макс. срок в месяцах" Width="Auto" Binding="{Binding MaxOfMonths}"/>
                             <mui:DataGridTextColumn  Header="Мин. возраст" Width="Auto" Binding="{Binding MinAge}"/>
                             <mui:DataGridTextColumn  Header="Мин. стаж" Width="Auto" Binding="{Binding MinSeniority}"/>

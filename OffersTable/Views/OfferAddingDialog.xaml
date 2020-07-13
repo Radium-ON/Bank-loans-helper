@@ -96,7 +96,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Мин. сумма кредита"  Grid.Column="0" Grid.RowSpan="2"/>
                 <TextBox x:Name="input_min_loan_amount"
-                Text="{Binding Path=OfferInfoViewModel.MinLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferInfoViewModel.MinLoanAmount, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_min_loan_amount}" Grid.Column="1"/>
             </Grid>
@@ -112,7 +112,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Макс. сумма кредита"  Grid.RowSpan="2"/>
                 <TextBox x:Name="input_max_loan_amount"
-                Text="{Binding Path=OfferInfoViewModel.MaxLoanAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferInfoViewModel.MaxLoanAmount, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_max_loan_amount}" Grid.Column="1"/>
             </Grid>
@@ -186,12 +186,7 @@
 
         </Grid>
 
-        <!--<TextBlock Text="Предложение уже существует в базе данных!" Grid.Column="0" Grid.Row="1"
-                   Foreground="Red"
-                   Visibility="{qc:MultiBinding '$P0 &amp;&amp; $P1.Count==0 ? Visibility.Collapsed : Visibility.Visible',
-            P0={Binding ElementName=bt_add_offer, Path=IsEnabled}, P1={Binding Path=Validation.Errors}}"/>-->
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
+       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
             <Button Command="{Binding CloseDialogCommand}" CommandParameter="false" Content="Отмена" MinWidth="75" Height="25" IsCancel="True" Margin="0,0,20,0"/>
             <Button Command="{Binding AddOfferCommand}" x:Name="bt_add_offer" Content="Добавить" MinWidth="75" Height="25" IsDefault="True"/>
         </StackPanel>

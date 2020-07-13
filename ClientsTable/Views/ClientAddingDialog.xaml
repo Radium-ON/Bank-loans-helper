@@ -150,7 +150,7 @@
                     <ColumnDefinition Width="*" MinWidth="85"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Труд. стаж" Grid.Column="0"/>
+                <TextBlock Text="Труд. стаж" Grid.Column="0" Grid.ColumnSpan="2"/>
                 <Label Content="{Binding Path=ClientInfoViewModel.Seniority}" Grid.Row="1" Grid.Column="0"/>
                 <TextBox x:Name="input_seniority"
                 Text="{Binding Path=ClientInfoViewModel.Seniority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -170,7 +170,7 @@
                 <TextBlock Text="Зарплата" />
                 <Label Content="{Binding Path=ClientInfoViewModel.Salary}" Grid.Column="0" Grid.Row="1"/>
                 <TextBox x:Name="input_salary"
-                Text="{Binding Path=ClientInfoViewModel.Salary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=ClientInfoViewModel.Salary, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_salary}" Grid.Column="1"/>
             </Grid>

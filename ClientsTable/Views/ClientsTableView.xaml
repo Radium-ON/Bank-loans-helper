@@ -62,7 +62,7 @@
                         <mui:DataGridTextColumn Header="ИНН" Binding="{Binding Tin, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                         <mui:DataGridTextColumn Header="Возраст" Binding="{Binding Age, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                         <mui:DataGridTextColumn Header="Стаж" Binding="{Binding Seniority, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
-                        <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
+                        <mui:DataGridTextColumn Header="Зарплата" Binding="{Binding Salary, StringFormat=C, ConverterCulture='ru-RU', ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{x:Null}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>

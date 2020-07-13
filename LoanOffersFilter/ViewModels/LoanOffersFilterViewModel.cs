@@ -137,13 +137,12 @@ namespace LoanOffersFilter.ViewModels
 
         private void OnCurrentOfferChanged(object sender, EventArgs e)
         {
-            SelectedOffer = (Offer)OffersViewSource.View.CurrentItem;
-            RaisePropertyChanged(nameof(Payment));
-            RaisePropertyChanged(nameof(AvailableFunds));
             if (SelectedOffer != null)
             {
                 InterestInput = SelectedOffer.Interest;
                 RemoveInterestFilterCommand.Execute(null);
+                RaisePropertyChanged(nameof(Payment));
+                RaisePropertyChanged(nameof(AvailableFunds));
             }
         }
 
@@ -226,7 +225,7 @@ namespace LoanOffersFilter.ViewModels
         private double CalculatePayment()
         {
             double? result = 0;
-            double? interestPerMonth = (SelectedOffer.Interest / 12.0) * 0.01;
+            double? interestPerMonth = SelectedOffer.Interest / 12.0;
             if (MonthsInput.HasValue)
             {
                 var power = Math.Pow((double)(1 + interestPerMonth), (double)MonthsInput);
