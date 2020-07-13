@@ -21,6 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OffersTable", "OffersTable\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoanOffersFilter", "LoanOffersFilter\LoanOffersFilter.csproj", "{DB192D85-DAEC-4F4A-969C-43A2CA8A2D21}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DbCreateScripts", "DbCreateScripts", "{4E430505-5C0C-415F-A493-82451001F1B0}"
+	ProjectSection(SolutionItems) = preProject
+		D:\ia_no\Documents\BankLoansDatabase_create_insert.sql = D:\ia_no\Documents\BankLoansDatabase_create_insert.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
