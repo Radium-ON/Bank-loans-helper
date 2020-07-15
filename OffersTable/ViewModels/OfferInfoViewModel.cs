@@ -71,7 +71,7 @@ namespace OffersTable.ViewModels
                     return;
                 }
 
-                _offer.Interest = value;
+                _offer.Interest = (float) (value*0.01);
 
                 RaisePropertyChanged(nameof(Interest));
                 RaisePropertyChanged(nameof(IsValid));

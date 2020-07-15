@@ -182,7 +182,7 @@ namespace BanksTable.ViewModels
                 _dialogService.ShowOkCancelDialog(
                     Application.Current.FindResource("some_data_changed_dialog_title") as string,
                     Application.Current.FindResource("some_data_changed_dialog_message") as string,
-                    async r => { await NavigatingWithModifiedBanksCallBack(r, navigatingCancelEventArgs, dbcontext); });
+                    async r => { await NavigatingWithModifiedBanksCallBackAsync(r, navigatingCancelEventArgs, dbcontext); });
             }
             Debug.WriteLine("BanksTableViewModel - NavigatingFrom");
         }
@@ -225,7 +225,7 @@ namespace BanksTable.ViewModels
             return banks.Local.Select(bank => new BankInfoViewModel(bank, _bankEntities));
         }
 
-        private async Task NavigatingWithModifiedBanksCallBack(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
+        private async Task NavigatingWithModifiedBanksCallBackAsync(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
         {
             if (r.Result == ButtonResult.Cancel)
             {
@@ -257,11 +257,11 @@ namespace BanksTable.ViewModels
         /// <summary>
         /// Возвращает список оболочек неисправных клиентов <see cref="BankInfoViewModel"/>; асинхронный.
         /// </summary>
-        /// <param name="clientInfoViewModels"></param>
+        /// <param name="bankInfoViewModels"></param>
         /// <returns>Список неуникальных клиентов.</returns>
-        private async Task<List<BankInfoViewModel>> GetNotValidBankViewModelsAsync(IEnumerable<BankInfoViewModel> clientInfoViewModels)
+        private async Task<List<BankInfoViewModel>> GetNotValidBankViewModelsAsync(IEnumerable<BankInfoViewModel> bankInfoViewModels)
         {
-            return await clientInfoViewModels.AsAsyncQueryable().Where(vm => vm.IsValid == false).ToListAsync();
+            return await bankInfoViewModels.AsAsyncQueryable().Where(vm => vm.IsValid == false).ToListAsync();
         }
     }
 }

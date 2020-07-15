@@ -41,9 +41,9 @@
         <TextBlock Text="Доступные предложения" Style="{StaticResource Heading2}"/>
         <DataGrid Grid.Row="1" MaxHeight="300" ItemsSource="{Binding OffersView}" AutoGenerateColumns="False" IsReadOnly="True" MinWidth="600" MaxWidth="1000">
             <DataGrid.Columns>
-                <mui:DataGridTextColumn Header="Ставка %" Width="Auto" Binding="{Binding Path=Interest}"/>
-                <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="Auto" Binding="{Binding Path=MinLoanAmount}"/>
-                <mui:DataGridTextColumn  Header="Макс. сумма кредита" Width="Auto" Binding="{Binding MaxLoanAmount}"/>
+                <mui:DataGridTextColumn Header="Ставка %" Width="Auto" Binding="{Binding Path=Interest, StringFormat=P2}"/>
+                <mui:DataGridTextColumn Header="Мин. сумма кредита" Width="Auto" Binding="{Binding Path=MinLoanAmount, StringFormat=C, ConverterCulture='ru-RU'}"/>
+                <mui:DataGridTextColumn  Header="Макс. сумма кредита" Width="Auto" Binding="{Binding MaxLoanAmount, StringFormat=C, ConverterCulture='ru-RU'}"/>
                 <mui:DataGridTextColumn  Header="Макс. срок в месяцах" Width="Auto" Binding="{Binding MaxOfMonths}"/>
                 <mui:DataGridTextColumn  Header="Мин. возраст" Width="Auto" Binding="{Binding MinAge}"/>
                 <mui:DataGridTextColumn  Header="Мин. стаж" Width="Auto" Binding="{Binding MinSeniority}"/>

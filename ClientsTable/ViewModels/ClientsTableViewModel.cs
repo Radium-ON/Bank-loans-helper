@@ -156,7 +156,7 @@ namespace ClientsTable.ViewModels
 
             if (clientVm.Client.LoanAgreements.Count == 0)
             {
-                await RemoveOfferAsync(clientVm);
+                await RemoveClientWithViewModelAsync(clientVm);
             }
             else
             {
@@ -167,13 +167,13 @@ namespace ClientsTable.ViewModels
                     {
                         if (r.Result == ButtonResult.OK)
                         {
-                            await RemoveOfferAsync(clientVm);
+                            await RemoveClientWithViewModelAsync(clientVm);
                         }
                     });
             }
         }
 
-        private async Task RemoveOfferAsync(ClientInfoViewModel clientVm)
+        private async Task RemoveClientWithViewModelAsync(ClientInfoViewModel clientVm)
         {
             _bankEntities.Clients.Remove(clientVm.Client);
             ClientInfoViewModels.Remove(clientVm);
