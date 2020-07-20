@@ -94,6 +94,7 @@
     <Compile Include="ViewModels\OkDialogViewModel.cs" />
     <Compile Include="ViewModels\OkCancelDialogViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ValidatedDataEntityViewModel.cs" />
     <Compile Include="Views\OkDialog.xaml.cs">
       <DependentUpon>OkDialog.xaml</DependentUpon>
     </Compile>
