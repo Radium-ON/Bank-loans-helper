@@ -102,4 +102,105 @@
         </Grid>
 
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:AgreementViewModel}">
+                <Grid x:Name="grid_agreement_info" MinWidth="200">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" x:Name="grid_client" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="140"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Клиент" Grid.Column="0"/>
+                <TextBlock x:Name="tb_client_name" Text="{Binding Path=Client.LastName, Mode=OneWay}" Grid.Row="0" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="1" x:Name="grid_agreement_number" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="140"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Номер договора" Grid.RowSpan="2"/>
+                <TextBox x:Name="input_agreement_number"
+                Text="{Binding Path=AgreementNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_agreement_number}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="2" x:Name="grid_loan_amount" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="140"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Сумма кредита" Grid.Column="0" Grid.RowSpan="2"/>
+                <TextBlock x:Name="tb_loan_amount" Text="{Binding Path=LoanAmount, Mode=OneWay, StringFormat=N}" Grid.Row="0" Grid.Column="1" Margin="0"/>
+            </Grid>
+
+            <Grid Grid.Row="3" x:Name="grid_interest" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="140"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Ставка %" Grid.Column="0"/>
+                <TextBlock x:Name="tb_interest"
+                Text="{Binding Path=Interest, Mode=OneWay}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="4" x:Name="grid_payment" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="140"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Размер платежа" Grid.Column="0" Grid.RowSpan="2"/>
+                <TextBlock x:Name="tb_payment" Text="{Binding Path=Payment, Mode=OneWay, StringFormat=N2}" Grid.Column="1" Margin="0"/>
+            </Grid>
+
+            <Grid Grid.Row="5" x:Name="grid_months" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="140"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Срок в месяцах" Grid.Column="0" Grid.RowSpan="2"/>
+                <TextBlock x:Name="tb_months"
+                Text="{Binding Path=Months, Mode=OneWay}" Grid.Column="1" Margin="0"/>
+            </Grid>
+
+            <Grid Grid.Row="6" x:Name="grid_contract_date" Margin="0,0,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="140"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата заключения" Grid.RowSpan="2" />
+                <DatePicker x:Name="input_contract_date" FontSize="14"
+                SelectedDate="{Binding Path=ContractDate, Mode=TwoWay,
+                    UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_contract_date}" Grid.Column="1"/>
+            </Grid>
+
+        </Grid>
+
+    </DataTemplate>
+
 </ResourceDictionary>

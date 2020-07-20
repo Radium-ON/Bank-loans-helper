@@ -20,15 +20,6 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
-        <DataTemplate DataType="{x:Type ValidationError}">
-            <TextBlock 
-                    FontStyle="Italic"
-                    Foreground="Red"
-                    HorizontalAlignment="Right"
-                    Margin="0,1,2,0"
-                    Text="{Binding Path=ErrorContent}"
-                    TextWrapping="Wrap"/>
-        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,136 +28,41 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="grid_agreement_info" MinWidth="200" Grid.ColumnSpan="2">
+        <Grid Grid.Row="0" x:Name="grid_bank_selector" Margin="0,0,0,10" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="140"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="0" x:Name="grid_bank_selector" Margin="0,0,0,10">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="140"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Банк"/>
-                <ComboBox x:Name="cmb_banks" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" MaxDropDownHeight="200" FontSize="14"
-                          ItemsSource="{Binding Path=CurrentOffer.Banks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding Path=AgreementViewModel.Bank, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                          Validation.ErrorTemplate="{x:Null}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path=Name}" Margin="0,0,4,0"/>
-                                <TextBlock Text=", ОГРН:" Margin="0,0,4,0"/>
-                                <TextBlock Text="{Binding Path=OGRN}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=cmb_banks}" Grid.Column="1"/>
-            </Grid>
-
-            <Grid Grid.Row="1" x:Name="grid_client" Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="140"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Клиент" Grid.Column="0"/>
-                <TextBlock x:Name="tb_client_name" Text="{Binding Path=AgreementViewModel.Client.LastName, Mode=OneWay}" Grid.Row="0" Grid.Column="1"/>
-            </Grid>
-
-            <Grid Grid.Row="2" x:Name="grid_agreement_number" Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="140"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="Номер договора" Grid.RowSpan="2"/>
-                <TextBox x:Name="input_agreement_number"
-                Text="{Binding Path=AgreementViewModel.AgreementNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
-                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_agreement_number}" Grid.Column="1"/>
-            </Grid>
-
-            <Grid Grid.Row="3" x:Name="grid_loan_amount" Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="140"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Сумма кредита" Grid.Column="0" Grid.RowSpan="2"/>
-                <TextBlock x:Name="tb_loan_amount" Text="{Binding Path=AgreementViewModel.LoanAmount, Mode=OneWay, StringFormat=N}" Grid.Row="0" Grid.Column="1" Margin="0"/>
-            </Grid>
-
-            <Grid Grid.Row="4" x:Name="grid_interest" Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="140"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Ставка %" Grid.Column="0"/>
-                <TextBlock x:Name="tb_interest"
-                Text="{Binding Path=AgreementViewModel.Interest, Mode=OneWay}" Grid.Column="1"/>
-            </Grid>
-
-            <Grid Grid.Row="5" x:Name="grid_payment" Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="140"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Размер платежа" Grid.Column="0" Grid.RowSpan="2"/>
-                <TextBlock x:Name="tb_payment" Text="{Binding Path=AgreementViewModel.Payment, Mode=OneWay, StringFormat=N2}" Grid.Column="1" Margin="0"/>
-            </Grid>
-
-            <Grid Grid.Row="6" x:Name="grid_months" Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="140"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Срок в месяцах" Grid.Column="0" Grid.RowSpan="2"/>
-                <TextBlock x:Name="tb_months"
-                Text="{Binding Path=AgreementViewModel.Months, Mode=OneWay}" Grid.Column="1" Margin="0"/>
-            </Grid>
-
-            <Grid Grid.Row="7" x:Name="grid_contract_date" Margin="0,0,0,10">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="140"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Дата заключения" Grid.RowSpan="2" />
-                <DatePicker x:Name="input_contract_date" FontSize="14"
-                SelectedDate="{Binding Path=AgreementViewModel.ContractDate, Mode=TwoWay,
-                    UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
-                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_contract_date}" Grid.Column="1"/>
-            </Grid>
-
+            <TextBlock Text="Банк"/>
+            <ComboBox x:Name="cmb_banks" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" MaxDropDownHeight="200" FontSize="14"
+                      ItemsSource="{Binding Path=CurrentOffer.Banks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding Path=AgreementViewModel.Bank, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                      Validation.ErrorTemplate="{x:Null}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Name}" Margin="0,0,4,0"/>
+                            <TextBlock Text=", ОГРН:" Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding Path=OGRN}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=cmb_banks}" Grid.Column="1"/>
         </Grid>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
+        <ContentPresenter Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Content="{Binding AgreementViewModel}" Margin="0,0,0,20"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2">
             <Button Command="{Binding CloseDialogCommand}" CommandParameter="false" Content="Отмена" MinWidth="75" Height="25" IsCancel="True" Margin="0,0,20,0"/>
             <Button Command="{Binding AddAgreementCommand}" x:Name="bt_add_client" Content="Добавить" MinWidth="75" Height="25" IsDefault="True"/>
         </StackPanel>
