@@ -41,7 +41,7 @@
                           SelectionMode="Single" SelectionUnit="FullRow"
                           EnableRowVirtualization="True"
                           ScrollViewer.CanContentScroll="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizing="True"
-                          ItemsSource="{Binding ClientInfoViewModels, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding ClientViewModels, UpdateSourceTrigger=PropertyChanged}"
                           RowDetailsTemplate="{StaticResource loan_agreements_datagrid_rowdetailstemplate}">
 
                     <DataGrid.ContextMenu>

@@ -1,28 +1,26 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using Prism.Mvvm;
 
 namespace LoanHelper.Core.ViewModels
 {
-    public abstract class ValidatedDataEntityViewModel<TEntity> : IDataErrorInfo
+    public abstract class ValidatedDataEntityViewModel<TEntity> : BindableBase, IDataErrorInfo
     {
         #region Backing Fields
 
-        private protected readonly TEntity _entity;
-
-        private readonly string[] _validatedProperties;
+        private protected TEntity entity;
 
         #endregion
 
-        protected ValidatedDataEntityViewModel(TEntity entity, string[] validatedProperties)
+        protected ValidatedDataEntityViewModel(TEntity entity)
         {
-            _entity = entity;
-            _validatedProperties = validatedProperties;
+            this.entity = entity;
         }
 
-        public TEntity Entity => _entity;
+        public TEntity Entity => entity;
 
-        public bool IsUnique => !CheckIsEntityContainsInContext(_entity);
+        public bool IsUnique => !CheckIsEntityContainsInContext(entity);
 
         protected abstract bool CheckIsEntityContainsInContext(TEntity entity);
 
@@ -42,37 +40,30 @@ namespace LoanHelper.Core.ViewModels
         {
             get
             {
-                return _validatedProperties.All(property => GetValidationError(property) == null);
+                return ValidatedProperties != null && ValidatedProperties.All(property => GetValidationError(property) == null);
             }
         }
 
-        public string[] ValidatedProperties => _validatedProperties;
+        public string[] ValidatedProperties { get; protected set; }
 
 
 
-        protected virtual string GetValidationError(string propertyName)
-        {
-            if (Array.IndexOf(_validatedProperties, propertyName) < 0)
-                return null;
-
-            return null;
-        }
+        protected abstract string GetValidationError(string propertyName);
 
 
-
-        private static bool IsStringMissing(string value)
+        protected static bool IsStringMissing(string value)
         {
             return
                 string.IsNullOrEmpty(value) ||
                 value.Trim() == string.Empty;
         }
 
-        private static bool IsStringAllDigits(string value)
+        protected static bool IsStringAllDigits(string value)
         {
             return value.All(char.IsDigit);
         }
 
-        private static bool IsStringAllLetters(string value)
+        protected static bool IsStringAllLetters(string value)
         {
             return value.All(char.IsLetter);
         }

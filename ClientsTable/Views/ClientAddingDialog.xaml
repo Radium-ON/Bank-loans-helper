@@ -71,7 +71,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Имя"/>
                 <TextBox x:Name="input_name" Grid.Row="0"
-                Text="{Binding Path=ClientInfoViewModel.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=ClientViewModel.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_name}" Grid.Column="1"/>
             </Grid>
@@ -87,7 +87,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Фамилия" Grid.Column="0"/>
                 <TextBox x:Name="input_lastname"
-                Text="{Binding Path=ClientInfoViewModel.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=ClientViewModel.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_lastname}" Grid.Column="1"/>
             </Grid>
@@ -103,7 +103,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Паспорт"/>
                 <TextBox x:Name="input_passport"
-                Text="{Binding Path=ClientInfoViewModel.Passport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=ClientViewModel.Passport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_passport}" Grid.Column="1"/>
             </Grid>
@@ -119,7 +119,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="ИНН" Grid.Column="0"/>
                 <TextBox x:Name="input_tin"
-                Text="{Binding Path=ClientInfoViewModel.Tin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=ClientViewModel.Tin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_tin}" Grid.Column="1"/>
             </Grid>
@@ -134,9 +134,9 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Возраст" Grid.Column="0"/>
-                <Label Content="{Binding Path=ClientInfoViewModel.Age}" Grid.Row="1" Grid.Column="0" />
+                <Label Content="{Binding Path=ClientViewModel.Age}" Grid.Row="1" Grid.Column="0" />
                 <TextBox x:Name="input_age"
-                Text="{Binding Path=ClientInfoViewModel.Age, Mode=TwoWay, NotifyOnSourceUpdated=True, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=ClientViewModel.Age, Mode=TwoWay, NotifyOnSourceUpdated=True, TargetNullValue={x:Static sys:String.Empty}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_age}" Grid.Column="1"/>
             </Grid>
@@ -151,9 +151,9 @@
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Труд. стаж" Grid.Column="0" Grid.ColumnSpan="2"/>
-                <Label Content="{Binding Path=ClientInfoViewModel.Seniority}" Grid.Row="1" Grid.Column="0"/>
+                <Label Content="{Binding Path=ClientViewModel.Seniority}" Grid.Row="1" Grid.Column="0"/>
                 <TextBox x:Name="input_seniority"
-                Text="{Binding Path=ClientInfoViewModel.Seniority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=ClientViewModel.Seniority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_seniority}" Grid.Column="1"/>
             </Grid>
@@ -168,9 +168,9 @@
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Зарплата" />
-                <Label Content="{Binding Path=ClientInfoViewModel.Salary}" Grid.Column="0" Grid.Row="1"/>
+                <Label Content="{Binding Path=ClientViewModel.Salary}" Grid.Column="0" Grid.Row="1"/>
                 <TextBox x:Name="input_salary"
-                Text="{Binding Path=ClientInfoViewModel.Salary, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=ClientViewModel.Salary, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_salary}" Grid.Column="1"/>
             </Grid>

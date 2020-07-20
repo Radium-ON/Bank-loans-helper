@@ -1,60 +1,58 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Windows;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
-using ClientsTable.Properties;
-using LoanHelper.Core.Extensions;
-using Prism.Commands;
-using Prism.Events;
+using FirstFloor.ModernUI;
 using Prism.Mvvm;
-using Prism.Services.Dialogs;
 
-namespace ClientsTable.ViewModels
+namespace LoanHelper.Core.ViewModels
 {
-    public class ClientInfoViewModel : BindableBase, IDataErrorInfo
+    public class ClientViewModel : ValidatedDataEntityViewModel<Client>
     {
         #region Backing Fields
 
         private readonly IBankEntitiesContext _bankEntities;
-        private readonly Client _client;
 
         #endregion
 
-        public ClientInfoViewModel(Client client, IBankEntitiesContext bankEntities)
+        public ClientViewModel(Client client, IBankEntitiesContext bankEntities) : base(client)
         {
-            _client = client;
             _bankEntities = bankEntities;
+            ValidatedProperties = new[]
+            {
+                "FirstName",
+                "LastName",
+                "Passport",
+                "Tin",
+                "Age",
+                "Seniority",
+                "Salary"
+            };
         }
 
-        public Client Client => _client;
-
-        public bool IsClientUnique => !CheckIsClientContainsInContext(_client);
-
-        private bool CheckIsClientContainsInContext(Client client)
+        protected override bool CheckIsEntityContainsInContext(Client client)
         {
             return _bankEntities.Clients.Any(c => c.Passport == client.Passport || c.TIN == client.TIN);
         }
 
         #region Entity Properties
 
-        public int ClientId => _client.PK_ClientId;
+        public int ClientId => entity.PK_ClientId;
 
         public string FirstName
         {
-            get => _client.FirstName;
+            get => entity.FirstName;
             set
             {
-                if (value == _client.FirstName)
+                if (value == entity.FirstName)
                 {
                     return;
                 }
 
-                _client.FirstName = value;
+                entity.FirstName = value;
 
                 RaisePropertyChanged(nameof(FirstName));
                 RaisePropertyChanged(nameof(IsValid));
@@ -62,15 +60,15 @@ namespace ClientsTable.ViewModels
         }
         public string LastName
         {
-            get => _client.LastName;
+            get => entity.LastName;
             set
             {
-                if (value == _client.LastName)
+                if (value == entity.LastName)
                 {
                     return;
                 }
 
-                _client.LastName = value;
+                entity.LastName = value;
 
                 RaisePropertyChanged(nameof(LastName));
                 RaisePropertyChanged(nameof(IsValid));
@@ -78,15 +76,15 @@ namespace ClientsTable.ViewModels
         }
         public string Passport
         {
-            get => _client.Passport;
+            get => entity.Passport;
             set
             {
-                if (value == _client.Passport)
+                if (value == entity.Passport)
                 {
                     return;
                 }
 
-                _client.Passport = value;
+                entity.Passport = value;
 
                 RaisePropertyChanged(nameof(Passport));
                 RaisePropertyChanged(nameof(IsValid));
@@ -94,15 +92,15 @@ namespace ClientsTable.ViewModels
         }
         public string Tin
         {
-            get => _client.TIN;
+            get => entity.TIN;
             set
             {
-                if (value == _client.TIN)
+                if (value == entity.TIN)
                 {
                     return;
                 }
 
-                _client.TIN = value;
+                entity.TIN = value;
 
                 RaisePropertyChanged(nameof(Tin));
                 RaisePropertyChanged(nameof(IsValid));
@@ -110,15 +108,15 @@ namespace ClientsTable.ViewModels
         }
         public int Age
         {
-            get => _client.Age;
+            get => entity.Age;
             set
             {
-                if (value == _client.Age)
+                if (value == entity.Age)
                 {
                     return;
                 }
 
-                _client.Age = value;
+                entity.Age = value;
 
                 RaisePropertyChanged(nameof(Age));
                 RaisePropertyChanged(nameof(IsValid));
@@ -126,15 +124,15 @@ namespace ClientsTable.ViewModels
         }
         public int Seniority
         {
-            get => _client.Seniority;
+            get => entity.Seniority;
             set
             {
-                if (value == _client.Seniority)
+                if (value == entity.Seniority)
                 {
                     return;
                 }
 
-                _client.Seniority = value;
+                entity.Seniority = value;
 
                 RaisePropertyChanged(nameof(Seniority));
                 RaisePropertyChanged(nameof(IsValid));
@@ -142,58 +140,29 @@ namespace ClientsTable.ViewModels
         }
         public decimal Salary
         {
-            get => _client.Salary;
+            get => entity.Salary;
             set
             {
-                if (value == _client.Salary)
+                if (value == entity.Salary)
                 {
                     return;
                 }
 
-                _client.Salary = value;
+                entity.Salary = value;
 
                 RaisePropertyChanged(nameof(Salary));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }
 
-        public ObservableCollection<LoanAgreement> LoanAgreements => _client.LoanAgreements;
+        public ObservableCollection<LoanAgreement> LoanAgreements => entity.LoanAgreements;
         #endregion
-
-        #region Implementation of IDataErrorInfo
-
-        public string this[string columnName] => GetValidationError(columnName);
-
-        public string Error => null;
-
-        #endregion
-
+        
         #region Validation
-
-        public bool IsValid
+        
+        protected override string GetValidationError(string propertyName)
         {
-            get
-            {
-                return _validatedProperties.All(property => GetValidationError(property) == null);
-            }
-        }
-
-        private static readonly string[] _validatedProperties =
-        {
-            "FirstName",
-            "LastName",
-            "Passport",
-            "Tin",
-            "Age",
-            "Seniority",
-            "Salary"
-        };
-
-
-
-        private string GetValidationError(string propertyName)
-        {
-            if (Array.IndexOf(_validatedProperties, propertyName) < 0)
+            if (Array.IndexOf(ValidatedProperties, propertyName) < 0)
                 return null;
 
             var error = propertyName switch
@@ -215,7 +184,7 @@ namespace ClientsTable.ViewModels
         {
             if (Salary <= 0)
             {
-                return Resources.client_error_missing_salary;
+                return Application.Current.FindResource("client_error_missing_salary") as string;
             }
             return null;
         }
@@ -224,7 +193,7 @@ namespace ClientsTable.ViewModels
         {
             if (Seniority < 0 || Seniority > 100 || Seniority >= Age)
             {
-                return Resources.client_error_missing_seniority;
+                return Application.Current.FindResource("client_error_missing_seniority") as string;
             }
             return null;
         }
@@ -233,7 +202,7 @@ namespace ClientsTable.ViewModels
         {
             if (Age <= 0 || Age <= Seniority)
             {
-                return Resources.client_error_missing_age;
+                return Application.Current.FindResource("client_error_missing_age") as string;
             }
             return null;
         }
@@ -242,7 +211,7 @@ namespace ClientsTable.ViewModels
         {
             if (IsStringMissing(Tin) || !IsStringAllDigits(Tin) || Tin.Length != 12 || Tin.StartsWith("0"))
             {
-                return Resources.client_error_missing_tin;
+                return Application.Current.FindResource("client_error_missing_tin") as string;
             }
             return null;
         }
@@ -251,7 +220,7 @@ namespace ClientsTable.ViewModels
         {
             if (IsStringMissing(Passport) || !IsStringAllDigits(Passport) || Passport.Length != 10 || Passport.StartsWith("0"))
             {
-                return Resources.client_error_missing_passport;
+                return Application.Current.FindResource("client_error_missing_passport") as string;
             }
             return null;
         }
@@ -260,7 +229,7 @@ namespace ClientsTable.ViewModels
         {
             if (IsStringMissing(FirstName) || !IsStringAllLetters(FirstName))
             {
-                return Resources.client_error_missing_first_name;
+                return Application.Current.FindResource("client_error_missing_first_name") as string;
             }
             return null;
         }
@@ -269,27 +238,12 @@ namespace ClientsTable.ViewModels
         {
 
             if (IsStringMissing(LastName) || !IsStringAllLetters(LastName))
-                return Resources.client_error_missing_lastname;
+                return Application.Current.FindResource("client_error_missing_lastname") as string;
 
             return null;
         }
 
-        private static bool IsStringMissing(string value)
-        {
-            return
-                string.IsNullOrEmpty(value) ||
-                value.Trim() == string.Empty;
-        }
-
-        private static bool IsStringAllDigits(string value)
-        {
-            return value.All(char.IsDigit);
-        }
-
-        private static bool IsStringAllLetters(string value)
-        {
-            return value.All(char.IsLetter);
-        }
+        
         #endregion
     }
 }

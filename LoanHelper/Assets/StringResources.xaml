@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xml:space="preserve">
+<!-- Диалоговые окна -->
     <sys:String x:Key="some_data_changed_dialog_title">Есть изменения данных</sys:String>
     <sys:String x:Key="some_data_changed_dialog_message" >Все внесённые изменения будут сохранены.&#13;Готовы продолжить?</sys:String>
     <sys:String x:Key="offer_deleted_dialog_title" >Удаление предложения</sys:String>
@@ -10,5 +11,17 @@
     <sys:String x:Key="client_deleted_dialog_message" >Этот клиент владеет долговыми обязательствами.&#13;Вы уверены, что хотите удалить его?</sys:String>
     <sys:String x:Key="bank_deleted_dialog_title" >Удаление банка</sys:String>
     <sys:String x:Key="bank_deleted_dialog_message" >Этот банк уже выдавал кредиты своим клиентам.&#13;Вы уверены, что хотите удалить его?</sys:String>
+
+    <!--Валидация клиента -->
+    <sys:String x:Key="client_error_missing_salary">Нет данных о зарплате!</sys:String>
+    <sys:String x:Key="client_error_missing_seniority" >Не вписан трудовой стаж!</sys:String>
+    <sys:String x:Key="client_error_missing_age" >Не заполнен возраст клиента!</sys:String>
+    <sys:String x:Key="client_error_missing_tin" >Не заполнен ИНН!</sys:String>
+    <sys:String x:Key="client_error_missing_passport" >Нет паспортных данных!</sys:String>
+    <sys:String x:Key="client_error_missing_first_name" >Не заполнено имя клиента!</sys:String>
+    <sys:String x:Key="client_error_missing_lastname" >Не заполнена фамилия клиента!</sys:String>
+    <!--Валидация предложения -->
+    <!--Валидация банка -->
+    <!--Валидация кредитного договора -->
 
 </ResourceDictionary>

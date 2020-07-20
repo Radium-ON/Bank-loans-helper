@@ -67,7 +67,6 @@
     </Compile>
     <Compile Include="Services\ModernLinkService.cs" />
     <Compile Include="ViewModels\ClientAddingDialogViewModel.cs" />
-    <Compile Include="ViewModels\ClientInfoViewModel.cs" />
     <Compile Include="ViewModels\ClientsTableViewModel.cs" />
     <Compile Include="Views\ClientAddingDialog.xaml.cs">
       <DependentUpon>ClientAddingDialog.xaml</DependentUpon>
