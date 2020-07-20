@@ -28,5 +28,8 @@
     <sys:String x:Key="bank_error_missing_ogrn" >ОГРН состоит из 13 цифр.</sys:String>
 
     <!--Валидация кредитного договора -->
+    <sys:String x:Key="agreement_error_bank_is_null">Выберите кредитующий банк.</sys:String>
+    <sys:String x:Key="agreement_error_agreement_number" >Номер договора состоит только из цифр.</sys:String>
+    <sys:String x:Key="agreement_error_contract_date" >Установите дату не позже сегодняшней.</sys:String>
 
 </ResourceDictionary>

@@ -122,7 +122,7 @@ namespace LoanOffersFilter.ViewModels
                     {
                         var addedAgreementVm = r.Parameters.GetValue<AgreementViewModel>("AddedAgreementViewModel");
 
-                        SelectedClient.LoanAgreements.Add(addedAgreementVm.Agreement);
+                        SelectedClient.LoanAgreements.Add(addedAgreementVm.Entity);
                         await _bankEntities.SaveChangesAsync(CancellationToken.None);
                     }
                 });

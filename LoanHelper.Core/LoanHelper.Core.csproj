@@ -100,6 +100,7 @@
     <Compile Include="Events\ClientAddedEvent.cs" />
     <Compile Include="Extensions\DialogServiceExtensions.cs" />
     <Compile Include="Interfaces\IModernLinkService.cs" />
+    <Compile Include="ViewModels\AgreementViewModel.cs" />
     <Compile Include="ViewModels\BankViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\ModernViewModelBase.cs" />
