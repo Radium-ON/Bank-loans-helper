@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-                    xmlns:qc="http://QuickConverter.CodePlex.com/">
+                    xmlns:qc="http://QuickConverter.CodePlex.com/"
+                    xmlns:viewModels="clr-namespace:LoanHelper.Core.ViewModels">
 
     <Path x:Key="edit_icon" Width="15" Stretch="Uniform" Fill="{DynamicResource Accent}"
           Data="F1 M 53.2929,21.2929L 54.7071,22.7071C 56.4645,24.4645 56.4645,27.3137 54.7071,29.0711L 52.2323,31.5459L 44.4541,23.7677L 46.9289,21.2929C 48.6863,19.5355 51.5355,19.5355 53.2929,21.2929 Z M 31.7262,52.052L 23.948,44.2738L 43.0399,25.182L 50.818,32.9601L 31.7262,52.052 Z M 23.2409,47.1023L 28.8977,52.7591L 21.0463,54.9537L 23.2409,47.1023 Z "/>
@@ -29,5 +30,76 @@
                 <mui:DataGridCheckBoxColumn Header="Погашен" Binding="{Binding IsRepaid}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ValidationError}">
+        <TextBlock 
+            FontStyle="Italic"
+            Foreground="Red"
+            HorizontalAlignment="Right"
+            Margin="0,1,2,0"
+            Text="{Binding Path=ErrorContent}"
+            TextWrapping="Wrap"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:BankViewModel}">
+        <Grid x:Name="grid_bank_info" MinWidth="200">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" x:Name="grid_bank_name">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="1.6*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Наименование" TextWrapping="Wrap" Grid.RowSpan="2"/>
+                <TextBox x:Name="input_name" Grid.Row="0"
+                Text="{Binding Path=BankName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Column="1"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_name}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="1" x:Name="grid_ogrn">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="ОГРН" Grid.Column="0"/>
+                <TextBox x:Name="input_ogrn"
+                Text="{Binding Path=Ogrn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_ogrn}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="2" x:Name="grid_bank_license">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Лицензия"/>
+                <TextBox x:Name="input_license"
+                Text="{Binding Path=BankLicense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_license}" Grid.Column="1"/>
+            </Grid>
+
+        </Grid>
+
     </DataTemplate>
 </ResourceDictionary>
