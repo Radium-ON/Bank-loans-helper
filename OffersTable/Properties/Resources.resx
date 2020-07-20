@@ -117,22 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="offer_error_active_loans_number_out_of_range" xml:space="preserve">
-    <value>Кредитная нагрузка не может быть отрицательной.</value>
-  </data>
-  <data name="offer_error_age_out_of_range" xml:space="preserve">
-    <value>Минимальный возраст не входит в допустимый диапазон.</value>
-  </data>
-  <data name="offer_error_interest_negate" xml:space="preserve">
-    <value>Допускается неотрицательная процентная ставка.</value>
-  </data>
-  <data name="offer_error_maxloanamount_out_of_range" xml:space="preserve">
-    <value>Макс. сумма кредита должна быть больше мин. суммы кредита и не 0.</value>
-  </data>
-  <data name="offer_error_minloanamount_out_of_range" xml:space="preserve">
-    <value>Мин. сумма кредита должна быть меньше макс. суммы кредита и не 0.</value>
-  </data>
-  <data name="offer_error_seniority_out_of_range" xml:space="preserve">
-    <value>Трудовой стаж не входит в допустимый диапазон.</value>
-  </data>
 </root>

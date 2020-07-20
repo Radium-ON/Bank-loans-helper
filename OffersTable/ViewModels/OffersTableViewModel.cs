@@ -25,7 +25,7 @@ namespace OffersTable.ViewModels
     {
         #region Backing Fields
 
-        private ObservableCollection<OfferInfoViewModel> _offerViewModels;
+        private ObservableCollection<OfferViewModel> _offerViewModels;
 
         private IBankEntitiesContext _bankEntities;
         private readonly IDialogService _dialogService;
@@ -37,10 +37,10 @@ namespace OffersTable.ViewModels
             _bankEntities = bankEntities;
             _dialogService = dialogService;
 
-            DeleteOfferCommand = new DelegateCommand<OfferInfoViewModel>(async vm => await DeleteSelectedOfferAsync(vm));
+            DeleteOfferCommand = new DelegateCommand<OfferViewModel>(async vm => await DeleteSelectedOfferAsync(vm));
             AddOfferCommand = new DelegateCommand(ShowAddOfferDialog);
 
-            OfferViewModels = new ObservableCollection<OfferInfoViewModel>();
+            OfferViewModels = new ObservableCollection<OfferViewModel>();
 
             #region Navigation Commands
 
@@ -56,14 +56,14 @@ namespace OffersTable.ViewModels
 
         private void ShowAddOfferDialog()
         {
-            _dialogService.ShowDialog(nameof(OfferAddingDialog), new DialogParameters { { "OfferInfoViewModel", new OfferInfoViewModel(new Offer(), _bankEntities) } },
+            _dialogService.ShowDialog(nameof(OfferAddingDialog), new DialogParameters { { "OfferViewModel", new OfferViewModel(new Offer(), _bankEntities) } },
                 async r =>
                 {
                     if (r.Result == ButtonResult.OK)
                     {
-                        var addedOfferVm = r.Parameters.GetValue<OfferInfoViewModel>("AddedOfferViewModel");
+                        var addedOfferVm = r.Parameters.GetValue<OfferViewModel>("AddedOfferViewModel");
 
-                        _bankEntities.Offers.Add(addedOfferVm.Offer);
+                        _bankEntities.Offers.Add(addedOfferVm.Entity);
                         await _bankEntities.SaveChangesAsync(CancellationToken.None);
 
                         OfferViewModels.Add(addedOfferVm);
@@ -73,7 +73,7 @@ namespace OffersTable.ViewModels
 
 
 
-        public ObservableCollection<OfferInfoViewModel> OfferViewModels
+        public ObservableCollection<OfferViewModel> OfferViewModels
         {
             get => _offerViewModels;
             set => SetProperty(ref _offerViewModels, value);
@@ -83,7 +83,7 @@ namespace OffersTable.ViewModels
 
         #region DelegateCommands
 
-        public DelegateCommand<OfferInfoViewModel> DeleteOfferCommand { get; private set; }
+        public DelegateCommand<OfferViewModel> DeleteOfferCommand { get; private set; }
         public DelegateCommand AddOfferCommand { get; private set; }
 
         #endregion
@@ -154,11 +154,11 @@ namespace OffersTable.ViewModels
 
         #endregion
 
-        private async Task DeleteSelectedOfferAsync(OfferInfoViewModel offerVm)
+        private async Task DeleteSelectedOfferAsync(OfferViewModel offerVm)
         {
             if (offerVm == null) return;
 
-            if (offerVm.Offer.Banks.Count == 0)
+            if (offerVm.Entity.Banks.Count == 0)
             {
                 await RemoveOfferAsync(offerVm);
             }
@@ -177,17 +177,17 @@ namespace OffersTable.ViewModels
             }
         }
 
-        private async Task RemoveOfferAsync(OfferInfoViewModel offerVm)
+        private async Task RemoveOfferAsync(OfferViewModel offerVm)
         {
-            _bankEntities.Offers.Remove(offerVm.Offer);
+            _bankEntities.Offers.Remove(offerVm.Entity);
             OfferViewModels.Remove(offerVm);
             await _bankEntities.SaveChangesAsync(CancellationToken.None);
         }
 
-        private async Task<IEnumerable<OfferInfoViewModel>> GetOfferInfoViewModelsAsync(IDbSet<Offer> offers)
+        private async Task<IEnumerable<OfferViewModel>> GetOfferInfoViewModelsAsync(IDbSet<Offer> offers)
         {
             await offers.LoadAsync();
-            return offers.Local.Select(offer => new OfferInfoViewModel(offer, _bankEntities));
+            return offers.Local.Select(offer => new OfferViewModel(offer, _bankEntities));
         }
 
         private async Task NavigatingWithModifiedOffersCallBackAsync(IDialogResult r, NavigatingCancelEventArgs e, DbContext dbcontext)
@@ -221,11 +221,11 @@ namespace OffersTable.ViewModels
         }
 
         /// <summary>
-        /// Возвращает список оболочек неисправных предложений <see cref="OfferInfoViewModel"/>; асинхронный.
+        /// Возвращает список оболочек неисправных предложений <see cref="OfferViewModel"/>; асинхронный.
         /// </summary>
         /// <param name="offerInfoViewModels"></param>
         /// <returns>Список неуникальных предложений.</returns>
-        private async Task<List<OfferInfoViewModel>> GetNotValidOfferViewModelsAsync(IEnumerable<OfferInfoViewModel> offerInfoViewModels)
+        private async Task<List<OfferViewModel>> GetNotValidOfferViewModelsAsync(IEnumerable<OfferViewModel> offerInfoViewModels)
         {
             return await offerInfoViewModels.AsAsyncQueryable().Where(vm => vm.IsValid == false).ToListAsync();
         }

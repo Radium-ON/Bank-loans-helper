@@ -80,7 +80,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Ставка %" />
                 <TextBox x:Name="input_interest" Grid.Row="0"
-                Text="{Binding Path=OfferInfoViewModel.Interest, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:##.##}, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferViewModel.Interest, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:##.##}, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_interest}" Grid.Column="1"/>
             </Grid>
@@ -96,7 +96,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Мин. сумма кредита"  Grid.Column="0" Grid.RowSpan="2"/>
                 <TextBox x:Name="input_min_loan_amount"
-                Text="{Binding Path=OfferInfoViewModel.MinLoanAmount, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferViewModel.MinLoanAmount, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_min_loan_amount}" Grid.Column="1"/>
             </Grid>
@@ -112,7 +112,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Макс. сумма кредита"  Grid.RowSpan="2"/>
                 <TextBox x:Name="input_max_loan_amount"
-                Text="{Binding Path=OfferInfoViewModel.MaxLoanAmount, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferViewModel.MaxLoanAmount, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_max_loan_amount}" Grid.Column="1"/>
             </Grid>
@@ -128,7 +128,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Макс. срок в месяцах"  Grid.Column="0" Grid.RowSpan="2"/>
                 <TextBox x:Name="input_max_of_months"
-                Text="{Binding Path=OfferInfoViewModel.MaxOfMonths, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferViewModel.MaxOfMonths, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_max_of_months}" Grid.Column="1"/>
             </Grid>
@@ -143,9 +143,9 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Мин. возраст" Grid.Column="0"  Grid.RowSpan="2"/>
-                <Label Content="{Binding Path=OfferInfoViewModel.MinAge}" Grid.Row="1" Grid.Column="0" />
+                <Label Content="{Binding Path=OfferViewModel.MinAge}" Grid.Row="1" Grid.Column="0" />
                 <TextBox x:Name="input_min_age"
-                Text="{Binding Path=OfferInfoViewModel.MinAge, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferViewModel.MinAge, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_min_age}" Grid.Column="1"/>
             </Grid>
@@ -160,11 +160,11 @@
                     <ColumnDefinition Width="2.9*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Мин. труд. стаж" Grid.Column="0"  Grid.RowSpan="2"/>
-                <Label Content="{Binding Path=OfferInfoViewModel.MinSeniority}" Grid.Row="1" Grid.Column="0"/>
+                <Label Content="{Binding Path=OfferViewModel.MinSeniority}" Grid.Row="1" Grid.Column="0"/>
                 <TextBox x:Name="input_min_seniority"
-                Text="{Binding Path=OfferInfoViewModel.MinSeniority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferViewModel.MinSeniority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
-                <ContentPresenter Grid.Row="1" Content="{Binding Path=OfferInfoViewModel.(Validation.Errors).CurrentItem, ElementName=input_min_seniority}" Grid.Column="1"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding Path=OfferViewModel.(Validation.Errors).CurrentItem, ElementName=input_min_seniority}" Grid.Column="1"/>
             </Grid>
 
             <Grid Grid.Row="6" x:Name="grid_active_loans">
@@ -177,9 +177,9 @@
                     <ColumnDefinition Width="2.9*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Активные кредиты"  Grid.RowSpan="2" />
-                <Label Content="{Binding Path=OfferInfoViewModel.ActiveLoansNumber}" Grid.Column="0" Grid.Row="1"/>
+                <Label Content="{Binding Path=OfferViewModel.ActiveLoansNumber}" Grid.Column="0" Grid.Row="1"/>
                 <TextBox x:Name="input_active_loans"
-                Text="{Binding Path=OfferInfoViewModel.ActiveLoansNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=OfferViewModel.ActiveLoansNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_active_loans}" Grid.Column="1"/>
             </Grid>

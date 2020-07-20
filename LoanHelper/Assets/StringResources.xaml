@@ -20,7 +20,14 @@
     <sys:String x:Key="client_error_missing_passport" >Нет паспортных данных!</sys:String>
     <sys:String x:Key="client_error_missing_first_name" >Не заполнено имя клиента!</sys:String>
     <sys:String x:Key="client_error_missing_lastname" >Не заполнена фамилия клиента!</sys:String>
+
     <!--Валидация предложения -->
+    <sys:String x:Key="offer_error_active_loans_number_out_of_range">Кредитная нагрузка не может быть отрицательной.</sys:String>
+    <sys:String x:Key="offer_error_age_out_of_range" >Минимальный возраст не входит в допустимый диапазон.</sys:String>
+    <sys:String x:Key="offer_error_interest_negate" >Допускается неотрицательная процентная ставка.</sys:String>
+    <sys:String x:Key="offer_error_max_loan_amount_out_of_range" >Макс. сумма кредита должна быть больше мин. суммы кредита и не 0.</sys:String>
+    <sys:String x:Key="offer_error_min_loan_amount_out_of_range" >Мин. сумма кредита должна быть меньше макс. суммы кредита и не 0.</sys:String>
+    <sys:String x:Key="offer_error_seniority_out_of_range" >Трудовой стаж не входит в допустимый диапазон.</sys:String>
 
     <!--Валидация банка -->
     <sys:String x:Key="bank_error_missing_bank_name">Не заполнено наименование банка.</sys:String>
