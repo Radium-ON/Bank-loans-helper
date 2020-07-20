@@ -44,6 +44,27 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:BankViewModel}">
+        <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+                <Setter Property="IsEnabled" Value="False"/>
+                <Setter Property="FontSize" Value="6"/>
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+        </DataTemplate.Resources>
         <Grid x:Name="grid_bank_info" MinWidth="200">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -101,7 +122,6 @@
             </Grid>
 
         </Grid>
-
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:AgreementViewModel}">
@@ -224,6 +244,27 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type viewModels:ClientViewModel}">
+        <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+                <Setter Property="IsEnabled" Value="False"/>
+                <Setter Property="FontSize" Value="6"/>
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+        </DataTemplate.Resources>
         <Grid x:Name="grid_client_info" MinWidth="200">
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="40"/>
@@ -349,6 +390,157 @@
                 Text="{Binding Path=Salary, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_salary}" Grid.Column="1"/>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:OfferViewModel}">
+        <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+                <Setter Property="IsEnabled" Value="False"/>
+                <Setter Property="FontSize" Value="6"/>
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+        </DataTemplate.Resources>
+
+        <Grid x:Name="grid_offer_fields">
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="40"/>
+                <RowDefinition MinHeight="40"/>
+                <RowDefinition MinHeight="40"/>
+                <RowDefinition MinHeight="40"/>
+                <RowDefinition MinHeight="40"/>
+                <RowDefinition MinHeight="40"/>
+                <RowDefinition MinHeight="40"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" x:Name="grid_interest">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="2.9*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Ставка %" />
+                <TextBox x:Name="input_interest" Grid.Row="0"
+                Text="{Binding Path=Interest, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:##.##}, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Column="1"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_interest}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="1" x:Name="grid_min_loan_amount">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="2.9*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Мин. сумма кредита"  Grid.Column="0" Grid.RowSpan="2"/>
+                <TextBox x:Name="input_min_loan_amount"
+                Text="{Binding Path=MinLoanAmount, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_min_loan_amount}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="2" x:Name="grid_max_loan_amount">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="2.9*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Макс. сумма кредита"  Grid.RowSpan="2"/>
+                <TextBox x:Name="input_max_loan_amount"
+                Text="{Binding Path=MaxLoanAmount, Mode=TwoWay, StringFormat=C, ConverterCulture='ru-RU', UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_max_loan_amount}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="3" x:Name="grid_months">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="2.9*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Макс. срок в месяцах"  Grid.Column="0" Grid.RowSpan="2"/>
+                <TextBox x:Name="input_max_of_months"
+                Text="{Binding Path=MaxOfMonths, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_max_of_months}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="4" x:Name="grid_min_age">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="2.9*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Мин. возраст" Grid.Column="0"  Grid.RowSpan="2"/>
+                <Label Content="{Binding Path=MinAge}" Grid.Row="1" Grid.Column="0" />
+                <TextBox x:Name="input_min_age"
+                Text="{Binding Path=MinAge, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_min_age}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="5" x:Name="grid_min_seniority">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="2.9*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Мин. труд. стаж" Grid.Column="0"  Grid.RowSpan="2"/>
+                <Label Content="{Binding Path=MinSeniority}" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="input_min_seniority"
+                Text="{Binding Path=MinSeniority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding Path=(Validation.Errors).CurrentItem, ElementName=input_min_seniority}" Grid.Column="1"/>
+            </Grid>
+
+            <Grid Grid.Row="6" x:Name="grid_active_loans">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="85"/>
+                    <ColumnDefinition Width="2.9*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Активные кредиты"  Grid.RowSpan="2" />
+                <Label Content="{Binding Path=ActiveLoansNumber}" Grid.Column="0" Grid.Row="1"/>
+                <TextBox x:Name="input_active_loans"
+                Text="{Binding Path=ActiveLoansNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_active_loans}" Grid.Column="1"/>
             </Grid>
 
         </Grid>
