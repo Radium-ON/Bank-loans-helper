@@ -59,32 +59,5 @@ namespace BanksTable.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не заполнено наименование банка..
-        /// </summary>
-        internal static string bank_error_missing_bankname {
-            get {
-                return ResourceManager.GetString("bank_error_missing_bankname", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Нет данных о лицензии..
-        /// </summary>
-        internal static string bank_error_missing_license {
-            get {
-                return ResourceManager.GetString("bank_error_missing_license", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ОГРН состоит из 13 цифр..
-        /// </summary>
-        internal static string bank_error_missing_ogrn {
-            get {
-                return ResourceManager.GetString("bank_error_missing_ogrn", resourceCulture);
-            }
-        }
     }
 }

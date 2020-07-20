@@ -117,13 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="bank_error_missing_license" xml:space="preserve">
-    <value>Нет данных о лицензии.</value>
-  </data>
-  <data name="bank_error_missing_bankname" xml:space="preserve">
-    <value>Не заполнено наименование банка.</value>
-  </data>
-  <data name="bank_error_missing_ogrn" xml:space="preserve">
-    <value>ОГРН состоит из 13 цифр.</value>
-  </data>
 </root>

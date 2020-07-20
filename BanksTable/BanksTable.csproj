@@ -66,7 +66,6 @@
     </Compile>
     <Compile Include="Services\ModernLinkService.cs" />
     <Compile Include="ViewModels\BankAddingDialogViewModel.cs" />
-    <Compile Include="ViewModels\BankInfoViewModel.cs" />
     <Compile Include="ViewModels\BanksTableViewModel.cs" />
     <Compile Include="ViewModels\OfferToBankAddingDialogViewModel.cs" />
     <Compile Include="Views\BankAddingDialog.xaml.cs">

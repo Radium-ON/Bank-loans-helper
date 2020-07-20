@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -18,8 +19,8 @@ namespace BanksTable.ViewModels
         private DelegateCommand _addBankCommand;
         public DelegateCommand AddBankCommand =>
             _addBankCommand ??= new DelegateCommand(AddClientToContext, CanAddClient)
-                .ObservesProperty(() => BankInfoViewModel.IsValid)
-                .ObservesProperty(() => BankInfoViewModel.IsBankUnique);
+                .ObservesProperty(() => BankViewModel.IsValid)
+                .ObservesProperty(() => BankViewModel.IsUnique);
         
         #endregion
 
@@ -32,23 +33,23 @@ namespace BanksTable.ViewModels
             set => SetProperty(ref _title, value);
         }
 
-        private BankInfoViewModel _bankInfoViewModel;
-        public BankInfoViewModel BankInfoViewModel
+        private BankViewModel _bankViewModel;
+        public BankViewModel BankViewModel
         {
-            get => _bankInfoViewModel;
-            set => SetProperty(ref _bankInfoViewModel, value);
+            get => _bankViewModel;
+            set => SetProperty(ref _bankViewModel, value);
         }
 
         #endregion
 
         private void AddClientToContext()
         {
-            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters { { "AddedBankViewModel", BankInfoViewModel } }));
+            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters { { "AddedBankViewModel", BankViewModel } }));
         }
 
         private bool CanAddClient()
         {
-            return BankInfoViewModel == null || BankInfoViewModel.IsValid && BankInfoViewModel.IsBankUnique;
+            return BankViewModel == null || BankViewModel.IsValid && BankViewModel.IsUnique;
         }
 
         public event Action<IDialogResult> RequestClose;
@@ -81,14 +82,14 @@ namespace BanksTable.ViewModels
 
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
-            BankInfoViewModel = parameters.GetValue<BankInfoViewModel>(nameof(BankInfoViewModel));
+            BankViewModel = parameters.GetValue<BankViewModel>(nameof(BankViewModel));
         }
 
         #region Implementation of IDataErrorInfo
 
-        public string this[string columnName] => (BankInfoViewModel as IDataErrorInfo)[columnName];
+        public string this[string columnName] => (BankViewModel as IDataErrorInfo)[columnName];
 
-        public string Error => (BankInfoViewModel as IDataErrorInfo).Error;
+        public string Error => (BankViewModel as IDataErrorInfo).Error;
 
         #endregion
     }

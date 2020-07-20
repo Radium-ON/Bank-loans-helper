@@ -243,7 +243,6 @@ namespace LoanHelper.Core.ViewModels
             return null;
         }
 
-        
         #endregion
     }
 }

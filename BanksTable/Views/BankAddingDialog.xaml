@@ -68,7 +68,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Наименование" TextWrapping="Wrap" Grid.RowSpan="2"/>
                 <TextBox x:Name="input_name" Grid.Row="0"
-                Text="{Binding Path=BankInfoViewModel.BankName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=BankViewModel.BankName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_name}" Grid.Column="1"/>
             </Grid>
@@ -84,7 +84,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="ОГРН" Grid.Column="0"/>
                 <TextBox x:Name="input_ogrn"
-                Text="{Binding Path=BankInfoViewModel.Ogrn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=BankViewModel.Ogrn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_ogrn}" Grid.Column="1"/>
             </Grid>
@@ -100,7 +100,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Лицензия"/>
                 <TextBox x:Name="input_license"
-                Text="{Binding Path=BankInfoViewModel.BankLicense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                Text="{Binding Path=BankViewModel.BankLicense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                 Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
                 <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_license}" Grid.Column="1"/>
             </Grid>

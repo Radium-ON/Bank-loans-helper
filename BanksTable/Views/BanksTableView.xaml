@@ -52,7 +52,7 @@
                           SelectionMode="Single" SelectionUnit="FullRow"
                           EnableRowVirtualization="True"
                           ScrollViewer.CanContentScroll="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizing="True"
-                          ItemsSource="{Binding BankInfoViewModels, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding BankViewModels, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding SelectedBankViewModel, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
 
                         <DataGrid.ContextMenu>

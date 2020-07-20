@@ -12,6 +12,7 @@ using System.Windows.Input;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Presentation;
+using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -76,8 +77,8 @@ namespace BanksTable.ViewModels
             set => SetProperty(ref _offersView, value);
         }
 
-        private BankInfoViewModel _bankViewModel;
-        public BankInfoViewModel BankViewModel
+        private BankViewModel _bankViewModel;
+        public BankViewModel BankViewModel
         {
             get => _bankViewModel;
             set => SetProperty(ref _bankViewModel, value);
@@ -135,7 +136,7 @@ namespace BanksTable.ViewModels
 
         public virtual async void OnDialogOpened(IDialogParameters parameters)
         {
-            BankViewModel = parameters.GetValue<BankInfoViewModel>(nameof(BankViewModel));
+            BankViewModel = parameters.GetValue<BankViewModel>(nameof(BankViewModel));
             DbContext = parameters.GetValue<IBankEntitiesContext>(nameof(DbContext));
             OffersToAdd = new ObservableCollection<Offer>();
             await DbContext.Offers.LoadAsync();

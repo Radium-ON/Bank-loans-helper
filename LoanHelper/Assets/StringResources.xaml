@@ -21,7 +21,12 @@
     <sys:String x:Key="client_error_missing_first_name" >Не заполнено имя клиента!</sys:String>
     <sys:String x:Key="client_error_missing_lastname" >Не заполнена фамилия клиента!</sys:String>
     <!--Валидация предложения -->
+
     <!--Валидация банка -->
+    <sys:String x:Key="bank_error_missing_bank_name">Не заполнено наименование банка.</sys:String>
+    <sys:String x:Key="bank_error_missing_license" >Нет данных о лицензии.</sys:String>
+    <sys:String x:Key="bank_error_missing_ogrn" >ОГРН состоит из 13 цифр.</sys:String>
+
     <!--Валидация кредитного договора -->
 
 </ResourceDictionary>
