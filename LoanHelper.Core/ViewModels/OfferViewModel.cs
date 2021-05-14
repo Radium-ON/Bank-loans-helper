@@ -1,77 +1,66 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Windows;
 using BankLoansDataModel;
-using BankLoansDataModel.Extensions;
 using BankLoansDataModel.Services;
-using OffersTable.Properties;
-using Prism.Events;
-using Prism.Services.Dialogs;
+using Prism.Mvvm;
 
-namespace OffersTable.ViewModels
+namespace LoanHelper.Core.ViewModels
 {
-    public class OfferInfoViewModel : BindableBase, IDataErrorInfo
+    public class OfferViewModel : ValidatedDataEntityViewModel<Offer>
     {
         #region Backing Fields
 
-        private readonly IBankEntitiesContext _bankEntities;
-        private readonly Offer _offer;
-
+        private readonly IBankEntitiesContext _bankEntitiesContext;
         private bool _isSelected;
 
         #endregion
 
-        public OfferInfoViewModel(Offer offer, IBankEntitiesContext bankEntities)
+        public OfferViewModel(Offer offer, IBankEntitiesContext bankEntitiesContext) : base(offer)
         {
-            _offer = offer;
-            _bankEntities = bankEntities;
+            _bankEntitiesContext = bankEntitiesContext;
+            ValidatedProperties = new[]
+            {
+                "Interest",
+                "MinLoanAmount",
+                "MaxLoanAmount",
+                "MinSeniority",
+                "MinAge",
+                "ActiveLoansNumber"
+            };
         }
 
-        public Offer Offer => _offer;
-
-        public bool IsOfferUnique => !CheckIsOfferContainsInContext(_offer);
-
-        /// <summary>
-        /// Определяет, содержится ли в контексте элемент <see cref="Offer"/> с заданными атрибутами.
-        /// </summary>
-        /// <param name="offer">Новая сущность "Предложение банка"</param>
-        /// <returns>True: предложение с параметрами найдено в контексте. False: предложение уникально.</returns>
-        private bool CheckIsOfferContainsInContext(Offer offer)
+        protected override bool CheckIsEntityContainsInContext(Offer offer)
         {
-            var findedOffer = _bankEntities.Offers.FirstOrDefault(existedOffer =>
-                    existedOffer.Interest == offer.Interest &&
-                    existedOffer.MinLoanAmount == offer.MinLoanAmount &&
-                    existedOffer.MaxLoanAmount == offer.MaxLoanAmount &&
-                    existedOffer.MaxOfMonths == offer.MaxOfMonths &&
-                    existedOffer.ActiveLoansNumber == offer.ActiveLoansNumber &&
-                    existedOffer.MinSeniority == offer.MinSeniority &&
-                    existedOffer.MinAge == offer.MinAge);
+            var findedOffer = _bankEntitiesContext.Offers.FirstOrDefault(existedOffer =>
+                existedOffer.Interest == offer.Interest &&
+                existedOffer.MinLoanAmount == offer.MinLoanAmount &&
+                existedOffer.MaxLoanAmount == offer.MaxLoanAmount &&
+                existedOffer.MaxOfMonths == offer.MaxOfMonths &&
+                existedOffer.ActiveLoansNumber == offer.ActiveLoansNumber &&
+                existedOffer.MinSeniority == offer.MinSeniority &&
+                existedOffer.MinAge == offer.MinAge);
 
             return findedOffer != null;
         }
 
         #region Entity Properties
 
-        public int OfferId => _offer.PK_OfferId;
+        public int OfferId => entity.PK_OfferId;
 
         public float Interest
         {
-            get => _offer.Interest;
+            get => entity.Interest;
             set
             {
-                if (value == _offer.Interest)
+                if (value == entity.Interest)
                 {
                     return;
                 }
 
-                _offer.Interest = value;
+                entity.Interest = (float)(value * 0.01);
 
                 RaisePropertyChanged(nameof(Interest));
                 RaisePropertyChanged(nameof(IsValid));
@@ -80,15 +69,15 @@ namespace OffersTable.ViewModels
 
         public decimal MinLoanAmount
         {
-            get => _offer.MinLoanAmount;
+            get => entity.MinLoanAmount;
             set
             {
-                if (value == _offer.MinLoanAmount)
+                if (value == entity.MinLoanAmount)
                 {
                     return;
                 }
 
-                _offer.MinLoanAmount = value;
+                entity.MinLoanAmount = value;
 
                 RaisePropertyChanged(nameof(MinLoanAmount));
                 RaisePropertyChanged(nameof(IsValid));
@@ -97,15 +86,15 @@ namespace OffersTable.ViewModels
 
         public decimal MaxLoanAmount
         {
-            get => _offer.MaxLoanAmount;
+            get => entity.MaxLoanAmount;
             set
             {
-                if (value == _offer.MaxLoanAmount)
+                if (value == entity.MaxLoanAmount)
                 {
                     return;
                 }
 
-                _offer.MaxLoanAmount = value;
+                entity.MaxLoanAmount = value;
 
                 RaisePropertyChanged(nameof(MaxLoanAmount));
                 RaisePropertyChanged(nameof(IsValid));
@@ -114,15 +103,15 @@ namespace OffersTable.ViewModels
 
         public int MaxOfMonths
         {
-            get => _offer.MaxOfMonths;
+            get => entity.MaxOfMonths;
             set
             {
-                if (value == _offer.MaxOfMonths)
+                if (value == entity.MaxOfMonths)
                 {
                     return;
                 }
 
-                _offer.MaxOfMonths = value;
+                entity.MaxOfMonths = value;
 
                 RaisePropertyChanged(nameof(MaxOfMonths));
                 RaisePropertyChanged(nameof(IsValid));
@@ -131,15 +120,15 @@ namespace OffersTable.ViewModels
 
         public int? ActiveLoansNumber
         {
-            get => _offer.ActiveLoansNumber;
+            get => entity.ActiveLoansNumber;
             set
             {
-                if (value == _offer.ActiveLoansNumber)
+                if (value == entity.ActiveLoansNumber)
                 {
                     return;
                 }
 
-                _offer.ActiveLoansNumber = value;
+                entity.ActiveLoansNumber = value;
 
                 RaisePropertyChanged(nameof(ActiveLoansNumber));
                 RaisePropertyChanged(nameof(IsValid));
@@ -148,15 +137,15 @@ namespace OffersTable.ViewModels
 
         public int? MinSeniority
         {
-            get => _offer.MinSeniority;
+            get => entity.MinSeniority;
             set
             {
-                if (value == _offer.MinSeniority)
+                if (value == entity.MinSeniority)
                 {
                     return;
                 }
 
-                _offer.MinSeniority = value;
+                entity.MinSeniority = value;
 
                 RaisePropertyChanged(nameof(MinSeniority));
                 RaisePropertyChanged(nameof(IsValid));
@@ -165,22 +154,22 @@ namespace OffersTable.ViewModels
 
         public int? MinAge
         {
-            get => _offer.MinAge;
+            get => entity.MinAge;
             set
             {
-                if (value == _offer.MinAge)
+                if (value == entity.MinAge)
                 {
                     return;
                 }
 
-                _offer.MinAge = value;
+                entity.MinAge = value;
 
                 RaisePropertyChanged(nameof(MinAge));
                 RaisePropertyChanged(nameof(IsValid));
             }
         }
 
-        public ObservableCollection<Bank> Banks => _offer.Banks;
+        public ObservableCollection<Bank> Banks => entity.Banks;
 
         #endregion
 
@@ -194,33 +183,11 @@ namespace OffersTable.ViewModels
 
         #endregion
 
-        #region Implementation of IDataErrorInfo
-
-        public string this[string columnName] => GetValidationError(columnName);
-
-        public string Error => null;
-
-        #endregion
-
         #region Validation
 
-        public bool IsValid => _validatedProperties.All(property => GetValidationError(property) == null);
-
-        private static readonly string[] _validatedProperties =
+        protected override string GetValidationError(string propertyName)
         {
-            "Interest",
-            "MinLoanAmount",
-            "MaxLoanAmount",
-            "MinSeniority",
-            "MinAge",
-            "ActiveLoansNumber"
-        };
-
-
-
-        private string GetValidationError(string propertyName)
-        {
-            if (Array.IndexOf(_validatedProperties, propertyName) < 0)
+            if (Array.IndexOf(ValidatedProperties, propertyName) < 0)
                 return null;
 
             var error = propertyName switch
@@ -238,9 +205,9 @@ namespace OffersTable.ViewModels
 
         private string ValidateActiveLoansNumber()
         {
-            if (ActiveLoansNumber<0)
+            if (ActiveLoansNumber < 0)
             {
-                return Resources.offer_error_active_loans_number_out_of_range;
+                return Application.Current.FindResource("offer_error_active_loans_number_out_of_range") as string;
             }
             return null;
         }
@@ -250,7 +217,7 @@ namespace OffersTable.ViewModels
         {
             if (MinSeniority < 0 || MinSeniority > 100 || MinSeniority >= MinAge)
             {
-                return Resources.offer_error_seniority_out_of_range;
+                return Application.Current.FindResource("offer_error_seniority_out_of_range") as string;
             }
             return null;
         }
@@ -259,7 +226,7 @@ namespace OffersTable.ViewModels
         {
             if (MinAge <= 0 || MinAge <= MinSeniority)
             {
-                return Resources.offer_error_age_out_of_range;
+                return Application.Current.FindResource("offer_error_age_out_of_range") as string;
             }
             return null;
         }
@@ -268,7 +235,7 @@ namespace OffersTable.ViewModels
         {
             if (MaxLoanAmount <= MinLoanAmount || MaxLoanAmount <= 0)
             {
-                return Resources.offer_error_maxloanamount_out_of_range;
+                return Application.Current.FindResource("offer_error_max_loan_amount_out_of_range") as string;
             }
             return null;
         }
@@ -277,7 +244,7 @@ namespace OffersTable.ViewModels
         {
             if (Interest <= 0f)
             {
-                return Resources.offer_error_interest_negate;
+                return Application.Current.FindResource("offer_error_interest_negate") as string;
             }
             return null;
         }
@@ -287,7 +254,7 @@ namespace OffersTable.ViewModels
 
             if (MinLoanAmount >= MaxLoanAmount || MinLoanAmount <= 0)
             {
-                return Resources.offer_error_minloanamount_out_of_range;
+                return Application.Current.FindResource("offer_error_min_loan_amount_out_of_range") as string;
             }
             return null;
         }

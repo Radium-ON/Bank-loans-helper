@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using BankLoansDataModel;
 using BankLoansDataModel.Services;
+using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -21,12 +22,12 @@ namespace OffersTable.ViewModels
         private DelegateCommand _addOfferCommand;
         public DelegateCommand AddOfferCommand =>
             _addOfferCommand ??= new DelegateCommand(AddOfferToContext, CanAddOffer)
-                .ObservesProperty(() => OfferInfoViewModel.IsValid)
-                .ObservesProperty(() => OfferInfoViewModel.IsOfferUnique);
+                .ObservesProperty(() => OfferViewModel.IsValid)
+                .ObservesProperty(() => OfferViewModel.IsUnique);
 
         private bool CanAddOffer()
         {
-            return OfferInfoViewModel == null || OfferInfoViewModel.IsValid && OfferInfoViewModel.IsOfferUnique;
+            return OfferViewModel == null || OfferViewModel.IsValid && OfferViewModel.IsUnique;
         }
 
         #endregion
@@ -40,18 +41,18 @@ namespace OffersTable.ViewModels
             set => SetProperty(ref _title, value);
         }
 
-        private OfferInfoViewModel _offerInfoViewModel;
-        public OfferInfoViewModel OfferInfoViewModel
+        private OfferViewModel _offerViewModel;
+        public OfferViewModel OfferViewModel
         {
-            get => _offerInfoViewModel;
-            set => SetProperty(ref _offerInfoViewModel, value);
+            get => _offerViewModel;
+            set => SetProperty(ref _offerViewModel, value);
         }
 
         #endregion
 
         private void AddOfferToContext()
         {
-            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters { { "AddedOfferViewModel", OfferInfoViewModel } }));
+            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters { { "AddedOfferViewModel", OfferViewModel } }));
         }
 
 
@@ -85,14 +86,14 @@ namespace OffersTable.ViewModels
 
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
-            OfferInfoViewModel = parameters.GetValue<OfferInfoViewModel>(nameof(OfferInfoViewModel));
+            OfferViewModel = parameters.GetValue<OfferViewModel>(nameof(OfferViewModel));
         }
 
         #region Implementation of IDataErrorInfo
 
-        public string this[string columnName] => (OfferInfoViewModel as IDataErrorInfo)[columnName];
+        public string this[string columnName] => (OfferViewModel as IDataErrorInfo)[columnName];
 
-        public string Error => (OfferInfoViewModel as IDataErrorInfo).Error;
+        public string Error => (OfferViewModel as IDataErrorInfo).Error;
 
         #endregion
     }

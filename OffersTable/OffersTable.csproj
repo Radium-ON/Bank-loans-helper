@@ -68,7 +68,6 @@
     </Compile>
     <Compile Include="Services\ModernLinkService.cs" />
     <Compile Include="ViewModels\OfferAddingDialogViewModel.cs" />
-    <Compile Include="ViewModels\OfferInfoViewModel.cs" />
     <Compile Include="ViewModels\OffersTableViewModel.cs" />
     <Compile Include="Views\OffersTableView.xaml.cs">
       <DependentUpon>OffersTableView.xaml</DependentUpon>

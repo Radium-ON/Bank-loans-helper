@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -22,8 +23,8 @@ namespace ClientsTable.ViewModels
         private DelegateCommand _addClientCommand;
         public DelegateCommand AddClientCommand =>
             _addClientCommand ??= new DelegateCommand(AddClientToContext, CanAddClient)
-                .ObservesProperty(() => ClientInfoViewModel.IsValid)
-                .ObservesProperty(() => ClientInfoViewModel.IsClientUnique);
+                .ObservesProperty(() => ClientViewModel.IsValid)
+                .ObservesProperty(() => ClientViewModel.IsUnique);
         
         #endregion
 
@@ -36,23 +37,23 @@ namespace ClientsTable.ViewModels
             set => SetProperty(ref _title, value);
         }
 
-        private ClientInfoViewModel _clientInfoViewModel;
-        public ClientInfoViewModel ClientInfoViewModel
+        private ClientViewModel _clientViewModel;
+        public ClientViewModel ClientViewModel
         {
-            get => _clientInfoViewModel;
-            set => SetProperty(ref _clientInfoViewModel, value);
+            get => _clientViewModel;
+            set => SetProperty(ref _clientViewModel, value);
         }
 
         #endregion
 
         private void AddClientToContext()
         {
-            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters { { "AddedClientViewModel", ClientInfoViewModel } }));
+            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters { { "AddedClientViewModel", ClientViewModel } }));
         }
 
         private bool CanAddClient()
         {
-            return ClientInfoViewModel == null || ClientInfoViewModel.IsValid && ClientInfoViewModel.IsClientUnique;
+            return ClientViewModel == null || ClientViewModel.IsValid && ClientViewModel.IsUnique;
         }
 
         public event Action<IDialogResult> RequestClose;
@@ -85,14 +86,14 @@ namespace ClientsTable.ViewModels
 
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
-            ClientInfoViewModel = parameters.GetValue<ClientInfoViewModel>(nameof(ClientInfoViewModel));
+            ClientViewModel = parameters.GetValue<ClientViewModel>(nameof(ClientViewModel));
         }
 
         #region Implementation of IDataErrorInfo
 
-        public string this[string columnName] => (ClientInfoViewModel as IDataErrorInfo)[columnName];
+        public string this[string columnName] => (ClientViewModel as IDataErrorInfo)[columnName];
 
-        public string Error => (ClientInfoViewModel as IDataErrorInfo).Error;
+        public string Error => (ClientViewModel as IDataErrorInfo).Error;
 
         #endregion
     }

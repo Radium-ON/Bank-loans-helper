@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using BankLoansDataModel;
+using LoanHelper.Core.ViewModels;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -20,7 +21,7 @@ namespace LoanOffersFilter.ViewModels
         public DelegateCommand AddAgreementCommand =>
             _addAgreementCommand ??= new DelegateCommand(AddAgreementToContext, CanAddAgreement)
                 .ObservesProperty(() => AgreementViewModel.IsValid)
-                .ObservesProperty(() => AgreementViewModel.IsAgreementUnique);
+                .ObservesProperty(() => AgreementViewModel.IsUnique);
 
         #endregion
 
@@ -64,7 +65,7 @@ namespace LoanOffersFilter.ViewModels
 
         private bool CanAddAgreement()
         {
-            return AgreementViewModel == null || AgreementViewModel.IsValid && AgreementViewModel.IsAgreementUnique;
+            return AgreementViewModel == null || AgreementViewModel.IsValid && AgreementViewModel.IsUnique;
         }
 
         public event Action<IDialogResult> RequestClose;
@@ -97,7 +98,7 @@ namespace LoanOffersFilter.ViewModels
 
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
-            AgreementViewModel = parameters.GetValue<AgreementViewModel>(nameof(ViewModels.AgreementViewModel));
+            AgreementViewModel = parameters.GetValue<AgreementViewModel>(nameof(LoanHelper.Core.ViewModels.AgreementViewModel));
             CurrentOffer = parameters.GetValue<Offer>(nameof(CurrentOffer));
         }
 

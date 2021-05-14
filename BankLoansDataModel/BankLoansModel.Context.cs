@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using BankLoansDataModel.Services;
-
 namespace BankLoansDataModel
 {
     using System;

@@ -17,7 +17,7 @@
           <Key>
             <PropertyRef Name="PK_RegNumber" />
           </Key>
-          <Property Name="PK_RegNumber" Type="int" Nullable="false" />
+          <Property Name="PK_RegNumber" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="OGRN" Type="nchar" MaxLength="13" Nullable="false" />
           <Property Name="License" Type="nvarchar" MaxLength="50" />
@@ -146,7 +146,7 @@
           <Key>
             <PropertyRef Name="PK_RegNumber" />
           </Key>
-          <Property Name="PK_RegNumber" Type="Int32" Nullable="false" />
+          <Property Name="PK_RegNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OGRN" Type="String" MaxLength="13" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="License" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />

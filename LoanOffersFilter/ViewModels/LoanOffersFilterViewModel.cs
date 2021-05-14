@@ -4,11 +4,13 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -16,6 +18,7 @@ using BankLoansDataModel;
 using BankLoansDataModel.Services;
 using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows.Navigation;
+using LoanHelper.Core.Extensions;
 using LoanHelper.Core.ViewModels;
 using LoanOffersFilter.Views;
 using Prism.Commands;
@@ -122,7 +125,7 @@ namespace LoanOffersFilter.ViewModels
                     {
                         var addedAgreementVm = r.Parameters.GetValue<AgreementViewModel>("AddedAgreementViewModel");
 
-                        SelectedClient.LoanAgreements.Add(addedAgreementVm.Agreement);
+                        SelectedClient.LoanAgreements.Add(addedAgreementVm.Entity);
                         await _bankEntities.SaveChangesAsync(CancellationToken.None);
                     }
                 });
@@ -236,6 +239,20 @@ namespace LoanOffersFilter.ViewModels
                 result = (LoanAmountInput * annuityRate);
             }
             return (double)result;
+        }
+
+        private bool CheckConnection(DbContext context)
+        {
+            try
+            {
+                context.Database.Connection.Open();
+                context.Database.Connection.Close();
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+            return true;
         }
 
         #region Filter Sliders Properties
@@ -548,17 +565,26 @@ namespace LoanOffersFilter.ViewModels
         private async Task LoadDataAsync()
         {
             _bankEntities = new BankEntitiesContext();
-            await _bankEntities.Clients.LoadAsync();
-            await _bankEntities.Offers.LoadAsync();
-
-            Offers = _bankEntities.Offers.Local;
-            OffersViewSource.Source = Offers;
-
-            if (ClientsCollectionView == null)
+            if (CheckConnection(_bankEntities as DbContext))
             {
-                InitCollectionViews();
-            }
+                await _bankEntities.Clients.LoadAsync();
+                await _bankEntities.Offers.LoadAsync();
 
+                Offers = _bankEntities.Offers.Local;
+                OffersViewSource.Source = Offers;
+
+                if (ClientsCollectionView == null)
+                {
+                    InitCollectionViews();
+                }
+            }
+            else
+            {
+                _dialogService.ShowOkDialog(
+                    Application.Current.FindResource("connection_error_dialog_title") as string,
+                    Application.Current.FindResource("connection_error_dialog_message") as string,
+                    r => { Application.Current.MainWindow?.Close();});
+            }
             Debug.WriteLine("LoanOffersFilterViewModel - LoadData");
         }
 

@@ -10,34 +10,7 @@
              d:DesignHeight="200" d:DesignWidth="329.289"
              MaxHeight="250">
     <UserControl.Resources>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Margin" Value="0,0,10,0"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,2,0,0"/>
-            <Setter Property="IsEnabled" Value="False"/>
-            <Setter Property="FontSize" Value="6"/>
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <DataTemplate DataType="{x:Type ValidationError}">
-            <TextBlock 
-                    FontStyle="Italic"
-                    Foreground="Red"
-                    HorizontalAlignment="Right"
-                    Margin="0,1,2,0"
-                    Text="{Binding Path=ErrorContent}"
-                    TextWrapping="Wrap"/>
-        </DataTemplate>
+       
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -49,63 +22,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="grid_bank_info" MinWidth="200" Grid.ColumnSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" x:Name="grid_bank_name">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="85"/>
-                    <ColumnDefinition Width="1.6*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="Наименование" TextWrapping="Wrap" Grid.RowSpan="2"/>
-                <TextBox x:Name="input_name" Grid.Row="0"
-                Text="{Binding Path=BankInfoViewModel.BankName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                Validation.ErrorTemplate="{x:Null}" Grid.Column="1"/>
-                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_name}" Grid.Column="1"/>
-            </Grid>
-
-            <Grid Grid.Row="1" x:Name="grid_ogrn">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="85"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="ОГРН" Grid.Column="0"/>
-                <TextBox x:Name="input_ogrn"
-                Text="{Binding Path=BankInfoViewModel.Ogrn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1"/>
-                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_ogrn}" Grid.Column="1"/>
-            </Grid>
-
-            <Grid Grid.Row="2" x:Name="grid_bank_license">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="85"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="Лицензия"/>
-                <TextBox x:Name="input_license"
-                Text="{Binding Path=BankInfoViewModel.BankLicense, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                Validation.ErrorTemplate="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="0"/>
-                <ContentPresenter Grid.Row="1" Content="{Binding (Validation.Errors).CurrentItem, ElementName=input_license}" Grid.Column="1"/>
-            </Grid>
-
-        </Grid>
+        <ContentPresenter Grid.ColumnSpan="2" Content="{Binding BankViewModel}" Margin="0,0,0,20"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1">
             <Button Command="{Binding CloseDialogCommand}" CommandParameter="false" Content="Отмена" MinWidth="75" Height="25" IsCancel="True" Margin="0,0,20,0"/>

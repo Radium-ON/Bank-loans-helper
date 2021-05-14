@@ -59,59 +59,5 @@ namespace OffersTable.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Кредитная нагрузка не может быть отрицательной..
-        /// </summary>
-        internal static string offer_error_active_loans_number_out_of_range {
-            get {
-                return ResourceManager.GetString("offer_error_active_loans_number_out_of_range", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Минимальный возраст не входит в допустимый диапазон..
-        /// </summary>
-        internal static string offer_error_age_out_of_range {
-            get {
-                return ResourceManager.GetString("offer_error_age_out_of_range", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Допускается неотрицательная процентная ставка..
-        /// </summary>
-        internal static string offer_error_interest_negate {
-            get {
-                return ResourceManager.GetString("offer_error_interest_negate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Макс. сумма кредита должна быть больше мин. суммы кредита и не 0..
-        /// </summary>
-        internal static string offer_error_maxloanamount_out_of_range {
-            get {
-                return ResourceManager.GetString("offer_error_maxloanamount_out_of_range", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Мин. сумма кредита должна быть меньше макс. суммы кредита и не 0..
-        /// </summary>
-        internal static string offer_error_minloanamount_out_of_range {
-            get {
-                return ResourceManager.GetString("offer_error_minloanamount_out_of_range", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Трудовой стаж не входит в допустимый диапазон..
-        /// </summary>
-        internal static string offer_error_seniority_out_of_range {
-            get {
-                return ResourceManager.GetString("offer_error_seniority_out_of_range", resourceCulture);
-            }
-        }
     }
 }
