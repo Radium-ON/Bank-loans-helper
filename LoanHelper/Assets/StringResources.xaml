@@ -11,6 +11,8 @@
     <sys:String x:Key="client_deleted_dialog_message" >Этот клиент владеет долговыми обязательствами.&#13;Вы уверены, что хотите удалить его?</sys:String>
     <sys:String x:Key="bank_deleted_dialog_title" >Удаление банка</sys:String>
     <sys:String x:Key="bank_deleted_dialog_message" >Этот банк уже выдавал кредиты своим клиентам.&#13;Вы уверены, что хотите удалить его?</sys:String>
+    <sys:String x:Key="connection_error_dialog_title" >Критическая ошибка</sys:String>
+    <sys:String x:Key="connection_error_dialog_message" >База данных недоступна. Приложение не сможет работать.</sys:String>
 
     <!--Валидация клиента -->
     <sys:String x:Key="client_error_missing_salary">Нет данных о зарплате!</sys:String>
